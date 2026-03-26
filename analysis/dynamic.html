@@ -28,6 +28,51 @@
       }
     };
   </script>
+  <style>
+    .analysis-hero {
+      max-height: 420px;
+      padding-bottom: 80px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .analysis-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 1;
+    }
+    .analysis-main {
+      margin-top: 40px;
+    }
+    .result-card {
+      margin-top: 0;
+    }
+    .analysis-warning {
+      margin-top: 20px;
+      padding: 16px;
+      border-left: 4px solid #b45309;
+      background: #fffbeb;
+      font-size: 14px;
+      line-height: 1.6;
+      border-radius: 6px;
+    }
+    .analysis-chart {
+      margin-top: 40px;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 12px;
+    }
+    .analysis-chart h3 {
+      margin-bottom: 6px;
+    }
+    .analysis-chart .muted {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+  </style>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -47,17 +92,29 @@
 </head>
 <body class="bg-brand-cream font-sans text-brand-green antialiased">
   <main>
-    <section class="relative flex min-h-[360px] items-center justify-center px-6 py-20 md:px-8">
-      <div class="absolute inset-0 bg-[url('../images/1.jpg')] bg-cover bg-center" aria-hidden="true"></div>
-      <div class="absolute inset-0 bg-brand-green/65" aria-hidden="true"></div>
+    <section class="analysis-hero relative flex items-center justify-center px-6 py-20 md:px-8">
       <div class="relative z-10 mx-auto max-w-3xl text-center">
         <h1 class="font-serif text-4xl font-semibold text-white md:text-6xl">Investment Analysis</h1>
         <p class="mx-auto mt-4 max-w-2xl text-lg text-white/90 md:text-xl">Does this property generate positive cash flow?</p>
       </div>
     </section>
+    <script>
+      (function () {
+        const analysisImages = [
+          '/assets/analysis-1.jpg',
+          '/assets/analysis-2.jpg',
+          '/assets/analysis-3.jpg'
+        ];
+        const hero = document.querySelector('.analysis-hero');
+        if (hero) {
+          const randomImage = analysisImages[Math.floor(Math.random() * analysisImages.length)];
+          hero.style.backgroundImage = 'url("' + randomImage + '")';
+        }
+      })();
+    </script>
 
-    <section class="px-6 pb-20 md:px-8 md:pb-24">
-      <div class="mx-auto -mt-16 max-w-xl rounded-2xl bg-white p-8 shadow-xl">
+    <section class="analysis-main px-6 pb-20 md:px-8 md:pb-24">
+      <div class="result-card mx-auto max-w-xl rounded-2xl bg-white p-8 shadow-xl">
         <p class="text-xs font-medium uppercase tracking-wide text-neutral-500">Estimated Monthly Cash Flow</p>
         <p id="cashflow-value" class="mt-3 text-4xl font-bold tabular-nums md:text-5xl">$0</p>
         <p id="signal-badge" class="mt-4 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold">🟡 Break-even</p>
@@ -87,6 +144,9 @@
       <div class="mx-auto mt-10 max-w-3xl rounded-2xl bg-white p-6 shadow-lg ring-1 ring-neutral-100 md:p-8">
         <h2 class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">What This Means</h2>
         <p id="interpretation-text" class="mt-4 leading-relaxed text-neutral-700"></p>
+        <div class="analysis-warning text-neutral-800" role="note">
+          In Canmore, STR properties often face higher maintenance, turnover, and condo-driven costs than back-of-napkin models assume. Treat this output as directional—not a complete operating budget or forecast.
+        </div>
       </div>
 
       <div class="mx-auto mt-10 max-w-3xl rounded-2xl bg-white p-6 shadow-lg ring-1 ring-neutral-100 md:p-8">
@@ -119,6 +179,12 @@
         </ul>
       </div>
 
+      <div class="analysis-chart mx-auto max-w-3xl shadow-lg ring-1 ring-neutral-100">
+        <h3 class="font-serif text-xl font-semibold text-brand-green">Occupancy context</h3>
+        <p class="muted">Your assumed occupancy vs. typical Canmore STR reference bands (illustrative).</p>
+        <canvas id="occ-chart" height="220" aria-label="Occupancy comparison chart"></canvas>
+      </div>
+
       <div class="mx-auto mt-10 max-w-3xl text-center">
         <p class="text-sm text-neutral-500">Estimates are based on typical Canmore STR performance. Actual results may vary. This is not investment advice.</p>
         <a href="/analysis/solara-canmore-2br.html" class="mt-6 inline-flex rounded-full border-2 border-brand-green px-6 py-3 text-sm font-semibold text-brand-green transition hover:bg-brand-green/5">
@@ -128,6 +194,7 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
     function getParams() {
       const params = new URLSearchParams(window.location.search);
@@ -203,6 +270,39 @@
     document.getElementById('assumption-down').textContent = `${Math.round(data.down)}%`;
     document.getElementById('assumption-rate').textContent = format(data.rate);
     document.getElementById('assumption-occ').textContent = `${Math.round(data.occ * 100)}%`;
+
+    const occPct = Math.round(data.occ * 100);
+    const ctx = document.getElementById('occ-chart');
+    if (ctx && typeof Chart !== 'undefined') {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Your occupancy', 'Typical low band', 'Typical high band'],
+          datasets: [
+            {
+              label: 'Occupancy %',
+              data: [occPct, 45, 72],
+              backgroundColor: ['#1F3D2B', '#d1d5db', '#d1d5db'],
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { callback: function (v) { return v + '%'; } }
+            }
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
