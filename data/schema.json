@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://canmoreroi.com/schemas/analysis-page.json",
+  "title": "Analysis page data",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "slug",
+    "snapshot",
+    "payback_signal",
+    "definition",
+    "reality_check",
+    "verdict",
+    "faq"
+  ],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monthly_revenue", "monthly_costs", "cash_flow"],
+      "properties": {
+        "monthly_revenue": { "type": "number" },
+        "monthly_costs": { "type": "number" },
+        "cash_flow": { "type": "number" }
+      }
+    },
+    "payback_signal": {
+      "type": "string",
+      "enum": ["self-sustaining", "break-even", "negative"]
+    },
+    "definition": { "type": "string", "minLength": 1 },
+    "reality_check": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["good_for", "not_ideal_for"],
+      "properties": {
+        "good_for": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "not_ideal_for": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "faq": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["q", "a"],
+        "properties": {
+          "q": { "type": "string", "minLength": 1 },
+          "a": { "type": "string", "minLength": 1 }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

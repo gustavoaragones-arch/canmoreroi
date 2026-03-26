@@ -1,0 +1,37 @@
+{
+  "title": "Downtown Canmore Condo",
+  "slug": "downtown-canmore-condo",
+
+  "snapshot": {
+    "monthly_revenue": 6400,
+    "monthly_costs": 6300,
+    "cash_flow": 100
+  },
+
+  "payback_signal": "break-even",
+
+  "definition": "This downtown condo operates near break-even, generating minimal monthly surplus under average STR conditions.",
+
+  "reality_check": [
+    "Location improves occupancy",
+    "Costs remain high due to fees",
+    "Small margin leaves little buffer"
+  ],
+
+  "verdict": {
+    "good_for": [
+      "Low-risk entry",
+      "Balanced investment"
+    ],
+    "not_ideal_for": [
+      "High yield expectations"
+    ]
+  },
+
+  "faq": [
+    {
+      "q": "Are downtown Canmore condos good investments?",
+      "a": "They can perform well but often operate near break-even depending on costs."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "title": "Example Property — Canmore",
+  "slug": "example-property-canmore",
+
+  "snapshot": {
+    "monthly_revenue": 5000,
+    "monthly_costs": 4500,
+    "cash_flow": 500
+  },
+
+  "payback_signal": "self-sustaining",
+
+  "definition": "This example illustrates positive monthly cash flow under modeled short-term rental assumptions.",
+
+  "reality_check": [
+    "Costs and occupancy vary by season",
+    "Regulatory rules affect STR operations",
+    "Financing terms change outcomes"
+  ],
+
+  "verdict": {
+    "good_for": [
+      "Income-focused investors"
+    ],
+    "not_ideal_for": [
+      "Speculative-only buyers"
+    ]
+  },
+
+  "faq": [
+    {
+      "q": "Is this real data?",
+      "a": "No. This file is a schema validation example only."
+    }
+  ]
+}

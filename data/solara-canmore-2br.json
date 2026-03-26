@@ -1,0 +1,38 @@
+{
+  "title": "Solara Canmore 2BR Condo",
+  "slug": "solara-canmore-2br",
+
+  "snapshot": {
+    "monthly_revenue": 7200,
+    "monthly_costs": 5900,
+    "cash_flow": 1300
+  },
+
+  "payback_signal": "self-sustaining",
+
+  "definition": "This 2-bedroom unit in Solara Canmore generates approximately $1,300/month in positive cash flow under typical short-term rental assumptions at 25% down.",
+
+  "reality_check": [
+    "High condo fees reduce net returns",
+    "Revenue depends heavily on winter season",
+    "Professional management impacts margins"
+  ],
+
+  "verdict": {
+    "good_for": [
+      "Stable monthly income",
+      "Turnkey STR investment"
+    ],
+    "not_ideal_for": [
+      "High appreciation plays",
+      "Low cash reserve buyers"
+    ]
+  },
+
+  "faq": [
+    {
+      "q": "Is Solara Canmore profitable?",
+      "a": "It can generate positive cash flow depending on purchase price and financing."
+    }
+  ]
+}

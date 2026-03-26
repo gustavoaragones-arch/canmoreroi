@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /analysis/template.html
+Disallow: /analysis/dynamic.html
+Disallow: /data/
+Disallow: /scripts/
+
+Sitemap: https://canmoreroi.com/sitemap.xml

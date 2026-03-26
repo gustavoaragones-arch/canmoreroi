@@ -1,0 +1,37 @@
+{
+  "title": "Canmore $1M Investment Scenario",
+  "slug": "canmore-1m-investment",
+
+  "snapshot": {
+    "monthly_revenue": 6800,
+    "monthly_costs": 7200,
+    "cash_flow": -400
+  },
+
+  "payback_signal": "negative",
+
+  "definition": "At a $1M purchase price, this property runs at an estimated -$400/month, making it a negative carry investment under typical STR assumptions.",
+
+  "reality_check": [
+    "Higher mortgage costs reduce viability",
+    "Occupancy volatility increases risk",
+    "Seasonality impacts consistency"
+  ],
+
+  "verdict": {
+    "good_for": [
+      "Long-term appreciation strategy"
+    ],
+    "not_ideal_for": [
+      "Cash flow investors",
+      "High leverage buyers"
+    ]
+  },
+
+  "faq": [
+    {
+      "q": "Can Canmore properties be cash flow negative?",
+      "a": "Yes, especially at higher purchase prices or lower occupancy."
+    }
+  ]
+}
