@@ -27,6 +27,10 @@ listHtml(path.join(ROOT, 'guides')).forEach((f) => {
   urls.push({ loc: `${BASE}/guides/${f}`, priority: '0.85', lastmod: LAST_MAIN });
 });
 
+listHtml(path.join(ROOT, 'knowledge')).forEach((f) => {
+  urls.push({ loc: `${BASE}/knowledge/${f}`, priority: '0.88', lastmod: LAST_MAIN });
+});
+
 listHtml(path.join(ROOT, 'areas')).forEach((f) => {
   urls.push({ loc: `${BASE}/areas/${f}`, priority: '0.82', lastmod: LAST_MAIN });
 });

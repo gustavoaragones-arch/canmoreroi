@@ -403,6 +403,48 @@ function buildInternalLinks(currentSlug, titleBySlug, allSlugs) {
   );
 }
 
+function buildKnowledgeContextBlock(slug) {
+  const s = String(slug).toLowerCase();
+  const A = 'font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold';
+  function ka(href, text) {
+    return '<a href="' + href + '" class="' + A + '">' + escapeHtml(text) + '</a>';
+  }
+  const costs = ka('../knowledge/canmore-str-costs-breakdown.html', 'STR cost breakdown');
+  const rental = ka('../knowledge/canmore-rental-income-reality.html', 'rental income reality');
+  const occ = ka('../knowledge/canmore-occupancy-rates.html', 'occupancy reality');
+  const risk = ka('../knowledge/canmore-condo-risk-guide.html', 'condo and strata risk');
+  const mistakes = ka('../knowledge/canmore-investment-mistakes.html', 'investor mistakes (knowledge node)');
+  const calc = ka('../index.html#analysis', 'calculator');
+  let second;
+  let third;
+  if (s.indexOf('1m') !== -1) {
+    second = mistakes;
+    third = rental;
+  } else if (
+    /solara|lodges|mystic|spring|pektin|downtown|clearwater|legacy|canyon|harvie|banff|townhouse|duplex|studio|1br|2br|condo|silvertip/.test(s)
+  ) {
+    second = risk;
+    third = occ;
+  } else {
+    second = rental;
+    third = occ;
+  }
+  return (
+    '<section class="border-t border-neutral-200/80 bg-white px-6 py-10 md:py-12" aria-labelledby="knowledge-context-heading">' +
+    '<div class="mx-auto max-w-3xl">' +
+    '<h2 id="knowledge-context-heading" class="font-serif text-xl font-semibold text-brand-green md:text-2xl">How this analysis maps to the knowledge base</h2>' +
+    '<p class="mt-4 text-sm leading-relaxed text-neutral-700">Estimates are based on typical Canmore STR performance assumptions used across this site. Actual results vary. Many properties underperform modeled returns when occupancy slips or costs jump — read ' +
+    costs +
+    ', ' +
+    second +
+    ', and ' +
+    third +
+    ' for the same underwriting story, then stress inputs on the ' +
+    calc +
+    '.</p></div></section>'
+  );
+}
+
 function inject(html, data, meta) {
   let out = html;
 
@@ -471,6 +513,11 @@ function inject(html, data, meta) {
   out = out.replace(
     /<!--SERP_TABLE_BLOCK-->[\s\S]*?<!--\/SERP_TABLE_BLOCK-->/,
     '<!--SERP_TABLE_BLOCK-->\n' + buildSerpTableHtml(data) + '\n<!--/SERP_TABLE_BLOCK-->'
+  );
+
+  out = out.replace(
+    /<!--KNOWLEDGE_CONTEXT_BLOCK-->[\s\S]*?<!--\/KNOWLEDGE_CONTEXT_BLOCK-->/,
+    '<!--KNOWLEDGE_CONTEXT_BLOCK-->\n' + buildKnowledgeContextBlock(data.slug) + '\n<!--/KNOWLEDGE_CONTEXT_BLOCK-->'
   );
 
   out = out.replace(

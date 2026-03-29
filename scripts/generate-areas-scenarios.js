@@ -10,7 +10,7 @@ const A_CLS =
 
 const ENTITY = `  <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"${BASE}/#organization","name":"CanmoreROI.com","url":"${BASE}/","description":"Canmore and Bow Valley real estate ROI tools, STR cash flow estimates, and investment decision validation.","parentOrganization":{"@type":"Organization","name":"Albor Digital LLC"}},
+    {"@type":"Organization","@id":"${BASE}/#organization","name":"CanmoreROI.com","url":"${BASE}/","description":"Canmore STR investment analysis system and Bow Valley short-term rental viability data engine — analyses, calculator, guides, scenarios, knowledge nodes.","parentOrganization":{"@type":"Organization","name":"Albor Digital LLC"}},
     {"@type":"WebSite","@id":"${BASE}/#website","url":"${BASE}/","name":"Canmore ROI","publisher":{"@id":"${BASE}/#organization"},"inLanguage":"en-CA"}
   ]}
   </script>`;
@@ -96,6 +96,7 @@ function footer() {
           <li><a href="../index.html#areas-programmatic" class="hover:text-white">Areas</a></li>
           <li><a href="../index.html#scenarios-programmatic" class="hover:text-white">Scenarios</a></li>
           <li><a href="../analysis/index.html" class="hover:text-white">Property analyses</a></li>
+          <li><a href="../knowledge/index.html" class="hover:text-white">Knowledge</a></li>
         </ul>
       </div>
       <div>
@@ -129,6 +130,7 @@ function header() {
         <li><a href="../index.html#areas-programmatic" class="hover:text-brand-gold">Areas</a></li>
         <li><a href="../index.html#guides" class="hover:text-brand-gold">Guides</a></li>
         <li><a href="../analysis/index.html" class="hover:text-brand-gold">Property analyses</a></li>
+        <li><a href="../knowledge/index.html" class="hover:text-brand-gold">Knowledge</a></li>
       </ul>
     </nav>
   </header>`;
