@@ -1,0 +1,40 @@
+{
+  "title": "Solara Canmore Studio",
+  "slug": "solara-studio",
+  "snapshot": {
+    "monthly_revenue": 3100,
+    "monthly_costs": 4100,
+    "cash_flow": -1000
+  },
+  "payback_signal": "negative",
+  "definition": "This studio unit in Solara Canmore shows approximately -$1,000/month under typical STR assumptions — tight margins and high fixed costs per square foot.",
+  "reality_check": [
+    "Studios compete on rate more than bedrooms",
+    "Winter demand helps but fees dominate",
+    "Management fees hit harder on small units"
+  ],
+  "verdict": {
+    "good_for": [
+      "Hands-on operators",
+      "Owners who use the unit part-time"
+    ],
+    "not_ideal_for": [
+      "Pure yield seekers",
+      "Highly leveraged buyers"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Can a Solara studio cash flow in Canmore?",
+      "a": "Rarely at market pricing without very high occupancy; most models show thin or negative monthly cash after fees."
+    },
+    {
+      "q": "What breaks the model first?",
+      "a": "Condo fees and financing on a small revenue base — a few empty weeks erase the margin."
+    },
+    {
+      "q": "Is this investment advice?",
+      "a": "No — verify with your lender and a local property manager before buying."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Spring Creek Meadows 2BR",
+  "slug": "spring-creek-meadows-2br",
+  "snapshot": {
+    "monthly_revenue": 8900,
+    "monthly_costs": 7800,
+    "cash_flow": 1100
+  },
+  "payback_signal": "self-sustaining",
+  "definition": "Spring Creek Meadows 2BR can reach about +$1,100/month when occupancy and rate align — a stronger operating profile in this model.",
+  "reality_check": [
+    "Premium positioning must be maintained",
+    "Operating costs rise with finish level",
+    "Seasonality still applies"
+  ],
+  "verdict": {
+    "good_for": [
+      "Investors seeking operating cushion",
+      "Buyers accepting premium basis"
+    ],
+    "not_ideal_for": [
+      "Deep value hunters only",
+      "Those avoiding premium HOA environments"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Why is cash flow higher here?",
+      "a": "Higher modeled gross relative to costs in this scenario — verify with real comps."
+    },
+    {
+      "q": "Is Spring Creek always better?",
+      "a": "No — deal-specific; price and fees can flip the signal."
+    },
+    {
+      "q": "What should I validate?",
+      "a": "Actual fees, rental bylaws, and trailing occupancy — not listing adjectives."
+    }
+  ]
+}

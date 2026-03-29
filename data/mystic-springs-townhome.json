@@ -1,0 +1,40 @@
+{
+  "title": "Mystic Springs Townhome",
+  "slug": "mystic-springs-townhome",
+  "snapshot": {
+    "monthly_revenue": 6400,
+    "monthly_costs": 5900,
+    "cash_flow": 500
+  },
+  "payback_signal": "break-even",
+  "definition": "Mystic Springs townhome scenario lands around +$500/month — top of the break-even band, not yet “fat” self-sustaining in our thresholds.",
+  "reality_check": [
+    "Pool and common amenities drive fees",
+    "Families book multi-night stays",
+    "Wear-and-tear on shared facilities"
+  ],
+  "verdict": {
+    "good_for": [
+      "Family-oriented STR positioning",
+      "Operators who maintain units well"
+    ],
+    "not_ideal_for": [
+      "Those who ignore HOA maintenance cycles",
+      "Investors needing >$500/mo cushion"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is +$500/month safe?",
+      "a": "It is thin — one slow month or fee jump can push you to break-even or negative."
+    },
+    {
+      "q": "What helps Mystic Springs performance?",
+      "a": "Strong reviews, dynamic pricing, and tight turnover operations."
+    },
+    {
+      "q": "Townhome vs condo fees?",
+      "a": "Compare reserve studies — townhomes are not automatically cheaper to operate."
+    }
+  ]
+}

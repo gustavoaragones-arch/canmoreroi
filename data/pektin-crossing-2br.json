@@ -1,0 +1,40 @@
+{
+  "title": "Pektin Crossing 2BR",
+  "slug": "pektin-crossing-2br",
+  "snapshot": {
+    "monthly_revenue": 7200,
+    "monthly_costs": 7000,
+    "cash_flow": 200
+  },
+  "payback_signal": "break-even",
+  "definition": "Pektin Crossing 2BR sits near break-even at +$200/month — workable only with disciplined costs and occupancy.",
+  "reality_check": [
+    "Location between nodes affects ADR",
+    "Parking rules impact guest satisfaction",
+    "Competing new supply over time"
+  ],
+  "verdict": {
+    "good_for": [
+      "Patient operators",
+      "Buyers with modest cash-flow expectations"
+    ],
+    "not_ideal_for": [
+      "Need for large distributions",
+      "Set-and-forget without management review"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Why is this only +$200?",
+      "a": "Modeled costs and purchase structure absorb most gross — small changes swing the outcome."
+    },
+    {
+      "q": "Should I negotiate harder on price?",
+      "a": "Often yes when margin is this thin; price is the cleanest lever."
+    },
+    {
+      "q": "Check occupancy assumptions where?",
+      "a": "Use the occupancy guide and calculator on CanmoreROI.com."
+    }
+  ]
+}

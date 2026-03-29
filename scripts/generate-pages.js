@@ -34,6 +34,136 @@ function paybackLabel(signal) {
   return '🟢 Self-Sustaining';
 }
 
+function paybackTableLabel(signal) {
+  const k = String(signal || '').toLowerCase();
+  if (k === 'self-sustaining') return 'Self-sustaining';
+  if (k === 'break-even') return 'Break-even';
+  if (k === 'negative') return 'Negative carry';
+  return 'Self-sustaining';
+}
+
+function paybackSnippetPhrase(signal) {
+  const k = String(signal || '').toLowerCase();
+  if (k === 'self-sustaining') {
+    return 'positive monthly cash flow relative to this site’s break-even band';
+  }
+  if (k === 'break-even') {
+    return 'roughly break-even monthly cash flow after the modeled cost bundle';
+  }
+  if (k === 'negative') {
+    return 'negative monthly carry after the modeled cost bundle';
+  }
+  return 'modeled cash flow outcome per this site’s labels';
+}
+
+function buildShortAnswer(data) {
+  if (data.short_answer && String(data.short_answer).trim()) {
+    return String(data.short_answer).trim();
+  }
+  const rev = formatCurrency(data.snapshot.monthly_revenue);
+  const costs = formatCurrency(data.snapshot.monthly_costs);
+  const net = formatCurrency(data.snapshot.cash_flow);
+  const phrase = paybackSnippetPhrase(data.payback_signal);
+  return (
+    'Modeled gross is about ' +
+    rev +
+    '/month, costs near ' +
+    costs +
+    ', net near ' +
+    net +
+    ' — ' +
+    phrase +
+    '. Most investors get this wrong by stopping at gross; numbers look good on paper, but this is where deals break in Canmore when strata and financing bite. Verify on the calculator.'
+  );
+}
+
+function buildSerpTopBlock(data) {
+  const snippet = escapeHtml(buildShortAnswer(data));
+  const titleEsc = escapeHtml(data.title);
+  return (
+    '<section class="border-t border-neutral-200/80 bg-white px-6 py-8 md:py-10" aria-label="Breadcrumb and summary">' +
+    '<div class="mx-auto max-w-3xl">' +
+    '<nav class="mb-6 text-sm text-neutral-600" aria-label="Breadcrumb">' +
+    '<ol class="flex flex-wrap items-center gap-2">' +
+    '<li><a href="../index.html" class="text-brand-green hover:underline">Home</a></li>' +
+    '<li aria-hidden="true" class="text-neutral-400">/</li>' +
+    '<li><a href="index.html" class="text-brand-green hover:underline">Analysis hub</a></li>' +
+    '<li aria-hidden="true" class="text-neutral-400">/</li>' +
+    '<li class="font-medium text-neutral-800" aria-current="page">' +
+    titleEsc +
+    '</li>' +
+    '</ol></nav>' +
+    '<div class="rounded-xl border border-brand-green/25 bg-brand-cream/50 p-5 shadow-sm">' +
+    '<p class="text-base leading-relaxed text-neutral-800"><span class="font-semibold text-brand-green">Short answer:</span> ' +
+    snippet +
+    '</p></div></div></section>'
+  );
+}
+
+function buildSerpTableHtml(data) {
+  let caption;
+  let headers;
+  let rows;
+  const st = data.serp_table;
+  if (st && st.headers && st.headers.length && st.rows && st.rows.length) {
+    caption = st.caption || 'Key figures (illustrative)';
+    headers = st.headers;
+    rows = st.rows.map(function (r) {
+      return r.map(function (cell) {
+        return String(cell);
+      });
+    });
+  } else {
+    caption = 'Modeled monthly economics — ' + data.title + ' (illustrative, not a guarantee)';
+    headers = ['Metric', 'Modeled amount'];
+    rows = [
+      ['Monthly STR gross (site model)', formatCurrency(data.snapshot.monthly_revenue)],
+      ['Monthly costs (financing + operating bundle)', formatCurrency(data.snapshot.monthly_costs)],
+      ['Net monthly cash flow', formatCurrency(data.snapshot.cash_flow)],
+      ['Payback signal (this site)', paybackTableLabel(data.payback_signal)],
+    ];
+  }
+  const ths = headers
+    .map(function (h) {
+      return (
+        '<th scope="col" class="border-b border-neutral-200 bg-neutral-50 px-3 py-2 text-left text-sm font-semibold text-brand-green">' +
+        escapeHtml(h) +
+        '</th>'
+      );
+    })
+    .join('');
+  const trs = rows
+    .map(function (row) {
+      const tds = row
+        .map(function (cell) {
+          return (
+            '<td class="border-b border-neutral-100 px-3 py-2 text-sm text-neutral-700">' +
+            escapeHtml(cell) +
+            '</td>'
+          );
+        })
+        .join('');
+      return '<tr>' + tds + '</tr>';
+    })
+    .join('');
+  return (
+    '<section class="border-t border-neutral-200/80 bg-white px-6 py-10 md:py-12" aria-labelledby="serp-table-heading">' +
+    '<div class="mx-auto max-w-3xl">' +
+    '<h2 id="serp-table-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">How do the headline numbers compare in one table?</h2>' +
+    '<p class="mt-3 text-sm text-neutral-600">Google and AI systems often extract tables — use this as a quick sanity check, then read the narrative sections below.</p>' +
+    '<div class="mt-6 overflow-x-auto rounded-lg border border-neutral-200 bg-white shadow-sm">' +
+    '<table class="min-w-full text-sm">' +
+    '<caption class="border-b border-neutral-100 px-3 py-2 text-left text-xs font-medium text-neutral-600">' +
+    escapeHtml(caption) +
+    '</caption>' +
+    '<thead><tr>' +
+    ths +
+    '</tr></thead><tbody>' +
+    trs +
+    '</tbody></table></div></div></section>'
+  );
+}
+
 function cashflowClass(cf) {
   const n = Number(cf);
   if (n > 0) return 'py-3 text-lg font-bold tabular-nums text-green-600';
@@ -91,19 +221,19 @@ function stripDataAttributes(html) {
   return out;
 }
 
-function buildArticleLdJson(data) {
+function buildArticleLdJson(data, meta) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: data.title,
-    description: 'Cash flow and ROI analysis for ' + data.title,
+    headline: data.title + ' ROI (2026)',
+    description: meta.description,
     author: { '@type': 'Organization', name: 'CanmoreROI.com' },
     publisher: { '@type': 'Organization', name: 'CanmoreROI.com' },
   };
 }
 
 function buildFaqLdJson(data) {
-  const items = (data.faq || []).slice(0, 3);
+  const items = (data.faq || []).slice(0, 12);
   if (items.length === 0) return null;
   return {
     '@context': 'https://schema.org',
@@ -115,6 +245,48 @@ function buildFaqLdJson(data) {
         acceptedAnswer: { '@type': 'Answer', text: item.a },
       };
     }),
+  };
+}
+
+function buildWebPageLd(data, meta) {
+  const url = 'https://canmoreroi.com/analysis/' + data.slug + '.html';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': url + '#webpage',
+    url: url,
+    name: data.title + ' ROI (2026)',
+    description: meta.description,
+    isPartOf: { '@id': 'https://canmoreroi.com/#website' },
+    publisher: { '@id': 'https://canmoreroi.com/#organization' },
+  };
+}
+
+function buildBreadcrumbAnalysisLd(data) {
+  const url = 'https://canmoreroi.com/analysis/' + data.slug + '.html';
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://canmoreroi.com/',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Analysis hub',
+        item: 'https://canmoreroi.com/analysis/index.html',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: data.title,
+        item: url,
+      },
+    ],
   };
 }
 
@@ -292,25 +464,40 @@ function inject(html, data, meta) {
   );
 
   out = out.replace(
-    /<script type="application\/ld\+json">\s*\{[\s\S]*?"@type"\s*:\s*"Article"[\s\S]*?\}\s*<\/script>/,
+    /<!--SERP_TOP_BLOCK-->[\s\S]*?<!--\/SERP_TOP_BLOCK-->/,
+    '<!--SERP_TOP_BLOCK-->\n' + buildSerpTopBlock(data) + '\n<!--/SERP_TOP_BLOCK-->'
+  );
+
+  out = out.replace(
+    /<!--SERP_TABLE_BLOCK-->[\s\S]*?<!--\/SERP_TABLE_BLOCK-->/,
+    '<!--SERP_TABLE_BLOCK-->\n' + buildSerpTableHtml(data) + '\n<!--/SERP_TABLE_BLOCK-->'
+  );
+
+  out = out.replace(
+    /<script type="application\/ld\+json" id="article-ld-json">[\s\S]*?<\/script>/,
     function () {
       return (
-        '<script type="application/ld+json">\n' +
-        JSON.stringify(buildArticleLdJson(data), null, 2) +
+        '<script type="application/ld+json" id="article-ld-json">\n' +
+        JSON.stringify(buildArticleLdJson(data, meta), null, 2) +
         '\n  </script>'
       );
     }
   );
 
   const faqLd = buildFaqLdJson(data);
-  if (faqLd) {
-    out = out.replace(
-      '</head>',
-      '  <script type="application/ld+json">\n' +
-        JSON.stringify(faqLd, null, 2) +
-        '\n  </script>\n</head>'
-    );
-  }
+  const webPageLd = buildWebPageLd(data, meta);
+  const breadcrumbLd = buildBreadcrumbAnalysisLd(data);
+  const headLdScripts = [];
+  if (faqLd) headLdScripts.push(JSON.stringify(faqLd, null, 2));
+  headLdScripts.push(JSON.stringify(webPageLd, null, 2));
+  headLdScripts.push(JSON.stringify(breadcrumbLd, null, 2));
+  const headLdBlock =
+    headLdScripts
+      .map(function (json) {
+        return '  <script type="application/ld+json">\n' + json + '\n  </script>';
+      })
+      .join('\n') + '\n';
+  out = out.replace('</head>', headLdBlock + '</head>');
 
   out = stripDataAttributes(out);
 
@@ -344,11 +531,11 @@ function main() {
 
   datasets.forEach(function (data) {
     const meta = {
-      pageTitle: data.title + ' ROI Analysis — Cash Flow & Investment Breakdown',
+      pageTitle: data.title + ' ROI (2026) — Real Numbers, Not Estimates | Canmore ROI',
       description:
-        'See if ' +
+        'See modeled ' +
         data.title +
-        ' is a good investment. Monthly cash flow, costs, and STR performance breakdown.',
+        ' STR cash flow, revenue, and costs. Most properties do not perform as expected on paper — verify before you buy.',
       internalLinksBlock: buildInternalLinks(data.slug, titleBySlug, allSlugs),
     };
     const html = inject(templateRaw, data, meta);

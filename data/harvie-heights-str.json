@@ -1,0 +1,40 @@
+{
+  "title": "Harvie Heights STR",
+  "slug": "harvie-heights-str",
+  "snapshot": {
+    "monthly_revenue": 5800,
+    "monthly_costs": 5200,
+    "cash_flow": 600
+  },
+  "payback_signal": "self-sustaining",
+  "definition": "Harvie Heights short-term product can reach about +$600/month when occupancy holds — a workable but not padded margin.",
+  "reality_check": [
+    "Distance to core Canmore affects rate",
+    "Winter access and plowing matter",
+    "Guest expectations on amenities"
+  ],
+  "verdict": {
+    "good_for": [
+      "Value buyers accepting location trade-offs",
+      "STR operators with pricing discipline"
+    ],
+    "not_ideal_for": [
+      "Walk-to-downtown requirements at any cost",
+      "Zero time for operations"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Does Harvie Heights underperform downtown?",
+      "a": "Often on nightly rate; some models still clear costs with lower purchase basis."
+    },
+    {
+      "q": "What drives occupancy here?",
+      "a": "Price/value, ski-season length, and listing quality — not just views."
+    },
+    {
+      "q": "Is this scenario conservative?",
+      "a": "It uses typical assumptions; your deal may differ."
+    }
+  ]
+}

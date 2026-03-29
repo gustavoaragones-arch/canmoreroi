@@ -1,0 +1,40 @@
+{
+  "title": "Clearwater Canmore 1BR",
+  "slug": "clearwater-canmore-1br",
+  "snapshot": {
+    "monthly_revenue": 4200,
+    "monthly_costs": 4600,
+    "cash_flow": -400
+  },
+  "payback_signal": "negative",
+  "definition": "This Clearwater-area 1BR scenario lands near -$400/month — common when purchase price and fees outpace STR gross.",
+  "reality_check": [
+    "Building-specific fees dominate",
+    "1BR rate caps in soft weeks",
+    "Management can erase thin spread"
+  ],
+  "verdict": {
+    "good_for": [
+      "Long-horizon owners",
+      "Personal use heavy schedules"
+    ],
+    "not_ideal_for": [
+      "Cash-flow-first underwriting",
+      "High LTV without reserves"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Can Clearwater still make sense?",
+      "a": "As a lifestyle or appreciation bet — not always as monthly income."
+    },
+    {
+      "q": "What is the first lever to fix?",
+      "a": "Usually purchase price or down payment; revenue levers are slower."
+    },
+    {
+      "q": "Should I trust one scenario?",
+      "a": "No — cross-check with the calculator and another comparable analysis."
+    }
+  ]
+}

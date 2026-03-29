@@ -1,0 +1,40 @@
+{
+  "title": "Solara Canmore 1BR",
+  "slug": "solara-canmore-1br",
+  "snapshot": {
+    "monthly_revenue": 5200,
+    "monthly_costs": 5600,
+    "cash_flow": -400
+  },
+  "payback_signal": "negative",
+  "definition": "A one-bedroom at Solara under typical STR assumptions runs near -$400/month — better than a studio, still sensitive to occupancy.",
+  "reality_check": [
+    "1BR competes with hotel supply",
+    "Shoulder season softness matters",
+    "Parking and in-unit amenities drive rate"
+  ],
+  "verdict": {
+    "good_for": [
+      "Balanced personal use + STR",
+      "Buyers with lower leverage"
+    ],
+    "not_ideal_for": [
+      "Maximum leverage plays",
+      "Need for guaranteed income"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is Solara 1BR a cash-flow play?",
+      "a": "Usually marginal; positive outcomes need strong occupancy and disciplined costs."
+    },
+    {
+      "q": "What occupancy makes this work?",
+      "a": "Often north of mid-60s at modeled rates — stress-test lower before you offer."
+    },
+    {
+      "q": "Where can I compare 2BR?",
+      "a": "See the Solara 2BR analysis on this site for a side-by-side signal."
+    }
+  ]
+}

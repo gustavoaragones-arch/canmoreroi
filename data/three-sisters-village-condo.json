@@ -1,0 +1,40 @@
+{
+  "title": "Three Sisters Village Condo",
+  "slug": "three-sisters-village-condo",
+  "snapshot": {
+    "monthly_revenue": 5400,
+    "monthly_costs": 5350,
+    "cash_flow": 50
+  },
+  "payback_signal": "break-even",
+  "definition": "Three Sisters Village condos often sit on the edge — about +$50/month here, effectively break-even for decision purposes.",
+  "reality_check": [
+    "Village amenities help marketing",
+    "Competition within the area is dense",
+    "Transit and ski access perceptions move bookings"
+  ],
+  "verdict": {
+    "good_for": [
+      "Buyers who want village ecosystem",
+      "Balanced use + rent"
+    ],
+    "not_ideal_for": [
+      "Those needing predictable large cash flow",
+      "Investors uncomfortable with razor-thin margin"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Why is Three Sisters often break-even?",
+      "a": "Strong supply and competitive nightly rates cap net after fees."
+    },
+    {
+      "q": "What improves the outcome?",
+      "a": "Higher occupancy or lower purchase price — usually one or both."
+    },
+    {
+      "q": "Compare to downtown?",
+      "a": "See downtown condo analysis for a different location signal."
+    }
+  ]
+}

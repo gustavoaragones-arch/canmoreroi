@@ -1,0 +1,40 @@
+{
+  "title": "Canyon Ridge Townhouse",
+  "slug": "canyon-ridge-townhouse",
+  "snapshot": {
+    "monthly_revenue": 7600,
+    "monthly_costs": 6400,
+    "cash_flow": 1200
+  },
+  "payback_signal": "self-sustaining",
+  "definition": "Canyon Ridge townhouse modeling shows about +$1,200/month — stronger net in this scenario due to gross vs fee balance.",
+  "reality_check": [
+    "Snow and access maintenance",
+    "HOA enforcement on STR rules",
+    "Furniture and turnover quality"
+  ],
+  "verdict": {
+    "good_for": [
+      "Investors seeking operating cushion",
+      "Hands-on or managed STR"
+    ],
+    "not_ideal_for": [
+      "Buyers assuming passive income with zero oversight",
+      "Those ignoring bylaws"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is +$1,200 typical for townhouses?",
+      "a": "Not always — it depends on price, financing, and actual fees; this is one modeled case."
+    },
+    {
+      "q": "What could erode it?",
+      "a": "Higher rates, fee spikes, or occupancy dips of even a few points."
+    },
+    {
+      "q": "Next step?",
+      "a": "Compare to downtown and Solara analyses and run your own inputs in the calculator."
+    }
+  ]
+}

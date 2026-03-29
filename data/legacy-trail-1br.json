@@ -1,0 +1,40 @@
+{
+  "title": "Legacy Trail 1BR",
+  "slug": "legacy-trail-1br",
+  "snapshot": {
+    "monthly_revenue": 3900,
+    "monthly_costs": 4500,
+    "cash_flow": -600
+  },
+  "payback_signal": "negative",
+  "definition": "Legacy Trail 1BR shows roughly -$600/month under these assumptions — negative carry unless revenue or basis improves.",
+  "reality_check": [
+    "Commute expectations from guests vary",
+    "1BR supply competes on price",
+    "Insurance and fees creep over time"
+  ],
+  "verdict": {
+    "good_for": [
+      "Owners prioritizing housing + occasional rent",
+      "Buyers with renovation upside thesis"
+    ],
+    "not_ideal_for": [
+      "Strict monthly income requirements",
+      "Maximum leverage without reserves"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is negative carry always bad?",
+      "a": "It is a warning sign for income investors; others accept it for non-cash goals."
+    },
+    {
+      "q": "What fixes negative carry fastest?",
+      "a": "Lower mortgage payment, higher occupancy, or lower purchase price."
+    },
+    {
+      "q": "Read more on mistakes?",
+      "a": "See the Canmore investment mistakes guide on this site."
+    }
+  ]
+}

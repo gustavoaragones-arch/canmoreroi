@@ -1,0 +1,40 @@
+{
+  "title": "Canmore Townhouse STR",
+  "slug": "canmore-townhouse-str",
+  "snapshot": {
+    "monthly_revenue": 6100,
+    "monthly_costs": 5950,
+    "cash_flow": 150
+  },
+  "payback_signal": "break-even",
+  "definition": "Townhouse-style STR in Canmore often lands near break-even — roughly +$150/month in this scenario, with little room for error.",
+  "reality_check": [
+    "Shared walls and HOA rules matter",
+    "Parking and hot tubs affect maintenance",
+    "Noise and bylaws can cap nights"
+  ],
+  "verdict": {
+    "good_for": [
+      "Operators who self-manage",
+      "Buyers valuing space over condo tower"
+    ],
+    "not_ideal_for": [
+      "Those needing large monthly distributions",
+      "Investors avoiding HOA politics"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is break-even bad?",
+      "a": "Not always — but it means small misses flip you negative; budget reserves accordingly."
+    },
+    {
+      "q": "Do townhouses outperform condos?",
+      "a": "Sometimes on rate; fees and bylaws still decide net."
+    },
+    {
+      "q": "Where is the risk?",
+      "a": "Special assessments and insurance step-ups in multi-unit communities."
+    }
+  ]
+}

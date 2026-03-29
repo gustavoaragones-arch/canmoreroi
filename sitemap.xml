@@ -2,52 +2,197 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://canmoreroi.com/</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/analysis/index.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://canmoreroi.com/analysis/solara-canmore-2br.html</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://canmoreroi.com/analysis/downtown-canmore-condo.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <loc>https://canmoreroi.com/analysis/banff-trail-duplex-str.html</loc>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/analysis/canmore-1m-investment.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/canmore-townhouse-str.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/canyon-ridge-townhouse.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/clearwater-canmore-1br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/downtown-canmore-condo.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/dynamic.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/harvie-heights-str.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/index.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/legacy-trail-1br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/lodges-at-canmore-2br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/mystic-springs-townhome.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/pektin-crossing-2br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/silvertip-luxury-chalet.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/solara-canmore-1br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/solara-canmore-2br.html</loc>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/analysis/solara-canmore-unit-202.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://canmoreroi.com/analysis/solara-studio.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/spring-creek-meadows-2br.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/analysis/three-sisters-village-condo.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/guides/canmore-investment-mistakes.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/guides/canmore-roi-explained.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/guides/occupancy-rates-canmore.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/guides/str-income-canmore.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/areas/canmore-short-term-zones.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/areas/downtown-canmore.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/areas/silvertip-canmore.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/areas/three-sisters-canmore.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/scenarios/canmore-1m-investment.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/scenarios/canmore-500k-investment.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/scenarios/canmore-break-even-investment.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/scenarios/canmore-high-cash-flow.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
+    <loc>https://canmoreroi.com/scenarios/canmore-negative-cash-flow.html</loc>
+    <lastmod>2026-03-28</lastmod>
+    <priority>0.82</priority>
+  </url>
+  <url>
     <loc>https://canmoreroi.com/legal/terms.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/legal/privacy.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/legal/disclaimer.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://canmoreroi.com/legal/cookies.html</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-03-28</lastmod>
     <priority>0.3</priority>
   </url>
 </urlset>

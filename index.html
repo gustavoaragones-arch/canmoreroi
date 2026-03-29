@@ -28,6 +28,29 @@
       },
     };
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://canmoreroi.com/#organization",
+        "name": "CanmoreROI.com",
+        "url": "https://canmoreroi.com/",
+        "description": "Canmore and Bow Valley real estate ROI tools, STR cash flow estimates, and investment decision validation.",
+        "parentOrganization": { "@type": "Organization", "name": "Albor Digital LLC" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://canmoreroi.com/#website",
+        "url": "https://canmoreroi.com/",
+        "name": "Canmore ROI",
+        "publisher": { "@id": "https://canmoreroi.com/#organization" },
+        "inLanguage": "en-CA"
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="font-sans text-brand-green antialiased bg-brand-cream">
   <header class="absolute inset-x-0 top-0 z-20">
@@ -37,6 +60,9 @@
         <li><a href="#analysis" class="transition hover:text-brand-gold">Analysis</a></li>
         <li><a href="#areas" class="transition hover:text-brand-gold">Areas</a></li>
         <li><a href="#compare" class="transition hover:text-brand-gold">Compare</a></li>
+        <li><a href="#guides" class="transition hover:text-brand-gold">Guides</a></li>
+        <li><a href="#areas-programmatic" class="transition hover:text-brand-gold">Markets</a></li>
+        <li><a href="#scenarios-programmatic" class="transition hover:text-brand-gold">Scenarios</a></li>
       </ul>
     </nav>
   </header>
@@ -241,6 +267,58 @@
         </p>
       </div>
     </section>
+
+    <section id="guides" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="guides-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="guides-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Investment guides</h2>
+        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
+          Ground truth on Canmore STR math, occupancy, and where deals break — before you wire a deposit.
+        </p>
+        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
+          <li><a href="guides/canmore-roi-explained.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore ROI explained</a> — how monthly cash flow is modeled and where most investors get this wrong.</li>
+          <li><a href="guides/str-income-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">STR income in Canmore</a> — gross vs net, seasonality, and management drag.</li>
+          <li><a href="guides/canmore-investment-mistakes.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore investment mistakes</a> — occupancy fantasy, fees, and leverage.</li>
+          <li><a href="guides/occupancy-rates-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Occupancy rates in Canmore</a> — realistic bands and validation.</li>
+        </ul>
+        <p class="mt-8 text-sm text-neutral-500">
+          Then open <a href="analysis/index.html" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">property analyses</a> or run the calculator above.
+        </p>
+      </div>
+    </section>
+
+    <section id="areas-programmatic" class="border-t border-neutral-200/80 bg-brand-cream px-6 py-16 md:px-8 md:py-24" aria-labelledby="areas-programmatic-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="areas-programmatic-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Canmore areas — STR &amp; investment context</h2>
+        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
+          Location-specific price bands, performance expectations, and trade-offs — each page links into modeled analyses so you can compare net cash flow, not just gross.
+        </p>
+        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
+          <li><a href="areas/downtown-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Downtown Canmore</a> — walkability, premium ADR, tight margins.</li>
+          <li><a href="areas/silvertip-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Silvertip</a> — luxury chalet demand and higher basis.</li>
+          <li><a href="areas/three-sisters-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Three Sisters</a> — village-style product and family stays.</li>
+          <li><a href="areas/canmore-short-term-zones.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Short-term rental zones</a> — what “legal STR” actually means for underwriting.</li>
+        </ul>
+        <p class="mt-8 text-sm text-neutral-500">
+          <a href="analysis/index.html" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Browse all property analyses</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="scenarios-programmatic" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="scenarios-programmatic-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="scenarios-programmatic-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Investment scenarios</h2>
+        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
+          Intent-led pages for common search questions — assumptions, outcomes, and links into analyses that show the same math with real numbers.
+        </p>
+        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
+          <li><a href="scenarios/canmore-500k-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">~$500K investment</a></li>
+          <li><a href="scenarios/canmore-1m-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">~$1M investment</a></li>
+          <li><a href="scenarios/canmore-negative-cash-flow.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Negative cash flow (carry)</a></li>
+          <li><a href="scenarios/canmore-break-even-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Break-even</a></li>
+          <li><a href="scenarios/canmore-high-cash-flow.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">High cash flow</a></li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <footer class="mt-20 bg-[#1F3D2B] text-white">
@@ -259,6 +337,9 @@
           <li><a href="analysis/solara-canmore-2br.html" class="hover:text-white">Analysis</a></li>
           <li><a href="index.html#areas" class="hover:text-white">Areas</a></li>
           <li><a href="index.html#compare" class="hover:text-white">Compare</a></li>
+          <li><a href="index.html#guides" class="hover:text-white">Guides</a></li>
+          <li><a href="index.html#areas-programmatic" class="hover:text-white">Markets</a></li>
+          <li><a href="index.html#scenarios-programmatic" class="hover:text-white">Scenarios</a></li>
         </ul>
       </div>
       <div>

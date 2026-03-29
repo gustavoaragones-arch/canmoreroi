@@ -28,7 +28,7 @@
       },
     };
   </script>
-  <script type="application/ld+json">
+  <script type="application/ld+json" id="article-ld-json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -44,6 +44,29 @@
       }
     }
   </script>
+  <script type="application/ld+json" id="entity-graph-ld-json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://canmoreroi.com/#organization",
+        "name": "CanmoreROI.com",
+        "url": "https://canmoreroi.com/",
+        "description": "Canmore and Bow Valley real estate ROI tools, STR cash flow estimates, and investment decision validation.",
+        "parentOrganization": { "@type": "Organization", "name": "Albor Digital LLC" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://canmoreroi.com/#website",
+        "url": "https://canmoreroi.com/",
+        "name": "Canmore ROI",
+        "publisher": { "@id": "https://canmoreroi.com/#organization" },
+        "inLanguage": "en-CA"
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="font-sans text-brand-green antialiased bg-brand-cream">
   <header class="absolute inset-x-0 top-0 z-20">
@@ -53,6 +76,7 @@
         <li><a href="../index.html#analysis" class="transition hover:text-brand-gold">Analysis</a></li>
         <li><a href="../index.html#areas" class="transition hover:text-brand-gold">Areas</a></li>
         <li><a href="../index.html#compare" class="transition hover:text-brand-gold">Compare</a></li>
+        <li><a href="../index.html#guides" class="transition hover:text-brand-gold">Guides</a></li>
       </ul>
     </nav>
   </header>
@@ -70,13 +94,19 @@
       </div>
     </section>
 
-    <section class="border-t border-neutral-200/80 bg-brand-cream px-6 py-12 md:py-16" aria-label="Definition">
-      <p data-definition class="mx-auto max-w-3xl text-center text-lg leading-relaxed text-neutral-800 md:text-xl"></p>
+    <!--SERP_TOP_BLOCK-->
+    <!--/SERP_TOP_BLOCK-->
+
+    <section class="border-t border-neutral-200/80 bg-brand-cream px-6 py-12 md:py-16" aria-labelledby="definition-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="definition-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Is this property a good Canmore STR investment on paper?</h2>
+        <p data-definition class="mt-6 text-center text-lg leading-relaxed text-neutral-800 md:text-xl"></p>
+      </div>
     </section>
 
     <section class="bg-brand-cream px-6 pb-12 md:pb-16" aria-labelledby="snapshot-heading">
       <div class="mx-auto max-w-2xl rounded-2xl bg-white p-6 shadow-md">
-        <h2 id="snapshot-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Investment snapshot</h2>
+        <h2 id="snapshot-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">What are the modeled monthly revenue, costs, and net cash flow?</h2>
         <div class="mt-6 overflow-x-auto">
           <table class="w-full text-left text-sm">
             <tbody class="text-neutral-700">
@@ -101,23 +131,26 @@
       </div>
     </section>
 
+    <!--SERP_TABLE_BLOCK-->
+    <!--/SERP_TABLE_BLOCK-->
+
     <section class="bg-brand-cream px-6 pb-12 md:pb-16" aria-labelledby="payback-heading">
       <div class="mx-auto max-w-2xl">
-        <h2 id="payback-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Payback Signal</h2>
+        <h2 id="payback-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">What payback signal does this analysis assign?</h2>
         <div data-signal class="mt-6 rounded-2xl border border-neutral-200/80 bg-white p-6 shadow-sm text-lg font-semibold text-neutral-900"></div>
       </div>
     </section>
 
     <section class="border-t border-neutral-200/80 bg-white px-6 py-12 md:py-16" aria-labelledby="reality-heading">
       <div class="mx-auto max-w-2xl">
-        <h2 id="reality-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Reality Check</h2>
+        <h2 id="reality-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">What is the reality check before you buy?</h2>
         <ul data-reality class="mt-6 list-disc space-y-3 pl-5 text-neutral-700 marker:text-brand-green"></ul>
       </div>
     </section>
 
     <section class="bg-brand-cream px-6 py-12 md:py-16" aria-labelledby="buy-heading">
       <div class="mx-auto max-w-3xl">
-        <h2 id="buy-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Should You Buy This Property?</h2>
+        <h2 id="buy-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Should you buy this property?</h2>
         <div class="mt-8 grid gap-8 md:grid-cols-2">
           <div class="rounded-2xl border border-green-200 bg-white p-6 shadow-sm">
             <h3 class="font-semibold text-green-800">Good if</h3>
@@ -133,7 +166,7 @@
 
     <section class="border-t border-neutral-200/80 bg-white px-6 py-12 md:py-16" aria-labelledby="faq-heading">
       <div class="mx-auto max-w-2xl">
-        <h2 id="faq-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Frequently Asked Questions</h2>
+        <h2 id="faq-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">What questions do investors ask about this deal?</h2>
         <div data-faq class="mt-8 space-y-3"></div>
       </div>
     </section>
@@ -162,6 +195,33 @@
         <!--/INTERNAL_LINKS-->
       </div>
     </section>
+
+    <section class="border-t border-neutral-200/80 bg-white px-6 py-12 md:py-14" aria-labelledby="scenarios-support-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="scenarios-support-heading" class="font-serif text-xl font-semibold text-brand-green md:text-2xl">Investment scenarios</h2>
+        <p class="mt-3 text-sm text-neutral-600">Intent-based breakdowns — how $500K vs $1M, negative carry, and break-even actually behave in Canmore.</p>
+        <ul class="mt-6 space-y-2 text-sm font-medium">
+          <li><a href="../scenarios/canmore-500k-investment.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">$500K Canmore investment scenario</a></li>
+          <li><a href="../scenarios/canmore-1m-investment.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">$1M Canmore investment scenario</a></li>
+          <li><a href="../scenarios/canmore-negative-cash-flow.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Negative cash flow (Canmore STR)</a></li>
+          <li><a href="../scenarios/canmore-break-even-investment.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Break-even investment profile</a></li>
+          <li><a href="../scenarios/canmore-high-cash-flow.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">High cash flow (what it takes)</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="border-t border-neutral-200/80 bg-brand-cream px-6 py-12 md:py-14" aria-labelledby="guides-support-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="guides-support-heading" class="font-serif text-xl font-semibold text-brand-green md:text-2xl">Decision support guides</h2>
+        <p class="mt-3 text-sm text-neutral-600">Canmore STR math, occupancy bands, and where deals break — written to complement this analysis.</p>
+        <ul class="mt-6 space-y-2 text-sm font-medium">
+          <li><a href="../guides/canmore-roi-explained.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore ROI explained</a></li>
+          <li><a href="../guides/str-income-canmore.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">STR income in Canmore</a></li>
+          <li><a href="../guides/canmore-investment-mistakes.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore investment mistakes</a></li>
+          <li><a href="../guides/occupancy-rates-canmore.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Occupancy rates in Canmore</a></li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <footer class="mt-20 bg-[#1F3D2B] text-white">
@@ -180,6 +240,9 @@
           <li><a href="../index.html#analysis" class="hover:text-white">Analysis</a></li>
           <li><a href="../index.html#areas" class="hover:text-white">Areas</a></li>
           <li><a href="../index.html#compare" class="hover:text-white">Compare</a></li>
+          <li><a href="../index.html#guides" class="hover:text-white">Guides</a></li>
+          <li><a href="../index.html#areas-programmatic" class="hover:text-white">Areas</a></li>
+          <li><a href="../index.html#scenarios-programmatic" class="hover:text-white">Scenarios</a></li>
         </ul>
       </div>
       <div>

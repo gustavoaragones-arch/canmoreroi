@@ -1,0 +1,40 @@
+{
+  "title": "Silvertip Luxury Chalet",
+  "slug": "silvertip-luxury-chalet",
+  "snapshot": {
+    "monthly_revenue": 12000,
+    "monthly_costs": 12800,
+    "cash_flow": -800
+  },
+  "payback_signal": "negative",
+  "definition": "High-gross Silvertip luxury product can still show -$800/month when financing, taxes, and operating costs stack — gross is not net.",
+  "reality_check": [
+    "Luxury turnover costs are real",
+    "Snow removal and utilities scale up",
+    "Booking lead times can be lumpy"
+  ],
+  "verdict": {
+    "good_for": [
+      "Lifestyle + appreciation thesis",
+      "High-net-worth buyers with cushion"
+    ],
+    "not_ideal_for": [
+      "Income-dependent investors",
+      "Thin reserve buyers"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Can luxury STR lose money monthly?",
+      "a": "Yes — high revenue often pairs with high debt service and operating spend."
+    },
+    {
+      "q": "What do most investors get wrong?",
+      "a": "They anchor on peak-week ADR instead of annual blended occupancy."
+    },
+    {
+      "q": "Should I still model Silvertip?",
+      "a": "Yes — but run negative and break-even cases, not best-case only."
+    }
+  ]
+}

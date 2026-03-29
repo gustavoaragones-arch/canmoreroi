@@ -1,0 +1,40 @@
+{
+  "title": "Lodges at Canmore 2BR",
+  "slug": "lodges-at-canmore-2br",
+  "snapshot": {
+    "monthly_revenue": 6800,
+    "monthly_costs": 6000,
+    "cash_flow": 800
+  },
+  "payback_signal": "self-sustaining",
+  "definition": "A 2-bedroom at Lodges at Canmore can deliver roughly +$800/month under modeled STR performance — stronger bedroom count for ski-season demand.",
+  "reality_check": [
+    "Resort-fee structures vary by phase",
+    "Management contracts differ by owner",
+    "Summer vs winter mix shifts revenue"
+  ],
+  "verdict": {
+    "good_for": [
+      "STR-focused investors",
+      "Buyers wanting bedroom scale"
+    ],
+    "not_ideal_for": [
+      "Those avoiding HOA complexity",
+      "Ultra-low-touch expectations without management"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Why is 2BR stronger here?",
+      "a": "More sleeping capacity maps to ski and family groups, supporting rate and occupancy."
+    },
+    {
+      "q": "What should I verify in the strata docs?",
+      "a": "Rental restrictions, fee history, and reserve fund — special levies move net fast."
+    },
+    {
+      "q": "Is $800/month guaranteed?",
+      "a": "No — it is a modeled estimate; actuals vary with operations and market."
+    }
+  ]
+}

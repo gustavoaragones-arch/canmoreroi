@@ -1,0 +1,40 @@
+{
+  "title": "Banff Trail Duplex STR",
+  "slug": "banff-trail-duplex-str",
+  "snapshot": {
+    "monthly_revenue": 5400,
+    "monthly_costs": 5400,
+    "cash_flow": 0
+  },
+  "payback_signal": "break-even",
+  "definition": "Duplex STR near Banff Trail modeled at exact break-even — $0/month after simplified costs; reality rarely lands on zero, so treat as fragile.",
+  "reality_check": [
+    "Shared utility and yard costs",
+    "Tenant/guest overlap with neighbors",
+    "Municipal rules on STR"
+  ],
+  "verdict": {
+    "good_for": [
+      "Operators comfortable with duplex dynamics",
+      "Buyers valuing two-door flexibility"
+    ],
+    "not_ideal_for": [
+      "Conflict-averse owners",
+      "Those needing positive cash day one"
+    ]
+  },
+  "faq": [
+    {
+      "q": "Is $0/month realistic?",
+      "a": "It is a modeling midpoint; most owners see small positive or negative swings."
+    },
+    {
+      "q": "Duplex-specific risk?",
+      "a": "Neighbor relations and joint maintenance — costs are not always evenly predictable."
+    },
+    {
+      "q": "Where to read about break-even investing?",
+      "a": "See the break-even scenario page under /scenarios/."
+    }
+  ]
+}
