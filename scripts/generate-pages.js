@@ -9,6 +9,10 @@ const OUT_DIR = path.join(ROOT, 'analysis');
 
 const SKIP_FILES = new Set(['schema.json', 'example.json']);
 
+const SITE_LAST_UPDATED_DISPLAY = 'March 28, 2026';
+const DATA_CONSISTENCY_SENTENCE =
+  'Across comparable models on this site, many stress-tests use roughly 55%–75% blended annual occupancy and public nightly rates near $250–$450 before platform fees and discounting; monthly net cash flow still varies sharply with leverage, HOA, and nights sold.';
+
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -77,11 +81,33 @@ function buildShortAnswer(data) {
   );
 }
 
-function buildSerpTopBlock(data) {
-  const snippet = escapeHtml(buildShortAnswer(data));
-  const titleEsc = escapeHtml(data.title);
+function buildDirectAnswerBody(data) {
+  if (data.short_answer && String(data.short_answer).trim()) {
+    return String(data.short_answer).trim();
+  }
+  const rev = formatCurrency(data.snapshot.monthly_revenue);
+  const costs = formatCurrency(data.snapshot.monthly_costs);
+  const net = formatCurrency(data.snapshot.cash_flow);
+  const phrase = paybackSnippetPhrase(data.payback_signal);
   return (
-    '<section class="border-t border-neutral-200/80 bg-white px-6 py-8 md:py-10" aria-label="Breadcrumb and summary">' +
+    'Modeled gross is about ' +
+    rev +
+    '/month, costs near ' +
+    costs +
+    ', net near ' +
+    net +
+    ' — ' +
+    phrase +
+    '.'
+  );
+}
+
+function buildSerpTopBlock(data) {
+  const snippet = escapeHtml(buildDirectAnswerBody(data));
+  const titleEsc = escapeHtml(data.title);
+  const consistency = escapeHtml(DATA_CONSISTENCY_SENTENCE);
+  return (
+    '<section class="border-t border-neutral-200/80 bg-white px-6 py-8 md:py-10" aria-label="Breadcrumb and direct answer">' +
     '<div class="mx-auto max-w-3xl">' +
     '<nav class="mb-6 text-sm text-neutral-600" aria-label="Breadcrumb">' +
     '<ol class="flex flex-wrap items-center gap-2">' +
@@ -93,11 +119,63 @@ function buildSerpTopBlock(data) {
     titleEsc +
     '</li>' +
     '</ol></nav>' +
-    '<div class="rounded-xl border border-brand-green/25 bg-brand-cream/50 p-5 shadow-sm">' +
-    '<p class="text-base leading-relaxed text-neutral-800"><span class="font-semibold text-brand-green">Short answer:</span> ' +
+    '<div id="primary-answer" class="rounded-xl border border-brand-green/25 bg-brand-cream/50 p-5 shadow-sm">' +
+    '<p class="text-base leading-relaxed text-neutral-800"><span class="font-semibold text-brand-green">Direct answer:</span> ' +
     snippet +
+    '</p>' +
+    '<p class="mt-3 text-xs leading-relaxed text-neutral-600">' +
+    consistency +
     '</p></div></div></section>'
   );
+}
+
+function buildKeyTakeawaysHtml(data) {
+  const net = formatCurrency(data.snapshot.cash_flow);
+  const label = paybackTableLabel(data.payback_signal);
+  const items = [
+    'Modeled net cash flow is about ' +
+      net +
+      '/month on this page; payback label is «' +
+      label +
+      '». Self-Sustaining = property generates positive monthly cash flow. Break-even = property roughly covers costs. Negative Carry = property loses money monthly.',
+    'Stress-tests on this site often use roughly 55%–75% blended occupancy and nightly rates near $250–$450 before discounting; move both on the calculator.',
+    'Monthly net swings with HOA, insurance, financing, and nights sold — verify strata documents for the specific building.',
+    'Read the knowledge hub, then similar property analyses, then the homepage calculator so assumptions stay in one loop.',
+  ];
+  return (
+    '<section class="border-t border-neutral-200/80 bg-brand-cream px-6 py-10 md:py-12" aria-labelledby="takeaways-heading">' +
+    '<div class="mx-auto max-w-3xl">' +
+    '<h2 id="takeaways-heading" class="font-serif text-2xl font-semibold text-brand-green md:text-3xl">Key takeaways</h2>' +
+    '<ul class="mt-6 list-disc space-y-3 pl-5 text-neutral-800 marker:text-brand-green">' +
+    items
+      .map(function (t) {
+        return '<li class="text-sm leading-relaxed">' + escapeHtml(t) + '</li>';
+      })
+      .join('') +
+    '</ul></div></section>'
+  );
+}
+
+function buildExtraAnalysisFaqs(data) {
+  return [
+    {
+      q: 'What occupancy range is realistic for Canmore STR?',
+      a: 'Many comparable models on this site stress roughly 55%–75% blended annual occupancy; your asset may beat or miss that depending on quality, operations, and seasonality.',
+    },
+    {
+      q: 'What nightly rate band is typical before discounting?',
+      a: 'Public ADRs for 1–2BR resort-style product often land near $250–$450 before fees and discounting; premium peak nights exceed that.',
+    },
+    {
+      q: 'How should Self-Sustaining, Break-even, and Negative Carry be read?',
+      a: 'Self-Sustaining means the property generates positive monthly cash flow. Break-even means the property roughly covers costs. Negative Carry means the property loses money monthly after the modeled bundle.',
+    },
+  ];
+}
+
+function mergeAnalysisFaqs(data) {
+  const base = (data.faq || []).slice();
+  return base.concat(buildExtraAnalysisFaqs(data));
 }
 
 function buildSerpTableHtml(data) {
@@ -227,13 +305,14 @@ function buildArticleLdJson(data, meta) {
     '@type': 'Article',
     headline: data.title + ' ROI (2026)',
     description: meta.description,
+    dateModified: '2026-03-28',
     author: { '@type': 'Organization', name: 'CanmoreROI.com' },
     publisher: { '@type': 'Organization', name: 'CanmoreROI.com' },
   };
 }
 
 function buildFaqLdJson(data) {
-  const items = (data.faq || []).slice(0, 12);
+  const items = mergeAnalysisFaqs(data).slice(0, 15);
   if (items.length === 0) return null;
   return {
     '@context': 'https://schema.org',
@@ -414,6 +493,8 @@ function buildKnowledgeContextBlock(slug) {
   const occ = ka('../knowledge/canmore-occupancy-rates.html', 'occupancy reality');
   const risk = ka('../knowledge/canmore-condo-risk-guide.html', 'condo and strata risk');
   const mistakes = ka('../knowledge/canmore-investment-mistakes.html', 'investor mistakes (knowledge node)');
+  const faqMaster = ka('../knowledge/canmore-roi-faq.html', 'Canmore ROI FAQ');
+  const compareBb = ka('../compare/canmore-vs-banff-investment.html', 'Canmore vs Banff investment');
   const calc = ka('../index.html#analysis', 'calculator');
   let second;
   let third;
@@ -441,6 +522,18 @@ function buildKnowledgeContextBlock(slug) {
     third +
     ' for the same underwriting story, then stress inputs on the ' +
     calc +
+    '. Loop: <a href="../guides/canmore-roi-explained.html" class="' +
+    A +
+    '">guides</a> → <a href="../knowledge/index.html" class="' +
+    A +
+    '">knowledge hub</a> → <a href="../analysis/index.html" class="' +
+    A +
+    '">property analyses</a> → ' +
+    calc +
+    '; see also ' +
+    faqMaster +
+    ' and ' +
+    compareBb +
     '.</p></div></section>'
   );
 }
@@ -497,7 +590,7 @@ function inject(html, data, meta) {
   });
 
   out = out.replace(/<div([^>]*\bdata-faq\b[^>]*)><\/div>/, function (_m, attrs) {
-    return '<div' + attrs + '>' + buildFaqBlocks(data.faq) + '</div>';
+    return '<div' + attrs + '>' + buildFaqBlocks(mergeAnalysisFaqs(data)) + '</div>';
   });
 
   out = out.replace(
@@ -518,6 +611,11 @@ function inject(html, data, meta) {
   out = out.replace(
     /<!--KNOWLEDGE_CONTEXT_BLOCK-->[\s\S]*?<!--\/KNOWLEDGE_CONTEXT_BLOCK-->/,
     '<!--KNOWLEDGE_CONTEXT_BLOCK-->\n' + buildKnowledgeContextBlock(data.slug) + '\n<!--/KNOWLEDGE_CONTEXT_BLOCK-->'
+  );
+
+  out = out.replace(
+    /<!--KEY_TAKEAWAYS_BLOCK-->[\s\S]*?<!--\/KEY_TAKEAWAYS_BLOCK-->/,
+    '<!--KEY_TAKEAWAYS_BLOCK-->\n' + buildKeyTakeawaysHtml(data) + '\n<!--/KEY_TAKEAWAYS_BLOCK-->'
   );
 
   out = out.replace(

@@ -5,6 +5,9 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const BASE = 'https://canmoreroi.com';
 
+const DATA_CONSISTENCY_SENTENCE =
+  'Across comparable models on this site, many stress-tests use roughly 55%–75% blended annual occupancy and public nightly rates near $250–$450 before platform fees and discounting; monthly net cash flow still varies sharply with leverage, HOA, and nights sold.';
+
 const A_CLS =
   'font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold';
 
@@ -23,11 +26,27 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
+function mergeGlobalFaq(faq) {
+  const base = (faq || []).slice();
+  const add = [
+    {
+      q: 'What blended occupancy band does CanmoreROI stress in many models?',
+      a: 'Roughly 55%–75% annual occupancy before discounting is a common stress band on this site; peak-heavy calendars can beat it and soft calendars can miss it.',
+    },
+    {
+      q: 'What nightly rate band is common before fees and discounting?',
+      a: 'Many 1–2BR resort-style listings show public ADRs near $250–$450 before platform fees and discounting; premium peak nights exceed that.',
+    },
+  ];
+  return base.concat(add);
+}
+
 function head(opts) {
+  const faqForLd = mergeGlobalFaq(opts.faq || []);
   const faqLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: opts.faq.map(function (f) {
+    mainEntity: faqForLd.map(function (f) {
       return {
         '@type': 'Question',
         name: f.q,
@@ -117,7 +136,7 @@ function footer() {
         </form>
       </div>
     </div>
-    <div class="pb-6 text-center text-xs text-gray-400">© 2026 CanmoreROI.com — Operated by Albor Digital LLC</div>
+    <div class="pb-6 text-center text-xs text-gray-400">© 2026 CanmoreROI.com — Operated by Albor Digital LLC · Last updated: March 28, 2026</div>
   </footer>`;
 }
 
@@ -128,9 +147,12 @@ function header() {
       <ul class="flex flex-wrap gap-6 text-sm font-medium text-brand-green">
         <li><a href="../index.html#analysis" class="hover:text-brand-gold">Analysis</a></li>
         <li><a href="../index.html#areas-programmatic" class="hover:text-brand-gold">Areas</a></li>
+        <li><a href="../index.html#scenarios-programmatic" class="hover:text-brand-gold">Scenarios</a></li>
         <li><a href="../index.html#guides" class="hover:text-brand-gold">Guides</a></li>
         <li><a href="../analysis/index.html" class="hover:text-brand-gold">Property analyses</a></li>
         <li><a href="../knowledge/index.html" class="hover:text-brand-gold">Knowledge</a></li>
+        <li><a href="../knowledge/canmore-roi-faq.html" class="hover:text-brand-gold">ROI FAQ</a></li>
+        <li><a href="../compare/canmore-vs-banff-investment.html" class="hover:text-brand-gold">vs Banff</a></li>
       </ul>
     </nav>
   </header>`;
@@ -149,8 +171,35 @@ function breadcrumbsHtml(items) {
   return `<nav class="mb-6 text-sm text-neutral-600" aria-label="Breadcrumb"><ol class="flex flex-wrap items-center gap-2">${lis}</ol></nav>`;
 }
 
-function snippetBlock(shortAnswerPlain) {
-  return `<div class="mt-4 rounded-xl border border-brand-green/25 bg-white p-5 shadow-sm"><p class="text-base leading-relaxed text-neutral-800"><span class="font-semibold text-brand-green">Short answer:</span> ${esc(shortAnswerPlain)}</p></div>`;
+function primaryAnswerBlock(shortAnswerPlain) {
+  return `<div id="primary-answer" class="mt-4 rounded-xl border border-brand-green/25 bg-white p-5 shadow-sm"><p class="text-base leading-relaxed text-neutral-800"><span class="font-semibold text-brand-green">Direct answer:</span> ${esc(shortAnswerPlain)}</p><p class="mt-3 text-xs leading-relaxed text-neutral-600">${esc(DATA_CONSISTENCY_SENTENCE)}</p></div>`;
+}
+
+function takeawaysSection(items, idSuffix) {
+  const lis = items
+    .map(function (t) {
+      return `<li class="text-sm leading-relaxed text-neutral-800">${esc(t)}</li>`;
+    })
+    .join('');
+  return `<section class="mt-12 rounded-xl border border-brand-green/25 bg-brand-cream/50 p-6 shadow-sm" aria-labelledby="takeaways-${idSuffix}"><h2 id="takeaways-${idSuffix}" class="font-serif text-xl font-semibold text-brand-green">Key takeaways</h2><ul class="mt-4 list-disc space-y-2 pl-5 marker:text-brand-green">${lis}</ul></section>`;
+}
+
+function defaultTakeawaysForArea(a) {
+  const parts = a.shortAnswer.split('.');
+  const lead = parts.slice(0, 2).join('.').trim() + '.';
+  const first =
+    lead.length >= 50 ? lead : a.shortAnswer.slice(0, Math.min(320, a.shortAnswer.length)) + (a.shortAnswer.length > 320 ? '…' : '');
+  return [
+    first,
+    'Self-Sustaining = property generates positive monthly cash flow. Break-even = property roughly covers costs. Negative Carry = property loses money monthly.',
+    'Comparable stress bands on this site often use roughly 55%–75% blended occupancy and nightly rates near $250–$450 before discounting.',
+    'Net cash flow is volatile month to month — verify strata, insurance, and financing on each deal.',
+    'Loop: guides → knowledge hub → property analyses → homepage calculator; see ROI FAQ and Canmore vs Banff for high-intent queries.',
+  ];
+}
+
+function defaultTakeawaysForScenario(s) {
+  return defaultTakeawaysForArea(s);
 }
 
 function renderTable(t) {
@@ -951,10 +1000,11 @@ ${header()}
     <p class="text-xs font-medium uppercase tracking-wide text-neutral-500">Area guide</p>
     ${breadcrumbsHtml(a.crumbs)}
     <h1 class="mt-2 font-serif text-3xl font-semibold text-brand-green md:text-4xl">${esc(a.h1)}</h1>
-    ${snippetBlock(a.shortAnswer)}
+    ${primaryAnswerBlock(a.shortAnswer)}
     ${tableBlock}
     ${renderSections(a.sections)}
     ${relatedTwoParagraphs(a.related.p1, a.related.p2)}
+    ${takeawaysSection(a.takeaways || defaultTakeawaysForArea(a), 'area')}
     <section class="mt-12 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm" aria-labelledby="faq-a"><h2 id="faq-a" class="font-serif text-xl font-semibold text-brand-green">FAQ</h2><dl class="mt-6 space-y-6">${faqHtml}</dl></section>
   </main>
 ${footer()}
@@ -976,10 +1026,11 @@ ${header()}
     <p class="text-xs font-medium uppercase tracking-wide text-neutral-500">Scenario</p>
     ${breadcrumbsHtml(s.crumbs)}
     <h1 class="mt-2 font-serif text-3xl font-semibold text-brand-green md:text-4xl">${esc(s.h1)}</h1>
-    ${snippetBlock(s.shortAnswer)}
+    ${primaryAnswerBlock(s.shortAnswer)}
     ${renderTable(s.table)}
     ${renderSections(s.sections)}
     ${relatedTwoParagraphs(s.related.p1, s.related.p2)}
+    ${takeawaysSection(s.takeaways || defaultTakeawaysForScenario(s), 'scenario')}
     <section class="mt-12 rounded-xl border border-neutral-200 bg-white p-6 shadow-sm" aria-labelledby="faq-s"><h2 id="faq-s" class="font-serif text-xl font-semibold text-brand-green">FAQ</h2><dl class="mt-6 space-y-6">${faqHtml}</dl></section>
   </main>
 ${footer()}
