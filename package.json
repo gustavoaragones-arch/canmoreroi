@@ -1,0 +1,8 @@
+{
+  "name": "canmoreroi",
+  "private": true,
+  "description": "Static Canmore ROI site — local preview only",
+  "scripts": {
+    "dev": "python3 -m http.server 5500"
+  }
+}

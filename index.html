@@ -28,6 +28,19 @@
       },
     };
   </script>
+  <style>
+    .roi-curve {
+      margin-top: 40px;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 12px;
+    }
+    .roi-curve .muted {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -138,6 +151,39 @@
               View Full Analysis
             </button>
           </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="market-reality" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="market-reality-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="market-reality-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Market Reality</h2>
+        <dl class="mt-8 grid gap-6 sm:grid-cols-2">
+          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Typical price (benchmark)</dt>
+            <dd id="market-avg-price" class="mt-2 font-serif text-2xl font-semibold text-brand-green tabular-nums">—</dd>
+          </div>
+          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Last updated</dt>
+            <dd id="market-last-updated" class="mt-2 text-lg font-medium text-neutral-800">—</dd>
+          </div>
+          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Change (month / quarter / year)</dt>
+            <dd id="market-changes" class="mt-2 text-sm font-medium leading-relaxed text-neutral-800 tabular-nums">—</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section id="price-cashflow-chart" class="border-t border-neutral-200/80 bg-brand-cream px-6 py-16 md:px-8 md:py-24" aria-labelledby="roi-curve-heading">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="roi-curve-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Price vs cash flow</h2>
+        <div class="roi-curve">
+          <p class="muted">Same mortgage and cost model as the calculator: nightly rate × occupancy × 30, minus financing (0.5% of loan/month) and ~$1,500 fixed costs. Price is on the horizontal axis; modeled monthly net on the vertical axis.</p>
+          <div class="relative h-72 w-full max-w-full sm:h-80">
+            <canvas id="roi-curve-chart" aria-label="Chart of purchase price versus modeled monthly cash flow"></canvas>
+          </div>
+          <p id="roi-interpretation" class="mt-4 text-sm leading-relaxed text-neutral-700"></p>
         </div>
       </div>
     </section>
@@ -403,6 +449,18 @@
     }
   </script>
   <script>
+    function canmoreRoiMonthlyCashflow(purchase, downPct, nightly, occPct) {
+      var purchaseN = isNaN(purchase) || purchase < 0 ? 0 : purchase;
+      var down = isNaN(downPct) ? 0 : Math.min(100, Math.max(0, downPct));
+      var nightlyN = isNaN(nightly) || nightly < 0 ? 0 : nightly;
+      var occ = isNaN(occPct) ? 0 : Math.min(100, Math.max(0, occPct));
+      var occupancy_rate = occ / 100;
+      var revenue = nightlyN * occupancy_rate * 30;
+      var mortgage = purchaseN * (1 - down / 100) * 0.005;
+      var costs = mortgage + 1500;
+      return revenue - costs;
+    }
+
     (function () {
       var form = document.getElementById('roi-form');
       var purchaseEl = document.getElementById('purchase-price');
@@ -445,11 +503,7 @@
         var occPct = parseFloat(occEl.value);
         occPct = isNaN(occPct) ? 0 : Math.min(100, Math.max(0, occPct));
 
-        var occupancy_rate = occPct / 100;
-        var revenue = nightly * occupancy_rate * 30;
-        var mortgage = purchase * (1 - down / 100) * 0.005;
-        var costs = mortgage + 1500;
-        var cashflow = revenue - costs;
+        var cashflow = canmoreRoiMonthlyCashflow(purchase, down, nightly, occPct);
 
         flowEl.textContent = fmt(cashflow);
 
@@ -486,6 +540,194 @@
 
       form.addEventListener('input', run);
       run();
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    (function () {
+      var marketData = null;
+      var roiChart = null;
+      var priceMin = 400000;
+      var priceMax = 2000000;
+      var priceStep = 50000;
+
+      function fmtCurrency(n) {
+        return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 }).format(n);
+      }
+
+      function fmtPct(x) {
+        var n = Number(x);
+        if (isNaN(n)) return '—';
+        return (n >= 0 ? '+' : '') + n + '%';
+      }
+
+      function getCalcInputsForCurve() {
+        var purchaseEl = document.getElementById('purchase-price');
+        var downEl = document.getElementById('down-payment');
+        var nightlyEl = document.getElementById('nightly-rate');
+        var occEl = document.getElementById('occupancy');
+        var down = parseFloat(downEl && downEl.value);
+        var nightly = parseFloat(nightlyEl && nightlyEl.value);
+        var occ = parseFloat(occEl && occEl.value);
+        if (isNaN(down)) down = 20;
+        if (isNaN(nightly) || nightly < 0) nightly = 350;
+        if (isNaN(occ)) occ = 65;
+        return { down: down, nightly: nightly, occ: occ };
+      }
+
+      function buildPriceSeries() {
+        var out = [];
+        for (var p = priceMin; p <= priceMax; p += priceStep) out.push(p);
+        return out;
+      }
+
+      function setInterpretation(avgPrice, down, nightly, occ) {
+        var el = document.getElementById('roi-interpretation');
+        if (!el) return;
+        var atAvg = canmoreRoiMonthlyCashflow(avgPrice, down, nightly, occ);
+        el.textContent =
+          'Higher purchase prices push up the mortgage slice of the same model, so monthly net compresses even when nightly rate and occupancy stay flat. At the benchmark typical price (' +
+          fmtCurrency(avgPrice) +
+          ' from market data), modeled net is about ' +
+          fmtCurrency(atAvg) +
+          ' per month with your current down, rate, and occupancy inputs — move those fields and the curve reflows with the calculator.';
+      }
+
+      function renderMarket() {
+        if (!marketData) return;
+        var ap = document.getElementById('market-avg-price');
+        var lu = document.getElementById('market-last-updated');
+        var ch = document.getElementById('market-changes');
+        if (ap) ap.textContent = fmtCurrency(marketData.avg_price);
+        if (lu) lu.textContent = marketData.last_updated || '—';
+        if (ch) {
+          ch.textContent =
+            'Month ' +
+            fmtPct(marketData.monthly_change) +
+            ' · Quarter ' +
+            fmtPct(marketData.quarterly_change) +
+            ' · Year ' +
+            fmtPct(marketData.yearly_change);
+        }
+      }
+
+      function drawOrUpdateChart() {
+        var canvas = document.getElementById('roi-curve-chart');
+        if (!canvas || typeof Chart === 'undefined') return;
+        var ctx = canvas.getContext('2d');
+        var ins = getCalcInputsForCurve();
+        var prices = buildPriceSeries();
+        var avgPrice = marketData && marketData.avg_price ? marketData.avg_price : 1256701;
+        var atAvg = canmoreRoiMonthlyCashflow(avgPrice, ins.down, ins.nightly, ins.occ);
+
+        setInterpretation(avgPrice, ins.down, ins.nightly, ins.occ);
+
+        var linePoints = prices.map(function (p) {
+          return { x: p, y: canmoreRoiMonthlyCashflow(p, ins.down, ins.nightly, ins.occ) };
+        });
+        var benchmarkPoint = [{ x: avgPrice, y: atAvg }];
+
+        if (roiChart) {
+          roiChart.data.datasets[0].data = linePoints;
+          roiChart.data.datasets[1].data = benchmarkPoint;
+          roiChart.update();
+          return;
+        }
+
+        roiChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            datasets: [
+              {
+                type: 'line',
+                label: 'Modeled monthly net',
+                data: linePoints,
+                borderColor: '#1F3D2B',
+                backgroundColor: 'rgba(31, 61, 43, 0.06)',
+                fill: true,
+                tension: 0.15,
+                pointRadius: 0,
+                borderWidth: 2,
+              },
+              {
+                type: 'scatter',
+                label: 'Benchmark typical price',
+                data: benchmarkPoint,
+                backgroundColor: '#C8A96A',
+                borderColor: '#1F3D2B',
+                borderWidth: 2,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: 'nearest', axis: 'x' },
+            plugins: {
+              legend: { display: true, labels: { boxWidth: 12, font: { size: 11 } } },
+              tooltip: {
+                callbacks: {
+                  label: function (c) {
+                    var v = c.parsed.y;
+                    if (v == null || isNaN(v)) return '';
+                    return (c.dataset.label || '') + ': ' + fmtCurrency(v);
+                  },
+                  title: function (items) {
+                    if (!items.length) return '';
+                    var x = items[0].parsed.x;
+                    if (x != null && !isNaN(x)) return fmtCurrency(x);
+                    return '';
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                type: 'linear',
+                min: priceMin,
+                max: priceMax,
+                title: { display: true, text: 'Purchase price (CAD)' },
+                ticks: {
+                  maxRotation: 0,
+                  autoSkip: true,
+                  maxTicksLimit: 8,
+                  callback: function (v) {
+                    return v >= 1000000 ? v / 1000000 + 'M' : v / 1000 + 'k';
+                  },
+                },
+              },
+              y: {
+                title: { display: true, text: 'Modeled monthly net (CAD)' },
+                ticks: {
+                  callback: function (v) {
+                    return '$' + (v / 1000).toFixed(0) + 'k';
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      fetch('data/market.json')
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          marketData = data;
+          renderMarket();
+          drawOrUpdateChart();
+        })
+        .catch(function () {
+          marketData = { avg_price: 1256701, monthly_change: 14, quarterly_change: 16.1, yearly_change: 5.7, last_updated: 'April 2026' };
+          renderMarket();
+          drawOrUpdateChart();
+        });
+
+      var roiForm = document.getElementById('roi-form');
+      if (roiForm) roiForm.addEventListener('input', drawOrUpdateChart);
     })();
   </script>
   <script>
