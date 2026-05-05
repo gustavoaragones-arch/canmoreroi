@@ -183,6 +183,15 @@
           <div class="relative h-72 w-full max-w-full sm:h-80">
             <canvas id="roiChart" aria-label="Chart of purchase price versus modeled monthly cash flow"></canvas>
           </div>
+          <p class="mt-4">
+            <button
+              type="button"
+              id="share-btn"
+              class="rounded-full border-2 border-brand-green bg-transparent px-5 py-2.5 text-sm font-semibold text-brand-green transition hover:bg-brand-green/5 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2"
+            >
+              Share this analysis
+            </button>
+          </p>
           <p id="roi-live-hint" class="mt-3 text-sm font-medium text-brand-green"></p>
           <p id="roi-interpretation" class="mt-4 text-sm leading-relaxed text-neutral-700"></p>
         </div>
@@ -445,8 +454,13 @@
       const down = document.querySelector('input[name="down"]').value;
       const rate = document.querySelector('input[name="rate"]').value;
       const occ = document.querySelector('input[name="occ"]').value;
-      const url = `/analysis/dynamic.html?price=${price}&down=${down}&rate=${rate}&occ=${occ}`;
-      window.location.href = url;
+      const params = new URLSearchParams();
+      if (price !== '') params.set('price', price);
+      if (down !== '') params.set('down', down);
+      if (rate !== '') params.set('rate', rate);
+      if (occ !== '') params.set('occ', occ);
+      params.set('view', 'analysis');
+      window.location.href = 'analysis/dynamic.html?' + params.toString();
     }
   </script>
   <script>
@@ -566,6 +580,81 @@
           rate: parseFloat(document.querySelector('[name="rate"]').value),
           occ: parseFloat(document.querySelector('[name="occ"]').value) / 100,
         };
+      }
+
+      function loadFromURL() {
+        var params = new URLSearchParams(window.location.search);
+        var price = params.get('price');
+        var down = params.get('down');
+        var rate = params.get('rate');
+        var occ = params.get('occ');
+        var def = { price: '850000', down: '20', rate: '350', occ: '65' };
+        function validNum(v, min, max) {
+          if (v == null || v === '') return null;
+          var n = parseFloat(v);
+          if (!isFinite(n)) return null;
+          if (typeof min === 'number' && n < min) return null;
+          if (typeof max === 'number' && n > max) return null;
+          return n;
+        }
+        var pe = document.querySelector('[name="price"]');
+        var de = document.querySelector('[name="down"]');
+        var re = document.querySelector('[name="rate"]');
+        var oe = document.querySelector('[name="occ"]');
+        if (pe) {
+          if (params.has('price')) {
+            var pv = validNum(price, 0, null);
+            if (pv != null) pe.value = String(pv);
+          } else pe.value = def.price;
+        }
+        if (de) {
+          if (params.has('down')) {
+            var dv = validNum(down, 0, 100);
+            if (dv != null) de.value = String(dv);
+          } else de.value = def.down;
+        }
+        if (re) {
+          if (params.has('rate')) {
+            var rv = validNum(rate, 0, null);
+            if (rv != null) re.value = String(rv);
+          } else re.value = def.rate;
+        }
+        if (oe) {
+          if (params.has('occ')) {
+            var ov = validNum(occ, 0, 100);
+            if (ov != null) oe.value = String(ov);
+          } else oe.value = def.occ;
+        }
+        if (params.get('view') === 'analysis') {
+          requestAnimationFrame(function () {
+            var el = document.getElementById('analysis');
+            if (el) el.scrollIntoView({ block: 'start' });
+          });
+        }
+      }
+
+      function generateShareURL() {
+        var inputs = getInputs();
+        var params = new URLSearchParams();
+        var p = isFinite(inputs.price) && inputs.price >= 0 ? Math.round(inputs.price) : 850000;
+        var d = isFinite(inputs.down) ? Math.round(inputs.down * 10) / 10 : 20;
+        var r = isFinite(inputs.rate) ? Math.round(inputs.rate) : 350;
+        var o = isFinite(inputs.occ) ? Math.round(inputs.occ * 100) : 65;
+        params.set('price', String(p));
+        params.set('down', String(d));
+        params.set('rate', String(r));
+        params.set('occ', String(o));
+        var u = new URL(window.location.href);
+        u.search = params.toString();
+        return u.href.split('#')[0];
+      }
+
+      function syncUrlFromInputs() {
+        try {
+          var clean = generateShareURL();
+          var u = new URL(clean);
+          history.replaceState({}, '', u.pathname + u.search + (window.location.hash || ''));
+        } catch (e) {}
       }
 
       function generateDynamicROI() {
@@ -819,6 +908,44 @@
         syncYScaleToIncludeZero(roiChart, data.results);
         roiChart.update();
         setInterpretation(data.results);
+        syncUrlFromInputs();
+      }
+
+      loadFromURL();
+
+      initChart();
+      setLiveHint();
+      setInterpretation(normalizeChartData(generateDynamicROI()).results);
+
+      document.querySelectorAll('#roi-form input').forEach(function (input) {
+        input.addEventListener('input', function () {
+          updateChart();
+        });
+      });
+
+      var shareBtn = document.getElementById('share-btn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function () {
+          var url = generateShareURL();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(
+              function () {
+                alert('Link copied — share this analysis.');
+              },
+              function () {
+                window.prompt('Copy this link:', url);
+              }
+            );
+          } else {
+            window.prompt('Copy this link:', url);
+            alert('Link copied — share this analysis.');
+          }
+        });
+      }
+
+      var roiFormBoot = document.getElementById('roi-form');
+      if (roiFormBoot && roiFormBoot.querySelector('[name="price"]')) {
+        roiFormBoot.querySelector('[name="price"]').dispatchEvent(new Event('input', { bubbles: true }));
       }
 
       fetch('data/market.json')
@@ -835,16 +962,6 @@
           renderMarket();
           updateChart();
         });
-
-      initChart();
-      setLiveHint();
-      setInterpretation(normalizeChartData(generateDynamicROI()).results);
-
-      document.querySelectorAll('#roi-form input').forEach(function (input) {
-        input.addEventListener('input', function () {
-          updateChart();
-        });
-      });
     })();
   </script>
   <script>

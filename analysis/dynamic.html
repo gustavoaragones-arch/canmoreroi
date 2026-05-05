@@ -219,13 +219,23 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
-    function getParams() {
+    function loadFromURL() {
       const params = new URLSearchParams(window.location.search);
+      const defaults = { price: 850000, down: 20, rate: 350, occ: 65 };
+      function read(key, min, max, def) {
+        if (!params.has(key)) return def;
+        const raw = params.get(key);
+        const n = parseFloat(raw);
+        if (!Number.isFinite(n)) return def;
+        if (typeof min === 'number' && n < min) return def;
+        if (typeof max === 'number' && n > max) return def;
+        return n;
+      }
       return {
-        price: parseFloat(params.get('price')),
-        down: parseFloat(params.get('down')),
-        rate: parseFloat(params.get('rate')),
-        occ: parseFloat(params.get('occ')) / 100
+        price: read('price', 0, null, defaults.price),
+        down: read('down', 0, 100, defaults.down),
+        rate: read('rate', 0, null, defaults.rate),
+        occ: read('occ', 0, 100, defaults.occ) / 100
       };
     }
 
@@ -243,15 +253,7 @@
       return val < 0 ? `-$${abs}` : `$${abs}`;
     }
 
-    function clampNumber(val) {
-      return Number.isFinite(val) ? val : 0;
-    }
-
-    const data = getParams();
-    data.price = clampNumber(data.price);
-    data.down = clampNumber(data.down);
-    data.rate = clampNumber(data.rate);
-    data.occ = clampNumber(data.occ);
+    const data = loadFromURL();
 
     const result = calculate(data);
 
