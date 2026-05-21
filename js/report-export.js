@@ -5,6 +5,14 @@
   'use strict';
 
   var reportOccChart = null;
+  var lastExportMeta = { id: '', filename: 'canmore-roi-report.pdf' };
+
+  /** Typical Canmore STR modeling bands (not investment advice). */
+  var CONFIDENCE_BANDS = {
+    occHigh: 0.8,
+    rateHigh: 425,
+    downLow: 20,
+  };
 
   function api() {
     return window.CanmoreRoiReport || null;
@@ -32,6 +40,60 @@
     var m = String(d.getMonth() + 1).padStart(2, '0');
     var day = String(d.getDate()).padStart(2, '0');
     return m + '/' + day + '/' + d.getFullYear();
+  }
+
+  function isoDateStamp() {
+    var d = new Date();
+    return (
+      d.getFullYear() +
+      '-' +
+      String(d.getMonth() + 1).padStart(2, '0') +
+      '-' +
+      String(d.getDate()).padStart(2, '0')
+    );
+  }
+
+  function monthStamp() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+
+  function generateReportId() {
+    var suffix = String(Math.floor(1000 + Math.random() * 9000));
+    return 'ROI-' + isoDateStamp() + '-' + suffix;
+  }
+
+  function computeAssumptionConfidence(inputs) {
+    var reasons = [];
+    var occPct = inputs.occ * 100;
+    if (occPct > CONFIDENCE_BANDS.occHigh * 100) {
+      reasons.push('Occupancy above 80% is optimistic for many Canmore STR assets.');
+    }
+    if (inputs.rate > CONFIDENCE_BANDS.rateHigh) {
+      reasons.push('Nightly rate is above typical modeled bands for the market.');
+    }
+    if (inputs.down < CONFIDENCE_BANDS.downLow) {
+      reasons.push('Down payment below 20% increases leverage and sensitivity to rate changes.');
+    }
+    var level = 'High';
+    if (reasons.length === 1) level = 'Moderate';
+    if (reasons.length >= 2) level = 'Low';
+    return { level: level, reasons: reasons };
+  }
+
+  function generatePdfFilename(noteSlug, inputs) {
+    var stamp = monthStamp();
+    if (noteSlug) {
+      var safe = noteSlug
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 48);
+      if (safe) return 'canmore-roi-' + safe + '-' + stamp + '.pdf';
+    }
+    var priceK = Math.max(1, Math.round(inputs.price / 1000)) + 'k';
+    var occ = Math.round(inputs.occ * 100) + 'occ';
+    return 'canmore-roi-' + priceK + '-' + occ + '-' + stamp + '.pdf';
   }
 
   function fmtMoney(n, R) {
@@ -113,6 +175,16 @@
     var params = new URLSearchParams(window.location.search);
     var noteSlug = params.get('note') || '';
     var noteTitle = formatNote(noteSlug);
+    var reportId = generateReportId();
+    lastExportMeta.id = reportId;
+    lastExportMeta.filename = generatePdfFilename(noteSlug, inputs);
+
+    function set(id, text) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    set('report-id', reportId);
 
     var genEl = document.getElementById('report-generated-date');
     if (genEl) genEl.textContent = todayUS();
@@ -126,11 +198,6 @@
       } else {
         noteRow.hidden = true;
       }
-    }
-
-    function set(id, text) {
-      var el = document.getElementById(id);
-      if (el) el.textContent = text;
     }
 
     set('report-input-price', fmtMoney(inputs.price, R));
@@ -150,6 +217,16 @@
     }
     var payEl = document.getElementById('report-payback-detail');
     if (payEl) payEl.textContent = payback.emoji + ' ' + payback.label + ' (' + payback.detail + ')';
+
+    var conf = computeAssumptionConfidence(inputs);
+    set('report-confidence-level', conf.level);
+    var confDetail = document.getElementById('report-confidence-detail');
+    if (confDetail) {
+      confDetail.textContent =
+        conf.reasons.length > 0
+          ? conf.reasons.join(' ')
+          : 'Inputs fall within typical modeled Canmore STR ranges for this snapshot.';
+    }
 
     set('report-breakdown-revenue', fmtMoney(scen.revenue, R));
     set('report-breakdown-mortgage', fmtMoney(mortgage, R));
@@ -189,19 +266,46 @@
     }
 
     var loan = inputs.price * (1 - inputs.down / 100);
+    var occPct = Math.round(inputs.occ * 100);
+    set(
+      'report-assumption-occ',
+      'Occupancy assumptions: ' +
+        occPct +
+        '% blended annual occupancy (revenue = nightly rate × occupancy × 30 days per month).'
+    );
+    set(
+      'report-assumption-rate',
+      'Nightly rate assumptions: ' +
+        fmtMoney(inputs.rate, R) +
+        '/night before platform fees, discounts, and cleaning pass-throughs.'
+    );
+    set(
+      'report-assumption-mortgage',
+      'Mortgage assumptions: ' +
+        inputs.down +
+        '% down on ' +
+        fmtMoney(inputs.price, R) +
+        ' (loan ~' +
+        fmtMoney(loan, R) +
+        '); financing modeled at ~0.5% of loan balance per month plus $1,500/mo operating bundle.'
+    );
+    set(
+      'report-assumption-reserve',
+      'Reserve assumptions: monthly condo/operating estimate does not include special assessments, reserve top-ups, or capex (elevators, roofing, balconies). Verify reserve studies independently.'
+    );
     set(
       'report-assumptions-body',
-      'Purchase ' +
+      'Snapshot inputs at generation: purchase ' +
         fmtMoney(inputs.price, R) +
-        ' · Down ' +
+        ', down ' +
         inputs.down +
-        '% · Loan ~' +
-        fmtMoney(loan, R) +
-        ' · Nightly ' +
+        '%, occupancy ' +
+        occPct +
+        '%, nightly ' +
         fmtMoney(inputs.rate, R) +
-        ' · Occupancy ' +
-        Math.round(inputs.occ * 100) +
-        '%. Revenue = nightly × occupancy × 30. Financing ≈ 0.5% of loan balance per month. Fixed operating estimate $1,500/mo (fees, tax, utilities bundle).'
+        '. Report ID ' +
+        reportId +
+        '.'
     );
 
     var market = R.getMarketData();
@@ -261,7 +365,7 @@
       heightLeft -= pageHeight;
     }
 
-    pdf.save('canmore-roi-report.pdf');
+    pdf.save(lastExportMeta.filename || 'canmore-roi-report.pdf');
   }
 
   function init() {
