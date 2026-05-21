@@ -60,6 +60,157 @@
       font-size: 14px;
       color: #6b7280;
     }
+    #report-export {
+      position: fixed;
+      left: -10000px;
+      top: 0;
+      width: 800px;
+      z-index: -1;
+      pointer-events: none;
+      background: #ffffff;
+      color: #1f3d2b;
+      font-family: Inter, system-ui, sans-serif;
+      padding: 40px 48px 48px;
+    }
+    .report-brief-header {
+      border-bottom: 2px solid #c8a96a;
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+    }
+    .report-brief-brand {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .report-brief-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin: 8px 0 0;
+      color: #1f3d2b;
+    }
+    .report-brief-meta {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    .report-brief-meta dt {
+      display: inline;
+      font-weight: 600;
+      color: #1f3d2b;
+    }
+    .report-brief-meta dd {
+      display: inline;
+      margin: 0 16px 0 4px;
+    }
+    .report-score-card {
+      text-align: center;
+      padding: 28px 24px;
+      background: #f7f5f2;
+      border-radius: 12px;
+      margin-bottom: 28px;
+    }
+    .report-score-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin: 0;
+    }
+    .report-cashflow-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 48px;
+      font-weight: 700;
+      margin: 8px 0 12px;
+      line-height: 1.1;
+    }
+    .report-cashflow-value--green { color: #16a34a; }
+    .report-cashflow-value--red { color: #dc2626; }
+    .report-cashflow-value--yellow { color: #ca8a04; }
+    .report-signal {
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+    .report-signal--green { background: #dcfce7; color: #166534; }
+    .report-signal--yellow { background: #fef9c3; color: #854d0e; }
+    .report-signal--red { background: #fee2e2; color: #991b1b; }
+    .report-payback-detail {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+    .report-section {
+      margin-bottom: 24px;
+    }
+    .report-section h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: #1f3d2b;
+    }
+    .report-section p,
+    .report-section li {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #374151;
+    }
+    .report-breakdown-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .report-breakdown-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .report-breakdown-list li:last-child {
+      font-weight: 700;
+      border-bottom: none;
+      padding-top: 12px;
+    }
+    .report-chart-wrap {
+      height: 220px;
+      margin-top: 8px;
+    }
+    .report-roi-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 8px;
+    }
+    .report-comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      font-size: 14px;
+    }
+    .report-comp-summary {
+      margin-top: 12px;
+      font-weight: 600;
+    }
+    .report-footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.5;
+    }
+    .report-export-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -244,15 +395,29 @@
           <div class="relative h-72 w-full max-w-full sm:h-80">
             <canvas id="roiChart" aria-label="Chart of purchase price versus modeled monthly cash flow"></canvas>
           </div>
-          <p class="mt-4">
+          <div class="report-export-actions">
+            <button
+              type="button"
+              id="pdf-export"
+              class="rounded-full border-2 border-brand-green bg-brand-green px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-green/90 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2"
+            >
+              Download PDF Report
+            </button>
+            <button
+              type="button"
+              id="share-report"
+              class="rounded-full border-2 border-brand-green bg-transparent px-5 py-2.5 text-sm font-semibold text-brand-green transition hover:bg-brand-green/5 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2"
+            >
+              Copy Report Link
+            </button>
             <button
               type="button"
               id="share-btn"
-              class="rounded-full border-2 border-brand-green bg-transparent px-5 py-2.5 text-sm font-semibold text-brand-green transition hover:bg-brand-green/5 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2"
+              class="rounded-full border-2 border-neutral-300 bg-transparent px-5 py-2.5 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2"
             >
               Share this analysis
             </button>
-          </p>
+          </div>
           <p id="roi-live-hint" class="mt-3 text-sm font-medium text-brand-green"></p>
           <p id="roi-interpretation" class="mt-4 text-sm leading-relaxed text-neutral-700"></p>
         </div>
@@ -502,6 +667,102 @@
     <div class="pb-6 text-center text-xs text-gray-400">© 2026 CanmoreROI.com — Operated by Albor Digital LLC</div>
   </footer>
 
+  <div id="report-export" class="report-brief" aria-hidden="true">
+    <header class="report-brief-header">
+      <p class="report-brief-brand">Canmore ROI</p>
+      <h1 class="report-brief-title">Investment Snapshot Report</h1>
+      <dl class="report-brief-meta">
+        <dt>Generated:</dt>
+        <dd id="report-generated-date">—</dd>
+        <dt>Purchase price:</dt>
+        <dd id="report-input-price">—</dd>
+        <dt>Down payment:</dt>
+        <dd id="report-input-down">—</dd>
+        <dt>Nightly rate:</dt>
+        <dd id="report-input-rate">—</dd>
+        <dt>Occupancy:</dt>
+        <dd id="report-input-occ">—</dd>
+      </dl>
+      <p id="report-note-row" class="report-brief-meta" hidden>
+        <strong>Scenario Name:</strong> <span id="report-scenario-name"></span>
+      </p>
+    </header>
+
+    <section class="report-score-card" aria-label="Estimated monthly cash flow">
+      <p class="report-score-label">Estimated Monthly Cash Flow</p>
+      <p id="report-cashflow-value" class="report-cashflow-value report-cashflow-value--yellow">$0</p>
+      <span id="report-signal-badge" class="report-signal report-signal--yellow">Break-even</span>
+      <p id="report-payback-detail" class="report-payback-detail">🟡 Break-even (−$200 to $500 / mo)</p>
+    </section>
+
+    <section class="report-section">
+      <h2>Monthly breakdown</h2>
+      <ul class="report-breakdown-list">
+        <li><span>Gross revenue (modeled)</span><span id="report-breakdown-revenue">—</span></li>
+        <li><span>Financing (≈0.5% of loan / mo)</span><span id="report-breakdown-mortgage">—</span></li>
+        <li><span>Operating &amp; fees (estimate)</span><span id="report-breakdown-fixed">—</span></li>
+        <li><span>Estimated monthly net</span><span id="report-breakdown-net">—</span></li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>What this means</h2>
+      <p id="report-what-means">—</p>
+    </section>
+
+    <section id="report-comparison-section" class="report-section" hidden>
+      <h2>Scenario comparison</h2>
+      <div id="report-comparison-body"></div>
+    </section>
+
+    <section class="report-section">
+      <h2>Assumptions used</h2>
+      <p id="report-assumptions-body">—</p>
+    </section>
+
+    <section class="report-section">
+      <h2>Current Canmore Market Snapshot</h2>
+      <ul>
+        <li><strong>Average sold price:</strong> <span id="report-market-avg">—</span></li>
+        <li><strong>Quarterly price trend:</strong> <span id="report-market-quarter">—</span></li>
+        <li><strong>Monthly trend:</strong> <span id="report-market-month">—</span></li>
+        <li><strong>Source:</strong> <span id="report-market-updated">local market estimates</span></li>
+      </ul>
+    </section>
+
+    <section class="report-section">
+      <h2>Occupancy sensitivity</h2>
+      <p>Modeled monthly net at 45%–85% occupancy (same price, rate, and down payment).</p>
+      <div class="report-chart-wrap">
+        <canvas id="report-occ-chart" width="700" height="220" aria-label="Occupancy sensitivity chart"></canvas>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>Price vs cash flow</h2>
+      <img id="report-roi-chart-img" class="report-roi-img" alt="" width="700" height="280" />
+    </section>
+
+    <section class="report-section">
+      <h2>Important considerations</h2>
+      <p>
+        Many Canmore properties—particularly older developments such as Solara, Grande Rockies, and Lodges at Canmore—may periodically require large capital expenditures:
+      </p>
+      <ul>
+        <li>elevator replacement</li>
+        <li>roofing</li>
+        <li>balcony repairs</li>
+        <li>design renovations</li>
+        <li>reserve fund work</li>
+      </ul>
+      <p>These costs may not appear in monthly condo fees. Ask your Realtor or property manager for reserve studies and building history.</p>
+    </section>
+
+    <footer class="report-footer">
+      <p>Estimates only — not financial, legal, or tax advice. Modeled using typical Canmore STR assumptions; actual results vary. © CanmoreROI.com</p>
+    </footer>
+  </div>
+
   <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-white/10 bg-[#1F3D2B] px-4 py-4 text-white shadow-lg md:px-6">
     <div class="mx-auto flex max-w-6xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
       <p class="text-sm text-gray-300">This site uses cookies to improve performance.</p>
@@ -533,6 +794,38 @@
     }
   </script>
   <script>
+    function canmoreRoiPaybackSignal(cashflow) {
+      if (cashflow > 500) {
+        return {
+          label: 'Self-Sustaining',
+          color: 'green',
+          emoji: '🟢',
+          detail: 'over $500 / mo',
+          badge: 'Positive Cash Flow',
+          badgeClass: 'inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800',
+        };
+      }
+      if (cashflow < -200) {
+        return {
+          label: 'Negative Carry',
+          color: 'red',
+          emoji: '🔴',
+          detail: 'under −$200 / mo',
+          badge: 'Negative Carry',
+          badgeClass: 'inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800',
+        };
+      }
+      return {
+        label: 'Break-even',
+        color: 'yellow',
+        emoji: '🟡',
+        detail: '−$200 to $500 / mo',
+        badge: 'Break-even',
+        badgeClass: 'inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800',
+      };
+    }
+    window.canmoreRoiPaybackSignal = canmoreRoiPaybackSignal;
+
     function canmoreRoiMonthlyCashflow(purchase, downPct, nightly, occPct) {
       var purchaseN = isNaN(purchase) || purchase < 0 ? 0 : purchase;
       var down = isNaN(downPct) ? 0 : Math.min(100, Math.max(0, downPct));
@@ -591,35 +884,23 @@
 
         flowEl.textContent = fmt(cashflow);
 
-        if (cashflow > 0) {
+        var sig = canmoreRoiPaybackSignal(cashflow);
+        if (sig.color === 'green') {
           flowEl.className = flowBase + 'text-green-600';
-        } else if (cashflow < 0) {
+        } else if (sig.color === 'red') {
           flowEl.className = flowBase + 'text-red-600';
         } else {
           flowEl.className = flowBase + 'text-yellow-500';
         }
-
-        if (cashflow > 0) {
-          badgeEl.textContent = 'Positive Cash Flow';
-          badgeEl.className = 'inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800';
-        } else if (cashflow < 0) {
-          badgeEl.textContent = 'Negative Carry';
-          badgeEl.className = 'inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800';
-        } else {
-          badgeEl.textContent = 'Break-even';
-          badgeEl.className = 'inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800';
-        }
-
-        if (cashflow > 500) {
-          paybackEl.innerHTML =
-            '🟢 Self-Sustaining <span class="font-normal text-neutral-500">(over $500 / mo)</span>';
-        } else if (cashflow < -200) {
-          paybackEl.innerHTML =
-            '🔴 Negative Carry <span class="font-normal text-neutral-500">(under −$200 / mo)</span>';
-        } else {
-          paybackEl.innerHTML =
-            '🟡 Break-even <span class="font-normal text-neutral-500">(−$200 to $500 / mo)</span>';
-        }
+        badgeEl.textContent = sig.badge;
+        badgeEl.className = sig.badgeClass;
+        paybackEl.innerHTML =
+          sig.emoji +
+          ' ' +
+          sig.label +
+          ' <span class="font-normal text-neutral-500">(' +
+          sig.detail +
+          ')</span>';
       }
 
       form.addEventListener('input', run);
@@ -722,6 +1003,10 @@
         }
       }
 
+      function getReportNote() {
+        return new URLSearchParams(window.location.search).get('note') || '';
+      }
+
       function generateShareURL() {
         var inputs = getInputs();
         var inputsB = getInputsB();
@@ -744,6 +1029,8 @@
           if (rb !== '') params.set('rate_b', String(rb));
           if (ob !== '') params.set('occ_b', String(ob));
         }
+        var note = getReportNote();
+        if (note) params.set('note', note);
         var u = new URL(window.location.href);
         u.search = params.toString();
         return u.href.split('#')[0];
@@ -1178,8 +1465,28 @@
           renderMarket();
           updateChart();
         });
+
+      window.CanmoreRoiReport = {
+        getInputs: getInputs,
+        getInputsB: getInputsB,
+        calculateScenario: calculateScenario,
+        normalizeInputs: normalizeInputs,
+        isScenarioBFilled: isScenarioBFilled,
+        fmtCurrency: fmtCurrency,
+        getMarketData: function () {
+          return marketData;
+        },
+        getRoiChart: function () {
+          return roiChart;
+        },
+        generateShareURL: generateShareURL,
+        getPaybackSignal: canmoreRoiPaybackSignal,
+      };
     })();
   </script>
+  <script src="vendor/html2canvas.min.js"></script>
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="js/report-export.js"></script>
   <script>
     (function () {
       if (localStorage.getItem('cookieConsent') === '1') return;

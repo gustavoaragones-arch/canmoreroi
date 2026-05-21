@@ -8,5 +8,9 @@
     "fix:seo": "node scripts/validate-seo.js --fix",
     "build:sitemap": "node scripts/build-sitemap.js",
     "generate:pages": "node scripts/generate-pages.js"
+  },
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1"
   }
 }
