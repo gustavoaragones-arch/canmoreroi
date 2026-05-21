@@ -27,7 +27,7 @@ const lis = items
     return (
       '          <li><a href="/analysis/' +
       escapeHtml(x.slug) +
-      '.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4">' +
+      '" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4">' +
       escapeHtml(x.title) +
       '</a></li>'
     );

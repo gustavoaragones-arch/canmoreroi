@@ -3,6 +3,10 @@
   "private": true,
   "description": "Static Canmore ROI site — local preview only",
   "scripts": {
-    "dev": "python3 -m http.server 5500"
+    "dev": "python3 -m http.server 5500",
+    "validate:seo": "node scripts/validate-seo.js",
+    "fix:seo": "node scripts/validate-seo.js --fix",
+    "build:sitemap": "node scripts/build-sitemap.js",
+    "generate:pages": "node scripts/generate-pages.js"
   }
 }

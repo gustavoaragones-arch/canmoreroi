@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/analysis/index.html", "destination": "/analysis/", "permanent": true },
+    { "source": "/analysis/:slug.html", "destination": "/analysis/:slug", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/analysis/:slug", "destination": "/analysis/:slug.html" }
+  ]
+}

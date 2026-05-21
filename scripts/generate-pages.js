@@ -3,11 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
+const { SITE, analysisPropertyCanonical } = require('./canonical-urls');
+const { fixInternalHrefs } = require('./seo-links');
 const TEMPLATE = path.join(ROOT, 'analysis', 'template.html');
 const DATA_DIR = path.join(ROOT, 'data');
 const OUT_DIR = path.join(ROOT, 'analysis');
 
-const SKIP_FILES = new Set(['schema.json', 'example.json']);
+const SKIP_FILES = new Set(['schema.json', 'example.json', 'market.json']);
 
 const SITE_LAST_UPDATED_DISPLAY = 'March 28, 2026';
 const DATA_CONSISTENCY_SENTENCE =
@@ -111,9 +113,9 @@ function buildSerpTopBlock(data) {
     '<div class="mx-auto max-w-3xl">' +
     '<nav class="mb-6 text-sm text-neutral-600" aria-label="Breadcrumb">' +
     '<ol class="flex flex-wrap items-center gap-2">' +
-    '<li><a href="../index.html" class="text-brand-green hover:underline">Home</a></li>' +
+    '<li><a href="/" class="text-brand-green hover:underline">Home</a></li>' +
     '<li aria-hidden="true" class="text-neutral-400">/</li>' +
-    '<li><a href="index.html" class="text-brand-green hover:underline">Analysis hub</a></li>' +
+    '<li><a href="/analysis/" class="text-brand-green hover:underline">Analysis hub</a></li>' +
     '<li aria-hidden="true" class="text-neutral-400">/</li>' +
     '<li class="font-medium text-neutral-800" aria-current="page">' +
     titleEsc +
@@ -328,7 +330,7 @@ function buildFaqLdJson(data) {
 }
 
 function buildWebPageLd(data, meta) {
-  const url = 'https://canmoreroi.com/analysis/' + data.slug + '.html';
+  const url = analysisPropertyCanonical(data.slug);
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -342,7 +344,7 @@ function buildWebPageLd(data, meta) {
 }
 
 function buildBreadcrumbAnalysisLd(data) {
-  const url = 'https://canmoreroi.com/analysis/' + data.slug + '.html';
+  const url = analysisPropertyCanonical(data.slug);
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -351,13 +353,13 @@ function buildBreadcrumbAnalysisLd(data) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://canmoreroi.com/',
+        item: SITE + '/',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Analysis hub',
-        item: 'https://canmoreroi.com/analysis/index.html',
+        item: SITE + '/analysis/',
       },
       {
         '@type': 'ListItem',
@@ -463,7 +465,7 @@ function buildInternalLinks(currentSlug, titleBySlug, allSlugs) {
   const lis = picks.slice(0, 3).map(function (slug) {
     if (slug === null) {
       return (
-        '<li><a href="/index.html#analysis" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">' +
+        '<li><a href="/#analysis" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">' +
         escapeHtml('Canmore ROI — Analysis') +
         '</a></li>'
       );
@@ -472,7 +474,7 @@ function buildInternalLinks(currentSlug, titleBySlug, allSlugs) {
     return (
       '<li><a href="/analysis/' +
       escapeAttr(slug) +
-      '.html" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">' +
+      '" class="text-brand-green underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">' +
       escapeHtml(title) +
       '</a></li>'
     );
@@ -495,7 +497,7 @@ function buildKnowledgeContextBlock(slug) {
   const mistakes = ka('../knowledge/canmore-investment-mistakes.html', 'investor mistakes (knowledge node)');
   const faqMaster = ka('../knowledge/canmore-roi-faq.html', 'Canmore ROI FAQ');
   const compareBb = ka('../compare/canmore-vs-banff-investment.html', 'Canmore vs Banff investment');
-  const calc = ka('../index.html#analysis', 'calculator');
+  const calc = ka('/#analysis', 'calculator');
   let second;
   let third;
   if (s.indexOf('1m') !== -1) {
@@ -524,9 +526,9 @@ function buildKnowledgeContextBlock(slug) {
     calc +
     '. Loop: <a href="../guides/canmore-roi-explained.html" class="' +
     A +
-    '">guides</a> → <a href="../knowledge/index.html" class="' +
+    '">guides</a> → <a href="/knowledge/" class="' +
     A +
-    '">knowledge hub</a> → <a href="../analysis/index.html" class="' +
+    '">knowledge hub</a> → <a href="/analysis/" class="' +
     A +
     '">property analyses</a> → ' +
     calc +
@@ -547,6 +549,20 @@ function inject(html, data, meta) {
   out = out.replace(/<meta name="description" content="" \/>/, function () {
     return '<meta name="description" content="' + escapeAttr(meta.description) + '" />';
   });
+  const canonical = analysisPropertyCanonical(data.slug);
+  out = out.replace(/href="https:\/\/canmoreroi\.com\/analysis\/SLUG"/i, 'href="' + escapeAttr(canonical) + '"');
+  out = out.replace(
+    /<link rel="canonical"[^>]*>/i,
+    '<link rel="canonical" href="' + escapeAttr(canonical) + '" />'
+  );
+  if (!/<link rel="canonical"/i.test(out)) {
+    out = out.replace(
+      /<meta name="description" content="[^"]*"\s*\/>/,
+      function (m) {
+        return m + '\n  <link rel="canonical" href="' + escapeAttr(canonical) + '" />';
+      }
+    );
+  }
 
   out = out.replace(/(<h1[^>]*\bdata-title\b[^>]*>)([\s\S]*?)(<\/h1>)/, function (_m, open, _mid, close) {
     return open + escapeHtml(data.title) + close;
@@ -646,7 +662,7 @@ function inject(html, data, meta) {
 
   out = stripDataAttributes(out);
 
-  return out;
+  return fixInternalHrefs(out, 'analysis/' + data.slug + '.html');
 }
 
 function main() {

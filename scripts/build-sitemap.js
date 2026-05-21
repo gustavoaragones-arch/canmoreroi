@@ -4,6 +4,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const BASE = 'https://canmoreroi.com';
+const { canonicalForRelPath } = require('./canonical-urls');
 const LAST_MAIN = '2026-03-28';
 
 function listHtml(dir, exclude) {
@@ -16,19 +17,31 @@ function listHtml(dir, exclude) {
 
 const urls = [];
 
-urls.push({ loc: `${BASE}/`, priority: '1.0', lastmod: LAST_MAIN });
-urls.push({ loc: `${BASE}/analysis/index.html`, priority: '0.9', lastmod: LAST_MAIN });
+urls.push({ loc: canonicalForRelPath('index.html'), priority: '1.0', lastmod: LAST_MAIN });
+urls.push({ loc: canonicalForRelPath('analysis/index.html'), priority: '0.9', lastmod: LAST_MAIN });
 
-listHtml(path.join(ROOT, 'analysis'), ['template.html']).forEach((f) => {
-  urls.push({ loc: `${BASE}/analysis/${f}`, priority: '0.8', lastmod: LAST_MAIN });
+listHtml(path.join(ROOT, 'analysis'), ['template.html', 'dynamic.html']).forEach((f) => {
+  urls.push({
+    loc: canonicalForRelPath('analysis/' + f),
+    priority: '0.8',
+    lastmod: LAST_MAIN,
+  });
 });
 
 listHtml(path.join(ROOT, 'guides')).forEach((f) => {
-  urls.push({ loc: `${BASE}/guides/${f}`, priority: '0.85', lastmod: LAST_MAIN });
+  urls.push({
+    loc: canonicalForRelPath('guides/' + f),
+    priority: '0.85',
+    lastmod: LAST_MAIN,
+  });
 });
 
 listHtml(path.join(ROOT, 'knowledge')).forEach((f) => {
-  urls.push({ loc: `${BASE}/knowledge/${f}`, priority: '0.88', lastmod: LAST_MAIN });
+  urls.push({
+    loc: canonicalForRelPath('knowledge/' + f),
+    priority: '0.88',
+    lastmod: LAST_MAIN,
+  });
 });
 
 const compareDir = path.join(ROOT, 'compare');
@@ -39,15 +52,27 @@ if (fs.existsSync(compareDir)) {
 }
 
 listHtml(path.join(ROOT, 'areas')).forEach((f) => {
-  urls.push({ loc: `${BASE}/areas/${f}`, priority: '0.82', lastmod: LAST_MAIN });
+  urls.push({
+    loc: canonicalForRelPath('areas/' + f),
+    priority: '0.82',
+    lastmod: LAST_MAIN,
+  });
 });
 
 listHtml(path.join(ROOT, 'scenarios')).forEach((f) => {
-  urls.push({ loc: `${BASE}/scenarios/${f}`, priority: '0.82', lastmod: LAST_MAIN });
+  urls.push({
+    loc: canonicalForRelPath('scenarios/' + f),
+    priority: '0.82',
+    lastmod: LAST_MAIN,
+  });
 });
 
 ['terms.html', 'privacy.html', 'disclaimer.html', 'cookies.html'].forEach((f) => {
-  urls.push({ loc: `${BASE}/legal/${f}`, priority: '0.3', lastmod: LAST_MAIN });
+  urls.push({
+    loc: canonicalForRelPath('legal/' + f),
+    priority: '0.3',
+    lastmod: LAST_MAIN,
+  });
 });
 
 const body =

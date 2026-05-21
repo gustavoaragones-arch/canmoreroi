@@ -4,6 +4,7 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const BASE = 'https://canmoreroi.com';
+const { canonicalForRelPath } = require('./canonical-urls');
 
 const DATA_CONSISTENCY_SENTENCE =
   'Across comparable models on this site, many stress-tests use roughly 55%–75% blended annual occupancy and public nightly rates near $250–$450 before platform fees and discounting; monthly net cash flow still varies sharply with leverage, HOA, and nights sold.';
@@ -83,6 +84,7 @@ function head(opts) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="${esc(opts.description)}" />
+  <link rel="canonical" href="${esc(opts.canonical || opts.url)}" />
   <title>${esc(opts.pageTitle)}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -110,12 +112,12 @@ function footer() {
       <div>
         <p class="mb-3 font-semibold">Navigation</p>
         <ul class="space-y-2 text-sm text-gray-300">
-          <li><a href="../index.html" class="hover:text-white">Home</a></li>
-          <li><a href="../index.html#analysis" class="hover:text-white">Analysis</a></li>
-          <li><a href="../index.html#areas-programmatic" class="hover:text-white">Areas</a></li>
-          <li><a href="../index.html#scenarios-programmatic" class="hover:text-white">Scenarios</a></li>
-          <li><a href="../analysis/index.html" class="hover:text-white">Property analyses</a></li>
-          <li><a href="../knowledge/index.html" class="hover:text-white">Knowledge</a></li>
+          <li><a href="/" class="hover:text-white">Home</a></li>
+          <li><a href="/#analysis" class="hover:text-white">Analysis</a></li>
+          <li><a href="/#areas-programmatic" class="hover:text-white">Areas</a></li>
+          <li><a href="/#scenarios-programmatic" class="hover:text-white">Scenarios</a></li>
+          <li><a href="/analysis/" class="hover:text-white">Property analyses</a></li>
+          <li><a href="/knowledge/" class="hover:text-white">Knowledge</a></li>
         </ul>
       </div>
       <div>
@@ -143,14 +145,14 @@ function footer() {
 function header() {
   return `<header class="border-b border-neutral-200 bg-white">
     <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-5" aria-label="Primary">
-      <a href="../index.html" class="font-serif text-xl font-semibold text-brand-green">Canmore ROI</a>
+      <a href="/" class="font-serif text-xl font-semibold text-brand-green">Canmore ROI</a>
       <ul class="flex flex-wrap gap-6 text-sm font-medium text-brand-green">
-        <li><a href="../index.html#analysis" class="hover:text-brand-gold">Analysis</a></li>
-        <li><a href="../index.html#areas-programmatic" class="hover:text-brand-gold">Areas</a></li>
-        <li><a href="../index.html#scenarios-programmatic" class="hover:text-brand-gold">Scenarios</a></li>
-        <li><a href="../index.html#guides" class="hover:text-brand-gold">Guides</a></li>
-        <li><a href="../analysis/index.html" class="hover:text-brand-gold">Property analyses</a></li>
-        <li><a href="../knowledge/index.html" class="hover:text-brand-gold">Knowledge</a></li>
+        <li><a href="/#analysis" class="hover:text-brand-gold">Analysis</a></li>
+        <li><a href="/#areas-programmatic" class="hover:text-brand-gold">Areas</a></li>
+        <li><a href="/#scenarios-programmatic" class="hover:text-brand-gold">Scenarios</a></li>
+        <li><a href="/#guides" class="hover:text-brand-gold">Guides</a></li>
+        <li><a href="/analysis/" class="hover:text-brand-gold">Property analyses</a></li>
+        <li><a href="/knowledge/" class="hover:text-brand-gold">Knowledge</a></li>
         <li><a href="../knowledge/canmore-roi-faq.html" class="hover:text-brand-gold">ROI FAQ</a></li>
         <li><a href="../compare/canmore-vs-banff-investment.html" class="hover:text-brand-gold">vs Banff</a></li>
       </ul>
@@ -247,12 +249,12 @@ const areas = [
     url: BASE + '/areas/downtown-canmore.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Areas', item: BASE + '/index.html#areas-programmatic' },
+      { name: 'Areas', item: BASE + '/#areas-programmatic' },
       { name: 'Downtown Canmore', item: BASE + '/areas/downtown-canmore.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#areas-programmatic', label: 'Areas' },
+      { href: '/', label: 'Home' },
+      { href: '/#areas-programmatic', label: 'Areas' },
       { label: 'Downtown Canmore' },
     ],
     h1: 'Downtown Canmore',
@@ -323,7 +325,7 @@ const areas = [
     ],
     related: {
       p1: `Scenario context: see <a href="../scenarios/canmore-break-even-investment.html" class="${A_CLS}">break-even STR investment</a> — thin downtown margins often live in that band.`,
-      p2: `Stress revenue on the <a href="../index.html#analysis" class="${A_CLS}">homepage calculator</a> before you trust any listing deck.`,
+      p2: `Stress revenue on the <a href="/#analysis" class="${A_CLS}">homepage calculator</a> before you trust any listing deck.`,
     },
   },
   {
@@ -335,12 +337,12 @@ const areas = [
     url: BASE + '/areas/silvertip-canmore.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Areas', item: BASE + '/index.html#areas-programmatic' },
+      { name: 'Areas', item: BASE + '/#areas-programmatic' },
       { name: 'Silvertip', item: BASE + '/areas/silvertip-canmore.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#areas-programmatic', label: 'Areas' },
+      { href: '/', label: 'Home' },
+      { href: '/#areas-programmatic', label: 'Areas' },
       { label: 'Silvertip' },
     ],
     h1: 'Silvertip (Canmore)',
@@ -422,12 +424,12 @@ const areas = [
     url: BASE + '/areas/three-sisters-canmore.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Areas', item: BASE + '/index.html#areas-programmatic' },
+      { name: 'Areas', item: BASE + '/#areas-programmatic' },
       { name: 'Three Sisters', item: BASE + '/areas/three-sisters-canmore.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#areas-programmatic', label: 'Areas' },
+      { href: '/', label: 'Home' },
+      { href: '/#areas-programmatic', label: 'Areas' },
       { label: 'Three Sisters Village' },
     ],
     h1: 'Three Sisters Village',
@@ -496,7 +498,7 @@ const areas = [
     ],
     related: {
       p1: `Budget band: the <a href="../scenarios/canmore-500k-investment.html" class="${A_CLS}">$500K Canmore investment scenario</a> mirrors many village entry condos.`,
-      p2: `Run your nights and rate on the <a href="../index.html#analysis" class="${A_CLS}">calculator</a> with conservative occupancy.`,
+      p2: `Run your nights and rate on the <a href="/#analysis" class="${A_CLS}">calculator</a> with conservative occupancy.`,
     },
   },
   {
@@ -508,12 +510,12 @@ const areas = [
     url: BASE + '/areas/canmore-short-term-zones.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Areas', item: BASE + '/index.html#areas-programmatic' },
+      { name: 'Areas', item: BASE + '/#areas-programmatic' },
       { name: 'STR zones', item: BASE + '/areas/canmore-short-term-zones.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#areas-programmatic', label: 'Areas' },
+      { href: '/', label: 'Home' },
+      { href: '/#areas-programmatic', label: 'Areas' },
       { label: 'STR zones' },
     ],
     h1: 'Short-term rental zones (Canmore)',
@@ -581,8 +583,8 @@ const areas = [
       },
     ],
     related: {
-      p1: `After zoning homework, open <a href="../analysis/index.html" class="${A_CLS}">all property analyses</a> for modeled examples.`,
-      p2: `Use the <a href="../index.html#analysis" class="${A_CLS}">calculator</a> with conservative occupancy once revenue is defensible.`,
+      p1: `After zoning homework, open <a href="/analysis/" class="${A_CLS}">all property analyses</a> for modeled examples.`,
+      p2: `Use the <a href="/#analysis" class="${A_CLS}">calculator</a> with conservative occupancy once revenue is defensible.`,
     },
   },
 ];
@@ -597,12 +599,12 @@ const scenarios = [
     url: BASE + '/scenarios/canmore-500k-investment.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Scenarios', item: BASE + '/index.html#scenarios-programmatic' },
+      { name: 'Scenarios', item: BASE + '/#scenarios-programmatic' },
       { name: '$500K scenario', item: BASE + '/scenarios/canmore-500k-investment.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#scenarios-programmatic', label: 'Scenarios' },
+      { href: '/', label: 'Home' },
+      { href: '/#scenarios-programmatic', label: 'Scenarios' },
       { label: '$500K investment' },
     ],
     h1: '$500K Canmore investment',
@@ -665,7 +667,7 @@ const scenarios = [
     ],
     related: {
       p1: `Adjacent scenario: <a href="../scenarios/canmore-break-even-investment.html" class="${A_CLS}">break-even STR investment</a> — many $500K profiles live there.`,
-      p2: `Stress your inputs on the <a href="../index.html#analysis" class="${A_CLS}">calculator</a>.`,
+      p2: `Stress your inputs on the <a href="/#analysis" class="${A_CLS}">calculator</a>.`,
     },
   },
   {
@@ -677,12 +679,12 @@ const scenarios = [
     url: BASE + '/scenarios/canmore-1m-investment.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Scenarios', item: BASE + '/index.html#scenarios-programmatic' },
+      { name: 'Scenarios', item: BASE + '/#scenarios-programmatic' },
       { name: '$1M scenario', item: BASE + '/scenarios/canmore-1m-investment.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#scenarios-programmatic', label: 'Scenarios' },
+      { href: '/', label: 'Home' },
+      { href: '/#scenarios-programmatic', label: 'Scenarios' },
       { label: '$1M investment' },
     ],
     h1: '$1M Canmore investment',
@@ -756,12 +758,12 @@ const scenarios = [
     url: BASE + '/scenarios/canmore-negative-cash-flow.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Scenarios', item: BASE + '/index.html#scenarios-programmatic' },
+      { name: 'Scenarios', item: BASE + '/#scenarios-programmatic' },
       { name: 'Negative cash flow', item: BASE + '/scenarios/canmore-negative-cash-flow.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#scenarios-programmatic', label: 'Scenarios' },
+      { href: '/', label: 'Home' },
+      { href: '/#scenarios-programmatic', label: 'Scenarios' },
       { label: 'Negative cash flow' },
     ],
     h1: 'Negative cash flow (Canmore STR)',
@@ -799,7 +801,7 @@ const scenarios = [
       {
         h: 'What should I read before offering?',
         paragraphs: [
-          `Study <a href="../guides/canmore-investment-mistakes.html" class="${A_CLS}">investment mistakes</a> and stress revenue on the <a href="../index.html#analysis" class="${A_CLS}">calculator</a>.`,
+          `Study <a href="../guides/canmore-investment-mistakes.html" class="${A_CLS}">investment mistakes</a> and stress revenue on the <a href="/#analysis" class="${A_CLS}">calculator</a>.`,
         ],
       },
     ],
@@ -835,12 +837,12 @@ const scenarios = [
     url: BASE + '/scenarios/canmore-break-even-investment.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Scenarios', item: BASE + '/index.html#scenarios-programmatic' },
+      { name: 'Scenarios', item: BASE + '/#scenarios-programmatic' },
       { name: 'Break-even', item: BASE + '/scenarios/canmore-break-even-investment.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#scenarios-programmatic', label: 'Scenarios' },
+      { href: '/', label: 'Home' },
+      { href: '/#scenarios-programmatic', label: 'Scenarios' },
       { label: 'Break-even' },
     ],
     h1: 'Break-even STR investment',
@@ -913,12 +915,12 @@ const scenarios = [
     url: BASE + '/scenarios/canmore-high-cash-flow.html',
     breadcrumb: [
       { name: 'Home', item: BASE + '/' },
-      { name: 'Scenarios', item: BASE + '/index.html#scenarios-programmatic' },
+      { name: 'Scenarios', item: BASE + '/#scenarios-programmatic' },
       { name: 'High cash flow', item: BASE + '/scenarios/canmore-high-cash-flow.html' },
     ],
     crumbs: [
-      { href: '../index.html', label: 'Home' },
-      { href: '../index.html#scenarios-programmatic', label: 'Scenarios' },
+      { href: '/', label: 'Home' },
+      { href: '/#scenarios-programmatic', label: 'Scenarios' },
       { label: 'High cash flow' },
     ],
     h1: 'High STR cash flow',
@@ -980,7 +982,7 @@ const scenarios = [
     ],
     related: {
       p1: `Contrast: <a href="../scenarios/canmore-negative-cash-flow.html" class="${A_CLS}">negative cash flow scenario</a>.`,
-      p2: `Run sensitivity on the <a href="../index.html#analysis" class="${A_CLS}">calculator</a>.`,
+      p2: `Run sensitivity on the <a href="/#analysis" class="${A_CLS}">calculator</a>.`,
     },
   },
 ];
@@ -993,7 +995,7 @@ function renderArea(a) {
     .join('');
   const tableBlock = renderTable(a.table);
   return (
-    head(a) +
+    head(Object.assign({}, a, { canonical: canonicalForRelPath('areas/' + a.file) })) +
     `<body class="bg-brand-cream font-sans text-neutral-800 antialiased">
 ${header()}
   <main class="mx-auto max-w-3xl px-6 py-12 md:py-16">
@@ -1019,7 +1021,7 @@ function renderScenario(s) {
     })
     .join('');
   return (
-    head(s) +
+    head(Object.assign({}, s, { canonical: canonicalForRelPath('scenarios/' + s.file) })) +
     `<body class="bg-brand-cream font-sans text-neutral-800 antialiased">
 ${header()}
   <main class="mx-auto max-w-3xl px-6 py-12 md:py-16">
