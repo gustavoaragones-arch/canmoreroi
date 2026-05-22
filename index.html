@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="canonical" href="https://canmoreroi.com/" />
+  <script src="/js/seo/canonical-engine.js" data-default-canonical="https://canmoreroi.com/"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Real ROI calculations for Bow Valley and Canmore investment properties. See if a property pays for itself before you buy." />
   <title>Canmore ROI — Does This Property Pay for Itself?</title>
@@ -1118,6 +1119,9 @@
           var clean = generateShareURL();
           var u = new URL(clean);
           history.replaceState({}, '', u.pathname + u.search + (window.location.hash || ''));
+          if (window.CanonicalEngine && window.CanonicalEngine.apply) {
+            window.CanonicalEngine.apply();
+          }
         } catch (e) {}
       }
 

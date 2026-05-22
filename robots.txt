@@ -1,9 +1,23 @@
 User-agent: *
 Allow: /
 
+Disallow: /*?price=
+Disallow: /*?down=
+Disallow: /*?rate=
+Disallow: /*?occ=
+Disallow: /*?price_b=
+Disallow: /*?down_b=
+Disallow: /*?rate_b=
+Disallow: /*?occ_b=
+Disallow: /*?compare=
+Disallow: /*?note=
+Disallow: /*?view=
+
 Disallow: /analysis/template.html
 Disallow: /analysis/dynamic.html
 Disallow: /data/
 Disallow: /scripts/
+Disallow: /js/report-export.js
+Disallow: /vendor/
 
 Sitemap: https://canmoreroi.com/sitemap.xml

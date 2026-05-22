@@ -47,7 +47,7 @@ listHtml(path.join(ROOT, 'knowledge')).forEach((f) => {
 const compareDir = path.join(ROOT, 'compare');
 if (fs.existsSync(compareDir)) {
   listHtml(compareDir).forEach((f) => {
-    urls.push({ loc: `${BASE}/compare/${f}`, priority: '0.86', lastmod: LAST_MAIN });
+    urls.push({ loc: canonicalForRelPath('compare/' + f), priority: '0.86', lastmod: LAST_MAIN });
   });
 }
 

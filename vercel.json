@@ -1,7 +1,16 @@
 {
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.canmoreroi.com" }],
+      "destination": "https://canmoreroi.com/:path*",
+      "permanent": true
+    },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/analysis/index.html", "destination": "/analysis/", "permanent": true },
+    { "source": "/knowledge/index.html", "destination": "/knowledge/", "permanent": true },
+    { "source": "/analysis", "destination": "/analysis/", "permanent": true },
+    { "source": "/knowledge", "destination": "/knowledge/", "permanent": true },
     { "source": "/analysis/:slug.html", "destination": "/analysis/:slug", "permanent": true }
   ],
   "rewrites": [
