@@ -14,7 +14,7 @@ const A_CLS =
 
 const ENTITY = `  <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
-    {"@type":"Organization","@id":"${BASE}/#organization","name":"CanmoreROI.com","url":"${BASE}/","description":"Canmore STR investment analysis system and Bow Valley short-term rental viability data engine — analyses, calculator, guides, scenarios, knowledge nodes.","parentOrganization":{"@type":"Organization","name":"Albor Digital LLC"}},
+    {"@type":"Organization","@id":"${BASE}/#organization","name":"CanmoreROI.com","url":"${BASE}/","description":"Canmore STR investment analysis system and Bow Valley short-term rental viability data engine — analyses, calculator, guides, scenarios, knowledge nodes.","publisher":{"@type":"Organization","name":"Albor Digital","description":"Alberta-based independent digital studio.","address":{"@type":"PostalAddress","addressRegion":"Alberta","addressCountry":"CA"}}},
     {"@type":"WebSite","@id":"${BASE}/#website","url":"${BASE}/","name":"Canmore ROI","publisher":{"@id":"${BASE}/#organization"},"inLanguage":"en-CA"}
   ]}
   </script>`;
@@ -138,7 +138,7 @@ function footer() {
         </form>
       </div>
     </div>
-    <div class="pb-6 text-center text-xs text-gray-400">© 2026 CanmoreROI.com — Operated by Albor Digital LLC · Last updated: March 28, 2026</div>
+    <div class="pb-6 text-center text-xs text-gray-400">© 2026 CanmoreROI.com — Operated by Albor Digital (Alberta, Canada) · Last updated: March 28, 2026</div>
   </footer>`;
 }
 
