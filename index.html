@@ -338,6 +338,75 @@
       color: #fff;
     }
     .hp-glass-card h2 { color: #fff; }
+    .hp-glass-calculator {
+      position: relative;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow:
+        0 24px 48px -12px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+    .hp-glass-calculator h2 {
+      color: #fff;
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .hp-glass-calculator .hp-calc-subtitle {
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .hp-glass-calculator label {
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .hp-glass-calculator input {
+      background: rgba(255, 255, 255, 0.94);
+      border-color: rgba(255, 255, 255, 0.55);
+      color: #1F3A33;
+    }
+    .hp-glass-calculator input::placeholder {
+      color: #9ca3af;
+    }
+    .hp-glass-calculator input:focus {
+      background: #fff;
+      border-color: rgba(255, 255, 255, 0.85);
+      --tw-ring-color: rgba(255, 255, 255, 0.35);
+    }
+    .hp-glass-calculator .hp-calc-note {
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .hp-glass-calculator .hp-calc-result {
+      background: rgba(255, 255, 255, 0.93);
+      border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+    .hp-glass-calculator .hp-calc-result .text-neutral-500,
+    .hp-glass-calculator .hp-calc-result .text-neutral-700 {
+      color: #374151;
+    }
+    .hp-glass-calculator .hp-calc-result .text-brand-green {
+      color: #1F3A33;
+    }
+    .hp-glass-calculator #scenario-b {
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+    .hp-glass-calculator .hp-calc-scenario-label {
+      color: #B08D57;
+    }
+    .hp-glass-calculator #comparison-panel {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .hp-glass-calculator #comparison-panel .text-neutral-700 {
+      color: #374151;
+    }
+    .hp-glass-calculator #comparison-panel .text-brand-green {
+      color: #1F3A33;
+    }
+    @supports not (backdrop-filter: blur(1px)) {
+      .hp-glass-calculator {
+        background: rgba(31, 58, 51, 0.82);
+      }
+    }
     .hp-checklist { list-style: none; padding: 0; margin: 1.25rem 0 0; }
     .hp-checklist li {
       display: flex;
@@ -463,43 +532,43 @@
           </p>
         </div>
 
-        <div id="analysis" class="mx-auto mt-8 max-w-xl rounded-2xl bg-white p-6 shadow-xl md:mt-10 md:p-8">
-          <h2 class="font-serif text-xl font-semibold text-brand-green md:text-2xl">Investment Snapshot</h2>
-          <p class="mt-1 text-sm text-neutral-600">See instantly if this property generates cash flow.</p>
+        <div id="analysis" class="hp-glass-calculator mx-auto mt-8 max-w-xl p-6 md:mt-10 md:p-8 hp-fade-up">
+          <h2 class="font-serif text-xl font-semibold md:text-2xl">Investment Snapshot</h2>
+          <p class="hp-calc-subtitle mt-1 text-sm">See instantly if this property generates cash flow.</p>
 
           <form id="scenario-a" class="mt-6 space-y-4" onsubmit="return false;">
             <div>
-              <label for="purchase-price" class="mb-1.5 block text-sm font-medium text-brand-green">Purchase price</label>
+              <label for="purchase-price" class="mb-1.5 block text-sm font-medium">Purchase price</label>
               <div class="relative">
                 <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">$</span>
                 <input id="purchase-price" name="price" type="number" min="0" step="1000" inputmode="decimal" placeholder="850000" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-8 pr-4 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
               </div>
             </div>
             <div>
-              <label for="down-payment" class="mb-1.5 block text-sm font-medium text-brand-green">Down payment</label>
+              <label for="down-payment" class="mb-1.5 block text-sm font-medium">Down payment</label>
               <div class="relative">
                 <input id="down-payment" name="down" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="20" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-4 pr-10 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
                 <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">%</span>
               </div>
             </div>
             <div>
-              <label for="nightly-rate" class="mb-1.5 block text-sm font-medium text-brand-green">Nightly rate</label>
+              <label for="nightly-rate" class="mb-1.5 block text-sm font-medium">Nightly rate</label>
               <div class="relative">
                 <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">$</span>
                 <input id="nightly-rate" name="rate" type="number" min="0" step="1" inputmode="decimal" placeholder="350" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-8 pr-4 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
               </div>
             </div>
             <div>
-              <label for="occupancy" class="mb-1.5 block text-sm font-medium text-brand-green">Occupancy rate</label>
+              <label for="occupancy" class="mb-1.5 block text-sm font-medium">Occupancy rate</label>
               <div class="relative">
                 <input id="occupancy" name="occ" type="number" min="0" max="100" step="1" inputmode="numeric" placeholder="65" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-4 pr-10 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
                 <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">%</span>
               </div>
             </div>
 
-            <p class="text-xs leading-relaxed text-neutral-500">Based on typical Canmore STR performance assumptions</p>
+            <p class="hp-calc-note text-xs leading-relaxed">Based on typical Canmore STR performance assumptions</p>
 
-            <div class="mb-4 rounded-xl bg-[#F7F5F2] p-4" aria-live="polite">
+            <div class="hp-calc-result mb-4 rounded-xl p-4" aria-live="polite">
               <p class="text-xs font-medium text-neutral-500">Estimated Monthly Cash Flow</p>
               <p id="snapshot-cashflow" class="mt-1 text-3xl font-bold tabular-nums tracking-tight text-yellow-500 md:text-4xl">$0</p>
               <p class="mt-3">
@@ -511,36 +580,36 @@
               </div>
             </div>
 
-            <button type="button" onclick="goToAnalysis()" class="mt-2 flex w-full items-center justify-center rounded-full border-2 border-brand-green bg-transparent py-3.5 text-sm font-semibold tracking-wide text-brand-green transition hover:bg-brand-green/5 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2">
+            <button type="button" onclick="goToAnalysis()" class="mt-2 flex w-full items-center justify-center rounded-full border-2 border-brand-green bg-brand-green py-3.5 text-sm font-semibold tracking-wide text-white transition hover:bg-brand-green/90 focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-transparent">
               View Full Analysis
             </button>
           </form>
 
-          <form id="scenario-b" class="mt-6 space-y-4 border-t border-neutral-200/80 pt-6" onsubmit="return false;">
-            <p class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Scenario B (optional)</p>
+          <form id="scenario-b" class="mt-6 space-y-4 border-t border-white/20 pt-6" onsubmit="return false;">
+            <p class="hp-calc-scenario-label text-xs font-semibold uppercase tracking-wide">Scenario B (optional)</p>
             <div>
-              <label for="purchase-price-b" class="mb-1.5 block text-sm font-medium text-brand-green">Purchase price</label>
+              <label for="purchase-price-b" class="mb-1.5 block text-sm font-medium">Purchase price</label>
               <div class="relative">
                 <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">$</span>
                 <input id="purchase-price-b" name="price_b" type="number" min="0" step="1000" inputmode="decimal" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-8 pr-4 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
               </div>
             </div>
             <div>
-              <label for="down-payment-b" class="mb-1.5 block text-sm font-medium text-brand-green">Down payment</label>
+              <label for="down-payment-b" class="mb-1.5 block text-sm font-medium">Down payment</label>
               <div class="relative">
                 <input id="down-payment-b" name="down_b" type="number" min="0" max="100" step="1" inputmode="numeric" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-4 pr-10 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
                 <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">%</span>
               </div>
             </div>
             <div>
-              <label for="nightly-rate-b" class="mb-1.5 block text-sm font-medium text-brand-green">Nightly rate</label>
+              <label for="nightly-rate-b" class="mb-1.5 block text-sm font-medium">Nightly rate</label>
               <div class="relative">
                 <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">$</span>
                 <input id="nightly-rate-b" name="rate_b" type="number" min="0" step="1" inputmode="decimal" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-8 pr-4 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
               </div>
             </div>
             <div>
-              <label for="occupancy-b" class="mb-1.5 block text-sm font-medium text-brand-green">Occupancy rate</label>
+              <label for="occupancy-b" class="mb-1.5 block text-sm font-medium">Occupancy rate</label>
               <div class="relative">
                 <input id="occupancy-b" name="occ_b" type="number" min="0" max="100" step="1" inputmode="numeric" class="w-full rounded-xl border border-neutral-200 bg-neutral-50 py-3 pl-4 pr-10 text-brand-green outline-none transition focus:border-brand-green/40 focus:ring-2 focus:ring-brand-green/20" />
                 <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-neutral-500" aria-hidden="true">%</span>
