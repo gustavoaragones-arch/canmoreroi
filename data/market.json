@@ -1,7 +1,8 @@
 {
-  "avg_price": 1256701,
-  "monthly_change": 14,
-  "quarterly_change": 16.1,
-  "yearly_change": 5.7,
-  "last_updated": "April 2026"
+  "reportDate": "2025-Q1",
+  "avgSoldPrice": 1300000,
+  "monthlyChange": 14,
+  "quarterlyChange": 16.1,
+  "yearlyChange": 5.7,
+  "source": "Canmore market reports"
 }

@@ -17,9 +17,11 @@
         extend: {
           colors: {
             brand: {
-              green: '#1F3D2B',
+              green: '#1F3A33',
+              forest: '#1F3A33',
               cream: '#F7F5F2',
-              gold: '#C8A96A',
+              stone: '#F7F5F2',
+              gold: '#B08D57',
             },
           },
           fontFamily: {
@@ -263,6 +265,134 @@
       gap: 12px;
       margin-top: 16px;
     }
+
+    /* —— Homepage luxury visual layer (calculator/chart logic untouched) —— */
+    .hp-h1 { font-size: clamp(2.75rem, 5vw, 4rem); line-height: 1.08; }
+    .hp-h2 { font-size: clamp(2.25rem, 3.5vw, 3rem); line-height: 1.12; }
+    .hp-h3 { font-size: clamp(1.5rem, 2vw, 2rem); line-height: 1.2; }
+    .hp-body { font-size: 1.125rem; line-height: 1.65; }
+    .hp-band-white { background: #ffffff; }
+    .hp-band-stone { background: #F7F5F2; }
+    .hp-section-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #B08D57;
+    }
+    .hp-gold-line {
+      width: 3rem;
+      height: 2px;
+      margin-top: 0.75rem;
+      background: #B08D57;
+    }
+    .hp-feature-img {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 24px 48px -12px rgba(31, 58, 51, 0.22), 0 8px 16px -8px rgba(31, 58, 51, 0.12);
+    }
+    .hp-card-premium {
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 4px 24px -4px rgba(31, 58, 51, 0.1), 0 0 0 1px rgba(31, 58, 51, 0.06);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+    }
+    .hp-card-premium:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(31, 58, 51, 0.18), 0 0 0 1px rgba(31, 58, 51, 0.08);
+    }
+    .hp-img-zoom { overflow: hidden; }
+    .hp-img-zoom img {
+      transition: transform 0.5s ease;
+    }
+    .hp-card-premium:hover .hp-img-zoom img {
+      transform: scale(1.04);
+    }
+    .hp-learn-reality {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 1.5rem;
+      background-size: cover;
+      background-position: center;
+    }
+    .hp-learn-reality::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+    }
+    .hp-glass-card {
+      position: relative;
+      z-index: 1;
+      max-width: 36rem;
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #fff;
+    }
+    .hp-glass-card h2 { color: #fff; }
+    .hp-checklist { list-style: none; padding: 0; margin: 1.25rem 0 0; }
+    .hp-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.35rem 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    .hp-checklist li::before {
+      content: '✓';
+      flex-shrink: 0;
+      font-weight: 700;
+      color: #B08D57;
+    }
+    .hp-metric-card {
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      background: #fff;
+      box-shadow: 0 2px 12px -2px rgba(31, 58, 51, 0.08);
+      border: 1px solid rgba(31, 58, 51, 0.06);
+    }
+    .hp-metric-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #B08D57;
+    }
+    .hp-metric-value {
+      margin-top: 0.5rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #1F3A33;
+      font-variant-numeric: tabular-nums;
+    }
+    .hp-trend-bullish { color: #166534; }
+    .hp-trend-stable { color: #854d0e; }
+    .hp-trend-cooling { color: #991b1b; }
+    .hp-fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .hp-fade-up.hp-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hp-fade-up { opacity: 1; transform: none; transition: none; }
+      .hp-card-premium:hover { transform: none; }
+      .hp-card-premium:hover .hp-img-zoom img { transform: none; }
+      [data-hero-parallax] { transform: none !important; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -311,12 +441,18 @@
 
   <main>
     <section class="relative flex min-h-screen flex-col justify-center bg-brand-green pt-24 pb-16 md:pt-28 md:pb-20" aria-labelledby="hero-heading">
-      <div class="absolute inset-0 bg-[url('images/1.jpg')] bg-cover bg-center" role="img" aria-label="Bow Valley mountains"></div>
-      <div class="absolute inset-0 bg-brand-green/60" aria-hidden="true"></div>
+      <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          data-hero-parallax
+          class="absolute inset-0 scale-105 bg-cover bg-center will-change-transform"
+          style="background-image: url('/assets/homepage/vecteezy_modern-living-room-with-large-windows-showcasing-snowy_51864439.jpeg');"
+        ></div>
+      </div>
+      <div class="absolute inset-0 bg-brand-green/55" aria-hidden="true"></div>
 
       <div class="relative z-10 mx-auto w-full max-w-4xl flex-1 px-6 md:px-8">
-        <div class="text-center">
-          <h1 id="hero-heading" class="font-serif text-4xl font-semibold leading-tight text-white md:text-6xl">
+        <div class="text-center hp-fade-up">
+          <h1 id="hero-heading" class="hp-h1 font-serif font-semibold text-white">
             Does this Canmore property pay for itself?
           </h1>
           <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/90 md:text-lg">
@@ -424,27 +560,63 @@
       </div>
     </section>
 
-    <section id="market-reality" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="market-reality-heading">
-      <div class="mx-auto max-w-3xl">
-        <h2 id="market-reality-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Market Reality</h2>
-        <dl class="mt-8 grid gap-6 sm:grid-cols-2">
-          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Typical price (benchmark)</dt>
-            <dd id="market-avg-price" class="mt-2 font-serif text-2xl font-semibold text-brand-green tabular-nums">—</dd>
+    <section id="market-reality" class="hp-band-white border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="market-reality-heading">
+      <div class="mx-auto max-w-6xl hp-fade-up">
+        <p class="hp-section-label">Market Snapshot</p>
+        <div class="hp-gold-line" aria-hidden="true"></div>
+        <h2 id="market-reality-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Market Reality</h2>
+        <p class="mt-3 max-w-2xl text-neutral-600 hp-body">Live benchmarks from Canmore market reports — loaded dynamically, never hardcoded.</p>
+        <dl class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Average Sold Price</dt>
+            <dd id="market-avg-price" class="hp-metric-value">—</dd>
           </div>
-          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Last updated</dt>
-            <dd id="market-last-updated" class="mt-2 text-lg font-medium text-neutral-800">—</dd>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Monthly Change</dt>
+            <dd id="market-monthly-change" class="hp-metric-value">—</dd>
           </div>
-          <div class="rounded-xl border border-neutral-200/80 bg-brand-cream/40 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Change (month / quarter / year)</dt>
-            <dd id="market-changes" class="mt-2 text-sm font-medium leading-relaxed text-neutral-800 tabular-nums">—</dd>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Quarterly Change</dt>
+            <dd id="market-quarterly-change" class="hp-metric-value">—</dd>
+          </div>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Year-over-Year</dt>
+            <dd id="market-yearly-change" class="hp-metric-value">—</dd>
+          </div>
+        </dl>
+        <p class="mt-6 text-sm text-neutral-500">
+          Source: <span id="market-source">Canmore market reports</span> · Report period: <span id="market-report-date">—</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="market-intelligence" class="hp-band-stone border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="market-intelligence-heading">
+      <div class="mx-auto max-w-6xl hp-fade-up">
+        <p class="hp-section-label">Canmore Market Intelligence</p>
+        <div class="hp-gold-line" aria-hidden="true"></div>
+        <h2 id="market-intelligence-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Canmore Market Intelligence</h2>
+        <dl class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Average Sold Price</dt>
+            <dd id="intel-avg-price" class="hp-metric-value">—</dd>
+          </div>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Quarterly Appreciation</dt>
+            <dd id="intel-quarterly" class="hp-metric-value">—</dd>
+          </div>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Annual Appreciation</dt>
+            <dd id="intel-annual" class="hp-metric-value">—</dd>
+          </div>
+          <div class="hp-metric-card">
+            <dt class="hp-metric-label">Market Trend</dt>
+            <dd id="intel-trend" class="hp-metric-value">—</dd>
           </div>
         </dl>
       </div>
     </section>
 
-    <section id="price-cashflow-chart" class="border-t border-neutral-200/80 bg-brand-cream px-6 py-16 md:px-8 md:py-24" aria-labelledby="roi-curve-heading">
+    <section id="price-cashflow-chart" class="hp-band-white border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="roi-curve-heading">
       <div class="mx-auto max-w-3xl">
         <h2 id="roi-curve-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Price vs cash flow</h2>
         <div class="roi-curve">
@@ -481,7 +653,7 @@
       </div>
     </section>
 
-    <section id="how-it-works" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="how-heading">
+    <section id="how-it-works" class="hp-band-stone border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="how-heading">
       <div class="mx-auto max-w-3xl">
         <h2 id="how-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">
           How Canmore ROI Works
@@ -560,29 +732,37 @@
       </div>
     </section>
 
-    <section id="areas" class="border-t border-neutral-200/80 bg-brand-cream px-6 py-20 md:px-8 md:py-28" aria-labelledby="snapshots-heading">
-      <div class="mx-auto max-w-6xl">
-        <h2 id="snapshots-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Real Investment Scenarios in Canmore</h2>
-        <p class="mt-3 max-w-2xl text-neutral-600">Modeled scenarios based on real short-term rental performance in Canmore. Use them to understand what actually drives cash flow.</p>
+    <section id="areas" class="hp-band-white border-t border-neutral-200/80 px-6 py-20 md:px-8 md:py-28" aria-labelledby="snapshots-heading">
+      <div class="mx-auto max-w-6xl hp-fade-up">
+        <p class="hp-section-label">Modeled Performance</p>
+        <div class="hp-gold-line" aria-hidden="true"></div>
+        <h2 id="snapshots-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Real Investment Scenarios in Canmore</h2>
+        <p class="mt-3 max-w-2xl text-neutral-600 hp-body">Modeled scenarios based on real short-term rental performance in Canmore. Use them to understand what actually drives cash flow.</p>
         <div class="mt-12 grid gap-8 md:grid-cols-3">
-          <article class="overflow-hidden rounded-2xl bg-white shadow-lg shadow-brand-green/5 ring-1 ring-neutral-100">
-            <img src="/assets/canmore-real-state-1.png" alt="Forest and cabins near Canmore" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" />
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/canmore-real-state-1.png" alt="Harvie Heights short-term rental property" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" decoding="async" />
+            </div>
             <div class="p-6">
-              <h3 class="font-serif text-xl font-semibold text-brand-green">Harvie Heights short-term</h3>
+              <h3 class="hp-h3 font-serif font-semibold text-brand-green">Harvie Heights short-term</h3>
               <p class="mt-2 text-sm leading-relaxed text-neutral-600">Estimated cash flow: +$2,400/month under strong occupancy conditions.</p>
             </div>
           </article>
-          <article class="overflow-hidden rounded-2xl bg-white shadow-lg shadow-brand-green/5 ring-1 ring-neutral-100">
-            <img src="/assets/canmore-real-state-2.png" alt="Rocky mountain landscape" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" />
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/canmore-real-state-2.png" alt="Three Sisters village investment property" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" decoding="async" />
+            </div>
             <div class="p-6">
-              <h3 class="font-serif text-xl font-semibold text-brand-green">Three Sisters village mix</h3>
+              <h3 class="hp-h3 font-serif font-semibold text-brand-green">Three Sisters village mix</h3>
               <p class="mt-2 text-sm leading-relaxed text-neutral-600">Estimated cash flow: +$1,850/month after typical operating costs.</p>
             </div>
           </article>
-          <article class="overflow-hidden rounded-2xl bg-white shadow-lg shadow-brand-green/5 ring-1 ring-neutral-100">
-            <img src="/assets/canmore-real-state-3.png" alt="Bow Valley peaks" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" />
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/canmore-real-state-3.png" alt="Downtown-adjacent Canmore condo" class="aspect-[4/3] w-full object-cover" width="800" height="600" loading="lazy" decoding="async" />
+            </div>
             <div class="p-6">
-              <h3 class="font-serif text-xl font-semibold text-brand-green">Downtown-adjacent condo</h3>
+              <h3 class="hp-h3 font-serif font-semibold text-brand-green">Downtown-adjacent condo</h3>
               <p class="mt-2 text-sm leading-relaxed text-neutral-600">Estimated cash flow: -$950/month under conservative assumptions.</p>
             </div>
           </article>
@@ -590,7 +770,7 @@
       </div>
     </section>
 
-    <section id="compare" class="border-t border-neutral-200/80 bg-white px-6 py-20 md:px-8 md:py-24" aria-labelledby="why-heading">
+    <section id="compare" class="hp-band-stone border-t border-neutral-200/80 px-6 py-20 md:px-8 md:py-24" aria-labelledby="why-heading">
       <div class="mx-auto max-w-3xl text-center">
         <h2 id="why-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Why Most Canmore Properties Don’t Actually Cash Flow</h2>
         <p class="mt-6 text-lg leading-relaxed text-neutral-600 md:text-xl">
@@ -608,37 +788,81 @@
       </div>
     </section>
 
-    <section id="guides" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="guides-heading">
-      <div class="mx-auto max-w-3xl">
-        <h2 id="guides-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Investment guides</h2>
-        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
-          Ground truth on Canmore STR math, occupancy, and where deals break — before you wire a deposit.
-        </p>
-        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
-          <li><a href="guides/canmore-roi-explained.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore ROI explained</a> — how monthly cash flow is modeled and where most investors get this wrong.</li>
-          <li><a href="guides/str-income-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">STR income in Canmore</a> — gross vs net, seasonality, and management drag.</li>
-          <li><a href="guides/canmore-investment-mistakes.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Canmore investment mistakes</a> — occupancy fantasy, fees, and leverage.</li>
-          <li><a href="guides/occupancy-rates-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Occupancy rates in Canmore</a> — realistic bands and validation.</li>
-        </ul>
-        <p class="mt-8 text-sm text-neutral-500">
-          Then open <a href="/analysis/" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">property analyses</a> or run the calculator above.
-        </p>
+    <section id="guides" class="hp-band-white border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="guides-heading">
+      <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center hp-fade-up">
+        <div>
+          <p class="hp-section-label">Canmore Investor Resources</p>
+          <div class="hp-gold-line" aria-hidden="true"></div>
+          <h2 id="guides-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Investment Guides</h2>
+          <p class="mt-4 hp-body text-neutral-700">
+            Ground truth on Canmore STR math, occupancy, and where deals break — before you wire a deposit.
+          </p>
+          <ul class="mt-8 space-y-4">
+            <li>
+              <a href="guides/canmore-roi-explained.html" class="group block rounded-xl border border-neutral-200/80 bg-white p-4 transition hover:border-brand-gold/40 hover:shadow-md">
+                <span class="font-serif text-lg font-semibold text-brand-green group-hover:text-brand-gold">Canmore ROI explained</span>
+                <p class="mt-1 text-sm text-neutral-600">How monthly cash flow is modeled and where most investors get this wrong.</p>
+              </a>
+            </li>
+            <li>
+              <a href="guides/str-income-canmore.html" class="group block rounded-xl border border-neutral-200/80 bg-white p-4 transition hover:border-brand-gold/40 hover:shadow-md">
+                <span class="font-serif text-lg font-semibold text-brand-green group-hover:text-brand-gold">STR income in Canmore</span>
+                <p class="mt-1 text-sm text-neutral-600">Gross vs net, seasonality, and management drag.</p>
+              </a>
+            </li>
+            <li>
+              <a href="guides/canmore-investment-mistakes.html" class="group block rounded-xl border border-neutral-200/80 bg-white p-4 transition hover:border-brand-gold/40 hover:shadow-md">
+                <span class="font-serif text-lg font-semibold text-brand-green group-hover:text-brand-gold">Canmore investment mistakes</span>
+                <p class="mt-1 text-sm text-neutral-600">Occupancy fantasy, fees, and leverage.</p>
+              </a>
+            </li>
+            <li>
+              <a href="guides/occupancy-rates-canmore.html" class="group block rounded-xl border border-neutral-200/80 bg-white p-4 transition hover:border-brand-gold/40 hover:shadow-md">
+                <span class="font-serif text-lg font-semibold text-brand-green group-hover:text-brand-gold">Occupancy rates in Canmore</span>
+                <p class="mt-1 text-sm text-neutral-600">Realistic bands and validation.</p>
+              </a>
+            </li>
+          </ul>
+          <p class="mt-8 text-sm text-neutral-500">
+            Then open <a href="/analysis/" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">property analyses</a> or run the calculator above.
+          </p>
+        </div>
+        <div class="hp-feature-img">
+          <img
+            src="/assets/homepage/vecteezy_modern-mountain-chalet-featuring-cozy-living-room-with_70717269.jpg"
+            alt="Luxury mountain chalet interior with cozy living room"
+            class="aspect-[4/5] w-full object-cover"
+            width="800"
+            height="1000"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
     </section>
 
-    <section id="learn-reality" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="learn-reality-heading">
-      <div class="mx-auto max-w-3xl">
-        <h2 id="learn-reality-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Learn the reality</h2>
-        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
-          The <strong>Canmore STR investment analysis system</strong> publishes interlinked knowledge nodes — revenue, full cost stacks, occupancy, strata risk, regulations, and repeated mistakes. Same assumptions as analyses and the calculator; not a generic blog.
+    <section
+      id="learn-reality"
+      class="hp-learn-reality border-t border-neutral-200/80"
+      style="background-image: url('/assets/homepage/vecteezy_a-chair-is-placed-in-front-of-a-large-window-overlooking_73244878.jpeg');"
+      aria-labelledby="learn-reality-heading"
+    >
+      <div class="hp-glass-card hp-fade-up mx-auto w-full max-w-lg text-center md:max-w-xl">
+        <h2 id="learn-reality-heading" class="hp-h2 font-serif font-semibold">Learn the Reality of Canmore STR Investing</h2>
+        <p class="mt-4 text-base leading-relaxed text-white/90">
+          Interlinked knowledge nodes — revenue, full cost stacks, occupancy, strata risk, regulations, and repeated mistakes. Same assumptions as analyses and the calculator.
         </p>
-        <p class="mt-4 text-sm leading-relaxed text-neutral-600">
-          Estimates are based on typical Canmore STR performance assumptions. Actual results vary. Many properties underperform when costs and occupancy are mis-modeled.
+        <ul class="hp-checklist text-left">
+          <li>Occupancy seasonality</li>
+          <li>Condo fees</li>
+          <li>Building assessments</li>
+          <li>Property management costs</li>
+          <li>Revenue volatility</li>
+        </ul>
+        <p class="mt-6">
+          <a href="/knowledge/" class="inline-block rounded-full border-2 border-brand-green bg-brand-green px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-green/90">Open the knowledge hub →</a>
         </p>
-        <p class="mt-6 text-base font-medium text-brand-green">
-          <a href="/knowledge/" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Open the knowledge hub →</a>
-        </p>
-        <ul class="mt-6 space-y-2 text-sm text-brand-green">
+        <ul class="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-white/85">
           <li><a href="knowledge/canmore-rental-income-reality.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Rental income reality</a></li>
           <li><a href="knowledge/canmore-str-costs-breakdown.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">STR cost breakdown</a></li>
           <li><a href="knowledge/canmore-condo-risk-guide.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Condo &amp; strata risk</a></li>
@@ -646,36 +870,137 @@
       </div>
     </section>
 
-    <section id="areas-programmatic" class="border-t border-neutral-200/80 bg-brand-cream px-6 py-16 md:px-8 md:py-24" aria-labelledby="areas-programmatic-heading">
-      <div class="mx-auto max-w-3xl">
-        <h2 id="areas-programmatic-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Canmore areas — STR &amp; investment context</h2>
-        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
-          Location-specific price bands, performance expectations, and trade-offs — each page links into modeled analyses so you can compare net cash flow, not just gross.
-        </p>
-        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
-          <li><a href="areas/downtown-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Downtown Canmore</a> — walkability, premium ADR, tight margins.</li>
-          <li><a href="areas/silvertip-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Silvertip</a> — luxury chalet demand and higher basis.</li>
-          <li><a href="areas/three-sisters-canmore.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Three Sisters</a> — village-style product and family stays.</li>
-          <li><a href="areas/canmore-short-term-zones.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Short-term rental zones</a> — what “legal STR” actually means for underwriting.</li>
-        </ul>
-        <p class="mt-8 text-sm text-neutral-500">
+    <section id="areas-programmatic" class="hp-band-white border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="areas-programmatic-heading">
+      <div class="mx-auto max-w-6xl hp-fade-up">
+        <p class="hp-section-label">Location Intelligence</p>
+        <div class="hp-gold-line" aria-hidden="true"></div>
+        <h2 id="areas-programmatic-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Canmore Areas — STR &amp; Investment Context</h2>
+        <p class="mt-3 max-w-2xl text-neutral-600 hp-body">Location-specific price bands, performance expectations, and trade-offs — each page links into modeled analyses.</p>
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_modern-living-room-with-large-windows-showcasing-snowy_51864439.jpeg" alt="Downtown Canmore modern condo interior" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">Downtown Canmore</h3>
+              <p class="mt-2 text-sm text-neutral-600">Walkability, premium ADR, tight margins on condo fees.</p>
+              <a href="areas/downtown-canmore.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_cozy-living-room-with-stone-fireplace-and-wooden-bookshelves_70632453.jpg" alt="Spring Creek luxury living space" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">Spring Creek</h3>
+              <p class="mt-2 text-sm text-neutral-600">Resort-style product with strong seasonal demand.</p>
+              <a href="analysis/spring-creek-meadows-2br.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_cozy-rustic-cabin-retreat-in-the-majestic-mountain-landscape_44019448.jpeg" alt="Three Sisters mountain village setting" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">Three Sisters</h3>
+              <p class="mt-2 text-sm text-neutral-600">Village-style product and family stay demand.</p>
+              <a href="areas/three-sisters-canmore.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_luxurious-log-cabin-with-hot-tub-nestled-in-tranquil-forest_55114478.jpg" alt="Silvertip luxury chalet exterior" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">Silvertip</h3>
+              <p class="mt-2 text-sm text-neutral-600">Luxury chalet demand and higher purchase basis.</p>
+              <a href="areas/silvertip-canmore.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_a-cabin-in-the-mountains-with-a-view-of-the-mountains_72912064.jpeg" alt="South Canmore mountain architecture" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">South Canmore</h3>
+              <p class="mt-2 text-sm text-neutral-600">Residential pockets with varied STR eligibility.</p>
+              <a href="analysis/harvie-heights-str.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_cozy-living-room-with-fireplace-and-mountain-view_72785011.jpg" alt="Teepee Town Canmore living space" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-5">
+              <h3 class="font-serif text-xl font-semibold text-brand-green">Teepee Town</h3>
+              <p class="mt-2 text-sm text-neutral-600">Established neighbourhood with mixed product types.</p>
+              <a href="analysis/legacy-trail-1br.html" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-green hover:text-brand-gold">View Analysis →</a>
+            </div>
+          </article>
+        </div>
+        <p class="mt-10 text-center text-sm text-neutral-500">
+          <a href="areas/canmore-short-term-zones.html" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Short-term rental zones</a>
+          ·
           <a href="/analysis/" class="font-medium text-brand-green underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Browse all property analyses</a>
         </p>
       </div>
     </section>
 
-    <section id="scenarios-programmatic" class="border-t border-neutral-200/80 bg-white px-6 py-16 md:px-8 md:py-24" aria-labelledby="scenarios-programmatic-heading">
-      <div class="mx-auto max-w-3xl">
-        <h2 id="scenarios-programmatic-heading" class="font-serif text-3xl font-semibold text-brand-green md:text-4xl">Investment scenarios</h2>
-        <p class="mt-4 text-lg leading-relaxed text-neutral-700">
-          Intent-led pages for common search questions — assumptions, outcomes, and links into analyses that show the same math with real numbers.
-        </p>
-        <ul class="mt-8 space-y-3 text-base font-medium text-brand-green">
-          <li><a href="scenarios/canmore-500k-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">~$500K investment</a></li>
-          <li><a href="scenarios/canmore-1m-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">~$1M investment</a></li>
-          <li><a href="scenarios/canmore-negative-cash-flow.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Negative cash flow (carry)</a></li>
-          <li><a href="scenarios/canmore-break-even-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">Break-even</a></li>
-          <li><a href="scenarios/canmore-high-cash-flow.html" class="underline decoration-brand-gold/60 underline-offset-4 transition hover:text-brand-gold">High cash flow</a></li>
+    <section id="scenarios-programmatic" class="hp-band-stone border-t border-neutral-200/80 px-6 py-16 md:px-8 md:py-24" aria-labelledby="scenarios-programmatic-heading">
+      <div class="mx-auto max-w-6xl hp-fade-up">
+        <p class="hp-section-label">Property Scenarios</p>
+        <div class="hp-gold-line" aria-hidden="true"></div>
+        <h2 id="scenarios-programmatic-heading" class="hp-h2 mt-4 font-serif font-semibold text-brand-green">Investment Scenarios</h2>
+        <p class="mt-3 max-w-2xl text-neutral-600 hp-body">Intent-led property profiles with occupancy and rate bands — jump straight into modeled analysis.</p>
+        <div class="mt-12 grid gap-8 md:grid-cols-3">
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_luxury-winter-bedroom-retreat-with-fireplace-and-snowy_70629910.jpeg" alt="Solara Resort luxury condo interior" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Luxury Condo Investor</p>
+              <h3 class="mt-1 font-serif text-xl font-semibold text-brand-green">Solara Resort</h3>
+              <dl class="mt-4 space-y-2 text-sm text-neutral-700">
+                <div class="flex justify-between"><dt>Expected Occupancy</dt><dd class="font-medium tabular-nums">65–75%</dd></div>
+                <div class="flex justify-between"><dt>Nightly Rate</dt><dd class="font-medium tabular-nums">$320–450</dd></div>
+              </dl>
+              <a href="analysis/solara-canmore-2br.html" class="mt-5 inline-block rounded-full border-2 border-brand-green bg-brand-green px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-green/90">Analyze</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_hot-tub-offering-winter-mountain-luxury-relaxation_75141144.jpg" alt="Grande Rockies luxury vacation property" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Cash Flow Focused</p>
+              <h3 class="mt-1 font-serif text-xl font-semibold text-brand-green">Grande Rockies</h3>
+              <dl class="mt-4 space-y-2 text-sm text-neutral-700">
+                <div class="flex justify-between"><dt>Expected Occupancy</dt><dd class="font-medium tabular-nums">60–70%</dd></div>
+                <div class="flex justify-between"><dt>Nightly Rate</dt><dd class="font-medium tabular-nums">$280–400</dd></div>
+              </dl>
+              <a href="scenarios/canmore-high-cash-flow.html" class="mt-5 inline-block rounded-full border-2 border-brand-green bg-brand-green px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-green/90">Analyze</a>
+            </div>
+          </article>
+          <article class="hp-card-premium">
+            <div class="hp-img-zoom">
+              <img src="/assets/homepage/vecteezy_a-living-room-with-a-fireplace-and-lots-of-windows_75320024.jpg" alt="Lodges at Canmore balanced investment property" class="aspect-[16/10] w-full object-cover" width="640" height="400" loading="lazy" decoding="async" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs font-semibold uppercase tracking-wide text-brand-gold">Balanced Investor</p>
+              <h3 class="mt-1 font-serif text-xl font-semibold text-brand-green">Lodges at Canmore</h3>
+              <dl class="mt-4 space-y-2 text-sm text-neutral-700">
+                <div class="flex justify-between"><dt>Expected Occupancy</dt><dd class="font-medium tabular-nums">55–70%</dd></div>
+                <div class="flex justify-between"><dt>Nightly Rate</dt><dd class="font-medium tabular-nums">$250–380</dd></div>
+              </dl>
+              <a href="analysis/lodges-at-canmore-2br.html" class="mt-5 inline-block rounded-full border-2 border-brand-green bg-brand-green px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-green/90">Analyze</a>
+            </div>
+          </article>
+        </div>
+        <ul class="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-brand-green">
+          <li><a href="scenarios/canmore-500k-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">~$500K investment</a></li>
+          <li><a href="scenarios/canmore-1m-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">~$1M investment</a></li>
+          <li><a href="scenarios/canmore-break-even-investment.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Break-even</a></li>
+          <li><a href="scenarios/canmore-negative-cash-flow.html" class="underline decoration-brand-gold/60 underline-offset-4 hover:text-brand-gold">Negative carry</a></li>
         </ul>
       </div>
     </section>
@@ -1370,21 +1695,68 @@
         addDifferenceInsight(diff);
       }
 
+      function normalizeMarketData(raw) {
+        if (!raw) return null;
+        var avg = raw.avgSoldPrice != null ? raw.avgSoldPrice : raw.avg_price;
+        var monthly = raw.monthlyChange != null ? raw.monthlyChange : raw.monthly_change;
+        var quarterly = raw.quarterlyChange != null ? raw.quarterlyChange : raw.quarterly_change;
+        var yearly = raw.yearlyChange != null ? raw.yearlyChange : raw.yearly_change;
+        var reportDate = raw.reportDate || raw.last_updated || '—';
+        var source = raw.source || 'Canmore market reports';
+        return {
+          reportDate: reportDate,
+          source: source,
+          avgSoldPrice: avg,
+          monthlyChange: monthly,
+          quarterlyChange: quarterly,
+          yearlyChange: yearly,
+          avg_price: avg,
+          monthly_change: monthly,
+          quarterly_change: quarterly,
+          yearly_change: yearly,
+          last_updated: reportDate,
+        };
+      }
+
+      function fmtCompactPrice(n) {
+        if (!isFinite(n)) return '—';
+        if (n >= 1000000) return '$' + (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        return fmtCurrency(n);
+      }
+
+      function marketTrendLabel(quarterly) {
+        if (!isFinite(quarterly)) return { text: '—', cls: '' };
+        if (quarterly > 10) return { text: 'Bullish', cls: 'hp-trend-bullish' };
+        if (quarterly >= 0) return { text: 'Stable', cls: 'hp-trend-stable' };
+        return { text: 'Cooling', cls: 'hp-trend-cooling' };
+      }
+
       function renderMarket() {
         if (!marketData) return;
         var ap = document.getElementById('market-avg-price');
-        var lu = document.getElementById('market-last-updated');
-        var ch = document.getElementById('market-changes');
-        if (ap) ap.textContent = fmtCurrency(marketData.avg_price);
-        if (lu) lu.textContent = marketData.last_updated || '—';
-        if (ch) {
-          ch.textContent =
-            'Month ' +
-            fmtPct(marketData.monthly_change) +
-            ' · Quarter ' +
-            fmtPct(marketData.quarterly_change) +
-            ' · Year ' +
-            fmtPct(marketData.yearly_change);
+        var mo = document.getElementById('market-monthly-change');
+        var qu = document.getElementById('market-quarterly-change');
+        var yr = document.getElementById('market-yearly-change');
+        var rd = document.getElementById('market-report-date');
+        var src = document.getElementById('market-source');
+        if (ap) ap.textContent = fmtCompactPrice(marketData.avgSoldPrice);
+        if (mo) mo.textContent = fmtPct(marketData.monthlyChange);
+        if (qu) qu.textContent = fmtPct(marketData.quarterlyChange);
+        if (yr) yr.textContent = fmtPct(marketData.yearlyChange);
+        if (rd) rd.textContent = marketData.reportDate || '—';
+        if (src) src.textContent = marketData.source || 'Canmore market reports';
+
+        var iap = document.getElementById('intel-avg-price');
+        var iqu = document.getElementById('intel-quarterly');
+        var ian = document.getElementById('intel-annual');
+        var itr = document.getElementById('intel-trend');
+        if (iap) iap.textContent = fmtCompactPrice(marketData.avgSoldPrice);
+        if (iqu) iqu.textContent = fmtPct(marketData.quarterlyChange);
+        if (ian) ian.textContent = fmtPct(marketData.yearlyChange);
+        if (itr) {
+          var trend = marketTrendLabel(marketData.quarterlyChange);
+          itr.textContent = trend.text;
+          itr.className = 'hp-metric-value ' + trend.cls;
         }
       }
 
@@ -1412,15 +1784,16 @@
         } else {
           text = 'Most price scenarios result in negative cash flow under current assumptions.';
         }
-        if (marketData && isFinite(marketData.avg_price)) {
+        if (marketData && isFinite(marketData.avgSoldPrice || marketData.avg_price)) {
           var gi = getInputs();
           var downp = isFinite(gi.down) ? gi.down : 20;
           var ratev = isFinite(gi.rate) ? gi.rate : 350;
           var occPct = isFinite(gi.occ) ? gi.occ * 100 : 65;
-          var atAvg = canmoreRoiMonthlyCashflow(marketData.avg_price, downp, ratev, occPct);
+          var benchPrice = marketData.avgSoldPrice || marketData.avg_price;
+          var atAvg = canmoreRoiMonthlyCashflow(benchPrice, downp, ratev, occPct);
           text +=
             ' At the benchmark typical price (' +
-            fmtCurrency(marketData.avg_price) +
+            fmtCurrency(benchPrice) +
             '), modeled net is about ' +
             fmtCurrency(atAvg) +
             ' per month.';
@@ -1554,12 +1927,19 @@
           return r.json();
         })
         .then(function (data) {
-          marketData = data;
+          marketData = normalizeMarketData(data);
           renderMarket();
           updateChart();
         })
         .catch(function () {
-          marketData = { avg_price: 1256701, monthly_change: 14, quarterly_change: 16.1, yearly_change: 5.7, last_updated: 'April 2026' };
+          marketData = normalizeMarketData({
+            reportDate: '2025-Q1',
+            avgSoldPrice: 1300000,
+            monthlyChange: 14,
+            quarterlyChange: 16.1,
+            yearlyChange: 5.7,
+            source: 'Canmore market reports',
+          });
           renderMarket();
           updateChart();
         });
@@ -1582,6 +1962,7 @@
       };
     })();
   </script>
+  <script src="js/homepage-visual.js"></script>
   <script src="vendor/html2canvas.min.js"></script>
   <script src="vendor/jspdf.umd.min.js"></script>
   <script src="js/report-export.js"></script>

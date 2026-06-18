@@ -310,10 +310,13 @@
 
     var market = R.getMarketData();
     if (market) {
-      set('report-market-avg', fmtMoney(market.avg_price, R));
-      set('report-market-quarter', fmtPct(market.quarterly_change));
-      set('report-market-month', fmtPct(market.monthly_change));
-      set('report-market-updated', market.last_updated || 'local market estimates');
+      var avgPrice = market.avgSoldPrice != null ? market.avgSoldPrice : market.avg_price;
+      var monthly = market.monthlyChange != null ? market.monthlyChange : market.monthly_change;
+      var quarterly = market.quarterlyChange != null ? market.quarterlyChange : market.quarterly_change;
+      set('report-market-avg', fmtMoney(avgPrice, R));
+      set('report-market-quarter', fmtPct(quarterly));
+      set('report-market-month', fmtPct(monthly));
+      set('report-market-updated', market.reportDate || market.last_updated || market.source || 'local market estimates');
     }
 
     renderOccupancyChart(R, inputs);
