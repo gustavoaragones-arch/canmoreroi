@@ -205,9 +205,11 @@ function defaultTakeawaysForScenario(s) {
 }
 
 function renderTable(t) {
-  const ths = t.headers.map(function (h) {
-    return `<th scope="col" class="border-b border-neutral-200 bg-neutral-50 px-3 py-2 text-left font-semibold text-brand-green">${esc(h)}</th>`;
-  });
+  const ths = t.headers
+    .map(function (h) {
+      return `<th scope="col" class="border-b border-neutral-200 bg-neutral-50 px-3 py-2 text-left font-semibold text-brand-green">${esc(h)}</th>`;
+    })
+    .join('');
   const trs = t.rows
     .map(function (row) {
       const tds = row

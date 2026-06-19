@@ -5,6 +5,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const { SITE, analysisPropertyCanonical } = require('./canonical-urls');
 const { fixInternalHrefs } = require('./seo-links');
+const statusSystem = require('../js/status-system.js');
 const TEMPLATE = path.join(ROOT, 'analysis', 'template.html');
 const DATA_DIR = path.join(ROOT, 'data');
 const OUT_DIR = path.join(ROOT, 'analysis');
@@ -33,11 +34,7 @@ function formatCurrency(value) {
 }
 
 function paybackLabel(signal) {
-  const k = String(signal || '').toLowerCase();
-  if (k === 'self-sustaining') return '🟢 Self-Sustaining';
-  if (k === 'break-even') return '🟡 Break-even';
-  if (k === 'negative') return '🔴 Negative Carry';
-  return '🟢 Self-Sustaining';
+  return statusSystem.renderAnalysisBlockHTML(statusSystem.signalFromKey(signal));
 }
 
 function paybackTableLabel(signal) {
@@ -590,7 +587,7 @@ function inject(html, data, meta) {
   );
 
   out = out.replace(/<div([^>]*\bdata-signal\b[^>]*)><\/div>/, function (_m, attrs) {
-    return '<div' + attrs + '>' + escapeHtml(paybackLabel(data.payback_signal)) + '</div>';
+    return '<div' + attrs + '>' + paybackLabel(data.payback_signal) + '</div>';
   });
 
   out = out.replace(/(<ul[^>]*\bdata-reality\b[^>]*>)([\s\S]*?)(<\/ul>)/, function (_m, open, _mid, close) {

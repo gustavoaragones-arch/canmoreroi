@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/status-system.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -35,14 +36,23 @@
   <style>
     .roi-curve {
       margin-top: 40px;
-      padding: 24px;
+      padding: 32px;
       background: #ffffff;
-      border-radius: 12px;
+      border: 1px solid rgba(31, 58, 51, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
     .roi-curve .muted {
       font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 12px;
+      color: rgba(31, 58, 51, 0.65);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    #roi-interpretation {
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 850px;
+      color: rgba(31, 58, 51, 0.75);
     }
     .diff-card {
       margin-top: 20px;
@@ -130,19 +140,9 @@
       margin: 8px 0 12px;
       line-height: 1.1;
     }
-    .report-cashflow-value--green { color: #16a34a; }
-    .report-cashflow-value--red { color: #dc2626; }
-    .report-cashflow-value--yellow { color: #ca8a04; }
-    .report-signal {
-      display: inline-block;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 999px;
-    }
-    .report-signal--green { background: #dcfce7; color: #166534; }
-    .report-signal--yellow { background: #fef9c3; color: #854d0e; }
-    .report-signal--red { background: #fee2e2; color: #991b1b; }
+    .report-cashflow-value--green { color: #1f3a33; }
+    .report-cashflow-value--red { color: #7a4a45; }
+    .report-cashflow-value--yellow { color: #b08d57; }
     .report-payback-detail {
       margin-top: 12px;
       font-size: 13px;
@@ -568,16 +568,11 @@
 
             <p class="hp-calc-note text-xs leading-relaxed">Based on typical Canmore STR performance assumptions</p>
 
-            <div class="hp-calc-result mb-4 rounded-xl p-4" aria-live="polite">
-              <p class="text-xs font-medium text-neutral-500">Estimated Monthly Cash Flow</p>
-              <p id="snapshot-cashflow" class="mt-1 text-3xl font-bold tabular-nums tracking-tight text-yellow-500 md:text-4xl">$0</p>
-              <p class="mt-3">
-                <span id="status-badge" class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800">Break-even</span>
-              </p>
-              <div class="mt-4 border-t border-neutral-200/80 pt-3">
-                <p class="text-xs font-semibold text-brand-green">Payback Signal:</p>
-                <p id="payback-line" class="mt-1.5 text-sm font-medium text-neutral-700">🟡 Break-even <span class="font-normal text-neutral-500">(−$200 to $500 / mo)</span></p>
-              </div>
+            <div class="hp-calc-result roi-status-card mb-4 rounded-xl p-5" aria-live="polite">
+              <p class="roi-status-card-label">Monthly Cash Flow</p>
+              <p id="snapshot-cashflow" class="roi-status-amount roi-status-tier--neutral">$0</p>
+              <div id="status-badge-wrap" class="roi-status-badge-wrap"></div>
+              <div id="payback-outlook"></div>
             </div>
 
             <button type="button" onclick="goToAnalysis()" class="mt-2 flex w-full items-center justify-center rounded-full border-2 border-brand-green bg-brand-green py-3.5 text-sm font-semibold tracking-wide text-white transition hover:bg-brand-green/90 focus:outline-none focus:ring-2 focus:ring-white/40 focus:ring-offset-2 focus:ring-offset-transparent">
@@ -717,7 +712,7 @@
             </button>
           </div>
           <p id="roi-live-hint" class="mt-3 text-sm font-medium text-brand-green"></p>
-          <p id="roi-interpretation" class="mt-4 text-sm leading-relaxed text-neutral-700"></p>
+          <p id="roi-interpretation" class="mt-4"></p>
         </div>
       </div>
     </section>
@@ -795,7 +790,7 @@
           <li>Estimated monthly revenue</li>
           <li>Total monthly costs</li>
           <li>Net cash flow</li>
-          <li>Investment classification (Payback Signal)</li>
+          <li>Investment classification (Investment Outlook)</li>
           <li>A clear &quot;good vs not ideal&quot; investment breakdown</li>
         </ul>
       </div>
@@ -1153,11 +1148,11 @@
       </p>
     </header>
 
-    <section class="report-score-card" aria-label="Estimated monthly cash flow">
-      <p class="report-score-label">Estimated Monthly Cash Flow</p>
-      <p id="report-cashflow-value" class="report-cashflow-value report-cashflow-value--yellow">$0</p>
-      <span id="report-signal-badge" class="report-signal report-signal--yellow">Break-even</span>
-      <p id="report-payback-detail" class="report-payback-detail">🟡 Break-even (−$200 to $500 / mo)</p>
+    <section class="report-score-card roi-status-card" aria-label="Estimated monthly cash flow">
+      <p class="report-score-label roi-status-card-label">Monthly Cash Flow</p>
+      <p id="report-cashflow-value" class="roi-status-amount roi-status-tier--neutral">$0</p>
+      <div id="report-signal-badge-wrap" class="roi-status-badge-wrap"></div>
+      <div id="report-payback-outlook" class="report-payback-outlook"></div>
     </section>
 
     <div class="report-confidence" aria-label="Assumption confidence">
@@ -1282,36 +1277,10 @@
       window.location.href = 'analysis/dynamic.html?' + params.toString();
     }
   </script>
+  <script src="/js/status-system.js"></script>
   <script>
     function canmoreRoiPaybackSignal(cashflow) {
-      if (cashflow > 500) {
-        return {
-          label: 'Self-Sustaining',
-          color: 'green',
-          emoji: '🟢',
-          detail: 'over $500 / mo',
-          badge: 'Positive Cash Flow',
-          badgeClass: 'inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800',
-        };
-      }
-      if (cashflow < -200) {
-        return {
-          label: 'Negative Carry',
-          color: 'red',
-          emoji: '🔴',
-          detail: 'under −$200 / mo',
-          badge: 'Negative Carry',
-          badgeClass: 'inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800',
-        };
-      }
-      return {
-        label: 'Break-even',
-        color: 'yellow',
-        emoji: '🟡',
-        detail: '−$200 to $500 / mo',
-        badge: 'Break-even',
-        badgeClass: 'inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800',
-      };
+      return window.CanmoreRoiStatus.paybackSignal(cashflow);
     }
     window.canmoreRoiPaybackSignal = canmoreRoiPaybackSignal;
 
@@ -1334,10 +1303,9 @@
       var nightlyEl = document.getElementById('nightly-rate');
       var occEl = document.getElementById('occupancy');
       var flowEl = document.getElementById('snapshot-cashflow');
-      var badgeEl = document.getElementById('status-badge');
-      var paybackEl = document.getElementById('payback-line');
-
-      var flowBase = 'mt-1 text-3xl font-bold tabular-nums tracking-tight md:text-4xl ';
+      var badgeWrap = document.getElementById('status-badge-wrap');
+      var outlookEl = document.getElementById('payback-outlook');
+      var Status = window.CanmoreRoiStatus;
 
       function fmt(n) {
         return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 }).format(n);
@@ -1351,12 +1319,7 @@
 
       function run() {
         if (allBlank()) {
-          flowEl.textContent = '$0';
-          flowEl.className = flowBase + 'text-yellow-500';
-          badgeEl.textContent = 'Break-even';
-          badgeEl.className = 'inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-xs font-semibold text-yellow-800';
-          paybackEl.innerHTML =
-            '🟡 Break-even <span class="font-normal text-neutral-500">(−$200 to $500 / mo)</span>';
+          Status.applyBlankSnapshot({ flow: flowEl, badgeWrap: badgeWrap, outlook: outlookEl }, fmt);
           return;
         }
 
@@ -1370,26 +1333,7 @@
         occPct = isNaN(occPct) ? 0 : Math.min(100, Math.max(0, occPct));
 
         var cashflow = canmoreRoiMonthlyCashflow(purchase, down, nightly, occPct);
-
-        flowEl.textContent = fmt(cashflow);
-
-        var sig = canmoreRoiPaybackSignal(cashflow);
-        if (sig.color === 'green') {
-          flowEl.className = flowBase + 'text-green-600';
-        } else if (sig.color === 'red') {
-          flowEl.className = flowBase + 'text-red-600';
-        } else {
-          flowEl.className = flowBase + 'text-yellow-500';
-        }
-        badgeEl.textContent = sig.badge;
-        badgeEl.className = sig.badgeClass;
-        paybackEl.innerHTML =
-          sig.emoji +
-          ' ' +
-          sig.label +
-          ' <span class="font-normal text-neutral-500">(' +
-          sig.detail +
-          ')</span>';
+        Status.applyToSnapshot(cashflow, { flow: flowEl, badgeWrap: badgeWrap, outlook: outlookEl }, fmt);
       }
 
       form.addEventListener('input', run);
@@ -1401,6 +1345,116 @@
     (function () {
       var marketData = null;
       var roiChart = null;
+
+      var CHART_FOREST = '#1F3A33';
+      var CHART_GOLD = '#B08D57';
+      var CHART_GRID = 'rgba(31, 58, 51, 0.08)';
+      var CHART_AXIS = 'rgba(31, 58, 51, 0.70)';
+
+      function baseLineDataset(label, color) {
+        return {
+          label: label,
+          data: [],
+          borderColor: color,
+          backgroundColor: color,
+          fill: false,
+          tension: 0.4,
+          borderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: color,
+          pointBorderColor: '#FFFFFF',
+          pointBorderWidth: 2,
+          pointHoverBackgroundColor: color,
+          pointHoverBorderColor: '#FFFFFF',
+        };
+      }
+
+      function getRoiChartOptions() {
+        return {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                usePointStyle: true,
+                pointStyle: 'circle',
+                boxWidth: 11,
+                boxHeight: 11,
+                padding: 18,
+                color: CHART_AXIS,
+                font: { family: 'Inter, system-ui, sans-serif', size: 12, weight: '500' },
+              },
+            },
+            tooltip: {
+              backgroundColor: CHART_FOREST,
+              titleColor: '#FFFFFF',
+              bodyColor: '#FFFFFF',
+              footerColor: 'rgba(255, 255, 255, 0.85)',
+              borderWidth: 0,
+              cornerRadius: 12,
+              padding: 12,
+              displayColors: true,
+              boxWidth: 10,
+              boxHeight: 10,
+              usePointStyle: true,
+              callbacks: {
+                label: function (ctx) {
+                  var v = ctx.parsed.y;
+                  if (v == null || !isFinite(v)) return ctx.dataset.label + ': —';
+                  var abs = Math.abs(Math.round(v)).toLocaleString();
+                  var s = v < 0 ? '-$' + abs : '$' + abs;
+                  return ctx.dataset.label + ': ' + s;
+                },
+              },
+            },
+          },
+          scales: {
+            y: {
+              title: {
+                display: true,
+                text: 'Modeled monthly net (CAD)',
+                color: CHART_AXIS,
+                font: { size: 12, weight: '500' },
+              },
+              grid: { color: CHART_GRID, drawBorder: false },
+              border: { display: false },
+              ticks: {
+                color: CHART_AXIS,
+                callback: function (v) {
+                  return '$' + v;
+                },
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Purchase price (scenario ladder)',
+                color: CHART_AXIS,
+                font: { size: 12, weight: '500' },
+              },
+              grid: { color: CHART_GRID, drawBorder: false },
+              border: { display: false },
+              ticks: { color: CHART_AXIS },
+            },
+          },
+        };
+      }
+
+      function applyDatasetPointStyles(dataset, prices, results, inputsPrice, color) {
+        var radii = mergePointRadii(prices, results, inputsPrice);
+        dataset.pointRadius = radii;
+        dataset.pointHoverRadius = radii.map(function (r) {
+          return Math.max(r + 2, 7);
+        });
+        dataset.pointBorderWidth = radii.map(function (r) {
+          return r >= 8 ? 3 : 2;
+        });
+        dataset.pointBackgroundColor = color;
+        dataset.pointBorderColor = '#FFFFFF';
+      }
 
       function fmtCurrency(n) {
         return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 }).format(n);
@@ -1584,7 +1638,9 @@
       }
 
       function breakevenHighlightRadii(prices, results) {
-        var radii = [0, 0, 0, 0, 0];
+        var radii = results.map(function () {
+          return 0;
+        });
         for (var i = 0; i < results.length - 1; i++) {
           var y0 = results[i];
           var y1 = results[i + 1];
@@ -1593,8 +1649,8 @@
             return radii;
           }
           if ((y0 > 0 && y1 < 0) || (y0 < 0 && y1 > 0)) {
-            radii[i] = 7;
-            radii[i + 1] = 7;
+            radii[i] = 8;
+            radii[i + 1] = 8;
             return radii;
           }
         }
@@ -1603,7 +1659,7 @@
 
       function highlightCurrentPoint(prices, inputsPrice) {
         return prices.map(function (p) {
-          return Math.abs(p - inputsPrice) < 1000 ? 8 : 3;
+          return Math.abs(p - inputsPrice) < 1000 ? 8 : 5;
         });
       }
 
@@ -1618,11 +1674,11 @@
       function marketNearPointColors(prices, avgPrice) {
         if (!isFinite(avgPrice)) {
           return prices.map(function () {
-            return '#3b82f6';
+            return CHART_FOREST;
           });
         }
         return prices.map(function (p) {
-          return Math.abs(p - avgPrice) < 50000 ? '#C8A96A' : '#3b82f6';
+          return Math.abs(p - avgPrice) < 50000 ? CHART_GOLD : CHART_FOREST;
         });
       }
 
@@ -1642,7 +1698,7 @@
           ctx.beginPath();
           ctx.moveTo(left, y);
           ctx.lineTo(right, y);
-          ctx.strokeStyle = '#999999';
+          ctx.strokeStyle = 'rgba(31, 58, 51, 0.18)';
           ctx.lineWidth = 1;
           ctx.stroke();
           ctx.restore();
@@ -1748,7 +1804,15 @@
         if (!panel || !resAEl || !resBEl) return;
 
         var a = calculateScenario(normalizeInputs(getInputs()));
-        resAEl.innerHTML = '<p><strong>Scenario A</strong></p><p>Cash Flow: ' + format(a.cashflow) + '</p>';
+        var sigA = window.CanmoreRoiStatus.signalFromCashflow(a.cashflow);
+        resAEl.innerHTML =
+          '<p><strong>Scenario A</strong></p><p class="' +
+          window.CanmoreRoiStatus.amountClass(sigA) +
+          ' text-lg font-semibold tabular-nums">' +
+          format(a.cashflow) +
+          '</p><div class="mt-2">' +
+          window.CanmoreRoiStatus.renderCompactHTML(sigA) +
+          '</div>';
 
         if (!isScenarioBFilled()) {
           panel.classList.add('hidden');
@@ -1757,7 +1821,15 @@
         }
 
         var b = calculateScenario(normalizeInputs(getInputsB(), normalizeInputs(getInputs())));
-        resBEl.innerHTML = '<p><strong>Scenario B</strong></p><p>Cash Flow: ' + format(b.cashflow) + '</p>';
+        var sigB = window.CanmoreRoiStatus.signalFromCashflow(b.cashflow);
+        resBEl.innerHTML =
+          '<p><strong>Scenario B</strong></p><p class="' +
+          window.CanmoreRoiStatus.amountClass(sigB) +
+          ' text-lg font-semibold tabular-nums">' +
+          format(b.cashflow) +
+          '</p><div class="mt-2">' +
+          window.CanmoreRoiStatus.renderCompactHTML(sigB) +
+          '</div>';
         panel.classList.remove('hidden');
         compareScenarios(a, b);
         var diff = renderDifference(a, b);
@@ -1882,54 +1954,19 @@
               return '$' + (p / 1000000).toFixed(1) + 'M';
             }),
             datasets: [
-              {
-                label: 'Scenario A',
-                data: dataA.results,
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.06)',
-                fill: false,
-                tension: 0.4,
-                pointRadius: 4,
-                pointBackgroundColor: '#3b82f6',
-                pointBorderColor: '#1F3D2B',
-                borderWidth: 2,
-              },
-              {
-                label: 'Scenario B',
-                data: [],
-                borderColor: '#ef4444',
-                backgroundColor: 'rgba(239, 68, 68, 0.06)',
-                fill: false,
-                tension: 0.4,
-                pointRadius: 4,
-                pointBackgroundColor: '#ef4444',
-                pointBorderColor: '#1F3D2B',
-                borderWidth: 2,
-                hidden: true,
-              },
+              Object.assign(baseLineDataset('Scenario A', CHART_FOREST), { data: dataA.results }),
+              Object.assign(baseLineDataset('Scenario B', CHART_GOLD), { data: [], hidden: true }),
             ],
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: true } },
-            scales: {
-              y: {
-                title: { display: true, text: 'Modeled monthly net (CAD)' },
-                grid: { drawBorder: true },
-                ticks: {
-                  callback: function (v) {
-                    return '$' + v;
-                  },
-                },
-              },
-              x: {
-                title: { display: true, text: 'Purchase price (scenario ladder)' },
-                grid: { drawBorder: true },
-              },
-            },
-          },
+          options: getRoiChartOptions(),
         });
+        applyDatasetPointStyles(
+          roiChart.data.datasets[0],
+          dataA.prices,
+          dataA.results,
+          normalizeInputs(getInputs()).price,
+          CHART_FOREST
+        );
         syncYScaleToIncludeZero(roiChart, dataA.results);
         roiChart.update();
       }
@@ -1945,6 +1982,12 @@
         roiChart.data.datasets[0].data = dataA.results;
         roiChart.data.datasets[1].data = hasB ? dataB.results : [];
         roiChart.data.datasets[1].hidden = !hasB;
+        var inputsA = normalizeInputs(getInputs());
+        applyDatasetPointStyles(roiChart.data.datasets[0], dataA.prices, dataA.results, inputsA.price, CHART_FOREST);
+        if (hasB) {
+          var inputsB = normalizeInputs(getInputsB(), inputsA);
+          applyDatasetPointStyles(roiChart.data.datasets[1], dataB.prices, dataB.results, inputsB.price, CHART_GOLD);
+        }
         var yResults = hasB ? dataA.results.concat(dataB.results) : dataA.results;
         syncYScaleToIncludeZero(roiChart, yResults);
         roiChart.update();

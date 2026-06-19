@@ -107,12 +107,6 @@
     return (x >= 0 ? '+' : '') + x + '%';
   }
 
-  function signalClass(color) {
-    if (color === 'green') return 'report-signal report-signal--green';
-    if (color === 'red') return 'report-signal report-signal--red';
-    return 'report-signal report-signal--yellow';
-  }
-
   function renderOccupancyChart(R, inputs) {
     var canvas = document.getElementById('report-occ-chart');
     if (!canvas || typeof Chart === 'undefined') return;
@@ -140,7 +134,13 @@
             label: 'Monthly net (CAD)',
             data: flows,
             backgroundColor: flows.map(function (v) {
-              return v > 500 ? '#16a34a' : v < -200 ? '#dc2626' : '#ca8a04';
+              return window.CanmoreRoiStatus
+                ? window.CanmoreRoiStatus.chartBarColor(v)
+                : v > 500
+                  ? '#1F3A33'
+                  : v < -200
+                    ? '#7A4A45'
+                    : '#B08D57';
             }),
             borderRadius: 4,
           },
@@ -169,7 +169,7 @@
     if (!R) return;
     var inputs = R.normalizeInputs(R.getInputs());
     var scen = R.calculateScenario(inputs);
-    var payback = R.getPaybackSignal(scen.cashflow);
+    var Status = window.CanmoreRoiStatus;
     var mortgage = inputs.price * (1 - inputs.down / 100) * 0.005;
     var fixed = 1500;
     var params = new URLSearchParams(window.location.search);
@@ -208,15 +208,16 @@
     var cashEl = document.getElementById('report-cashflow-value');
     if (cashEl) {
       cashEl.textContent = fmtMoney(scen.cashflow, R);
-      cashEl.className = 'report-cashflow-value report-cashflow-value--' + payback.color;
+      cashEl.className = Status ? Status.amountClass(Status.signalFromCashflow(scen.cashflow)) : 'roi-status-amount';
     }
-    var sigEl = document.getElementById('report-signal-badge');
-    if (sigEl) {
-      sigEl.textContent = payback.label;
-      sigEl.className = signalClass(payback.color);
+    var sigWrap = document.getElementById('report-signal-badge-wrap');
+    if (sigWrap && Status) {
+      sigWrap.innerHTML = Status.renderBadgeHTML(Status.signalFromCashflow(scen.cashflow));
     }
-    var payEl = document.getElementById('report-payback-detail');
-    if (payEl) payEl.textContent = payback.emoji + ' ' + payback.label + ' (' + payback.detail + ')';
+    var outlookEl = document.getElementById('report-payback-outlook');
+    if (outlookEl && Status) {
+      outlookEl.innerHTML = Status.renderOutlookHTML(Status.signalFromCashflow(scen.cashflow));
+    }
 
     var conf = computeAssumptionConfidence(inputs);
     set('report-confidence-level', conf.level);
